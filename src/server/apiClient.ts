@@ -1,4 +1,4 @@
-import axios, { type AxiosResponse, AxiosError } from "axios";
+import axios, { type AxiosResponse, AxiosError, type InternalAxiosRequestConfig } from "axios";
 
 // =============================================================================
 // TYPES
@@ -69,7 +69,7 @@ const isApiErrorResponse = (data: unknown): data is ApiErrorResponse => {
 // =============================================================================
 
 const API_CONFIG = {
-  baseURL: "/api",
+  baseURL: "/api/v1",
   timeout: 10000,
 } as const;
 
@@ -88,7 +88,7 @@ const apiClient = axios.create({
 // =============================================================================
 
 apiClient.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     if (import.meta.env.VITE_ENV_MODE === "development") {
       console.log(
         `🔄 API Request: ${config.method?.toUpperCase()} ${config.url}`,
@@ -97,7 +97,7 @@ apiClient.interceptors.request.use(
     config.metadata = { startTime: new Date() };
     return config;
   },
-  (error) => {
+  (error: AxiosError) => {
     console.error("❌ Request interceptor error:", error);
     return Promise.reject(error);
   },

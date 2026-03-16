@@ -1,0 +1,166 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background-color: var(--color-dark-card);
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  position: sticky;
+  top: 6rem; /* top-24 */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-style: italic;
+  letter-spacing: -0.05em;
+  display: flex;
+  align-items: center;
+}
+
+.titleIcon {
+  margin-right: 0.5rem;
+  color: var(--color-industrial-orange);
+}
+
+.clearButton {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-error);
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.clearButton:hover {
+  opacity: 0.8;
+}
+
+.clearIcon {
+  margin-right: 0.25rem;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filterGroupWide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.label {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: var(--color-text-dim);
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-dim);
+}
+
+.searchInput {
+  width: 100%;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 1rem 0.5rem 2.5rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.2s;
+  color: white;
+}
+
+.searchInput:focus {
+  border-color: var(--color-industrial-orange);
+}
+
+.categoryList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.categoryButton {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+  border: none;
+  border-left: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+}
+
+.categoryButtonActive {
+  background-color: rgba(243, 115, 33, 0.1); /* var(--color-industrial-orange) with opacity */
+  border-color: var(--color-industrial-orange);
+  color: var(--color-industrial-orange);
+}
+
+.categoryButtonInactive {
+  border-color: transparent;
+  color: var(--color-text-dim);
+}
+
+.categoryButtonInactive:hover {
+  background-color: var(--color-surface);
+}
+
+.yearRange {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.yearInput {
+  width: 50%;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 0.5rem;
+  font-size: 0.75rem;
+  outline: none;
+  color: white;
+}
+
+.yearInput:focus {
+  border-color: var(--color-industrial-orange);
+}
+
+.footer {
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.footerText {
+  font-size: 9px;
+  color: var(--color-text-dim);
+  line-height: 1.25;
+}

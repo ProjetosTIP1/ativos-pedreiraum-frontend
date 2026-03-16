@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useRef, useState } from "react";
 import styles from "./style.module.css";
 
@@ -9,6 +7,16 @@ type PositionTypes =
   | "bottom-left"
   | "bottom-right"
   | "center";
+
+const CloseBtn = ({ onClose }: { onClose: () => void }) => (
+  <button
+    className={styles.closeButton}
+    onClick={onClose}
+    aria-label="Close modal"
+  >
+    &times;
+  </button>
+);
 
 /** * Modal component that displays content in a modal dialog.
  * @param {boolean} isOpen - Indicates if the modal is open.
@@ -45,24 +53,28 @@ export default function Modal({
   const positionClass = positionClasses[position!] || "center";
 
   useEffect(() => {
-    if (isOpen) {
-      setIsVisible(true);
-      setIsClosing(false);
-      document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
-    } else if (isVisible) {
-      // Start closing animation
-      setIsClosing(true);
-      // Hide modal after animation completes
-      const timer = setTimeout(() => {
-        setIsVisible(false);
+    const handleOpen = async () => {
+      if (isOpen) {
+        setIsVisible(true);
         setIsClosing(false);
-        document.body.style.overflow = ""; // Restore scrolling when modal is closed
-      }, 300); // Match animation duration
+        document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
+      } else if (isVisible) {
+        // Start closing animation
+        setIsClosing(true);
+        // Hide modal after animation completes
+        const timer = setTimeout(() => {
+          setIsVisible(false);
+          setIsClosing(false);
+          document.body.style.overflow = ""; // Restore scrolling when modal is closed
+        }, 300); // Match animation duration
 
-      return () => clearTimeout(timer);
-    } else {
-      document.body.style.overflow = ""; // Restore scrolling when modal is closed
+        return () => clearTimeout(timer);
+      } else {
+        document.body.style.overflow = ""; // Restore scrolling when modal is closed
+      }
     }
+
+    handleOpen();
   }, [isOpen, isVisible]);
 
   useEffect(() => {
@@ -84,29 +96,17 @@ export default function Modal({
 
   if (!isVisible) return null;
 
-  const CloseBtn = () => (
-    <button
-      className={styles.closeButton}
-      onClick={onClose}
-      aria-label="Close modal"
-    >
-      &times;
-    </button>
-  );
-
   return (
     <div
-      className={`fixed inset-0 z-40 flex items-center justify-center ${
-        isBlur ? styles.blur : ""
-      }`}
+      className={`fixed inset-0 z-40 flex items-center justify-center ${isBlur ? styles.blur : ""
+        }`}
     >
       <div
         ref={modalRef}
-        className={`absolute z-50 ${positionClass} ${styles.modal} ${
-          isClosing ? styles.hidden : ""
-        }`}
+        className={`absolute z-50 ${positionClass} ${styles.modal} ${isClosing ? styles.hidden : ""
+          }`}
       >
-        <CloseBtn />
+        <CloseBtn onClose={onClose} />
         {children}
       </div>
     </div>
