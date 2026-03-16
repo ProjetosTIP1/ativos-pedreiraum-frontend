@@ -4,7 +4,8 @@ import { type User, UserSchema } from '../schemas/entities';
 const authService = {
     async login(credentials: Record<string, string>): Promise<User> {
         const response = await apiClient.post('/auth/login', credentials);
-        return UserSchema.parse(response.data);
+        console.log('Login response:', response.data);
+        return UserSchema.parse(response.data.user);
     },
 
     async logout(): Promise<void> {
@@ -13,7 +14,7 @@ const authService = {
 
     async me(): Promise<User> {
         const response = await apiClient.get('/auth/me');
-        return UserSchema.parse(response.data);
+        return UserSchema.parse(response.data.user);
     }
 };
 

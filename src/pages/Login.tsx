@@ -6,7 +6,7 @@ import { Lock, User, Eye, EyeOff, AlertTriangle } from 'lucide-react';
 import style from './Login.module.css';
 
 export const Login: React.FC = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const { login, isLoading, error } = useAuthStore();
@@ -15,7 +15,7 @@ export const Login: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await login({ username, password });
+            await login({ email: email, password });
             navigate('/admin');
         } catch {
             // Error handling is managed by the store
@@ -56,8 +56,8 @@ export const Login: React.FC = () => {
                                 <input
                                     type="email"
                                     required
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     className={style.input}
                                     placeholder="admin@valemix.com.br"
                                 />

@@ -67,6 +67,7 @@ export const useAssetStore = create<AssetStore>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const featuredAssets = await assetService.getHighlights();
+      console.log("Featured Assets:", featuredAssets);
       set({ featuredAssets, isLoading: false });
     } catch (error: unknown) {
       set({
