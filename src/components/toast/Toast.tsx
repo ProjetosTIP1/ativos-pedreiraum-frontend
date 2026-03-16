@@ -4,7 +4,7 @@ import styles from "./style.module.css";
 import imgSuccess from "../../assets/icons/success.svg";
 import imgError from "../../assets/icons/error.svg";
 import imgInfo from "../../assets/icons/info.svg";
-import { useAppStore } from "../../stores/useAppStore";
+import { useToastStore } from "../../stores/useToastStore";
 
 interface ToastIcon {
   type: "success" | "error" | "info" | "warning";
@@ -19,7 +19,7 @@ const icons: Record<ToastIcon["type"], ToastIcon["icon"]> = {
 };
 
 export default function Toast() {
-  const { toast } = useAppStore();
+  const { toast } = useToastStore();
   const { message, type, visible } = toast;
 
   if (!visible) return null;
