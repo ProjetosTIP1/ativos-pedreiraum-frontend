@@ -53,6 +53,14 @@
   font-size: 1.25rem; /* text-xl */
 }
 
+.logoIconImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  padding: 0.25rem; /* p-1 */
+}
+
 .logoTextContainer {
   display: flex;
   flex-direction: column;

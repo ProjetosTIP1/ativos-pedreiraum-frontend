@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { Button } from '../ui/Button';
 import { LogIn, LogOut, LayoutDashboard, Menu, X } from 'lucide-react';
+import logo from '../../assets/logos/logo.png';
 import styles from './Navbar.module.css';
 
 export const Navbar: React.FC = () => {
@@ -17,10 +18,10 @@ export const Navbar: React.FC = () => {
           {/* Logo */}
           <Link to="/" className={styles.logo}>
             <div className={styles.logoIcon}>
-              V
+              <img className={styles.logoIconImage} src={logo} alt="Pedreira Um Valemix Logo" />
             </div>
             <div className={styles.logoTextContainer}>
-              <span className={styles.logoTitle}>VALEMIX</span>
+              <span className={styles.logoTitle}>Pedreira Um Valemix</span>
               <span className={styles.logoSubtitle}>Catálogo de Ativos</span>
             </div>
           </Link>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, ExternalLink } from 'lucide-react';
+import logo from '../../assets/logos/logo.png';
 import style from './Footer.module.css';
 
 export const Footer: React.FC = () => {
@@ -12,9 +13,9 @@ export const Footer: React.FC = () => {
           <div className={style.brandSection}>
             <div className={style.brandLogo}>
               <div className={style.brandIcon}>
-                V
+                <img className={style.brandIconImage} src={logo} alt="Pedreira Um Valemix Logo" />
               </div>
-              <span className={style.brandName}>VALEMIX ATIVOS</span>
+              <span className={style.brandName}>PEDREIRA UM VALEMIX ATIVOS</span>
             </div>
             <p className={style.brandDesc}>
               Portal de comercialização de ativos usados do Grupo Pedreira Um Valemix. 
