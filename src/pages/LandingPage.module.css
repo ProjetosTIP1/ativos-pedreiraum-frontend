@@ -28,13 +28,6 @@
   transform: scale(1.05);
 }
 
-.heroOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, black, transparent, transparent);
-  opacity: 0.8;
-}
-
 .heroContent {
   width: 100%;
   max-width: 80rem; /* container mx-auto */
@@ -218,8 +211,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .emptyState {
