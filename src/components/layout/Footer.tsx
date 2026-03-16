@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, ExternalLink } from 'lucide-react';
-import logo from '../../assets/logos/logo.png';
-import style from './Footer.module.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Phone, Mail, MapPin, ExternalLink } from "lucide-react";
+import logo from "../../assets/logos/logo.png";
+import style from "./Footer.module.css";
 
 export const Footer: React.FC = () => {
   return (
@@ -13,18 +13,30 @@ export const Footer: React.FC = () => {
           <div className={style.brandSection}>
             <div className={style.brandLogo}>
               <div className={style.brandIcon}>
-                <img className={style.brandIconImage} src={logo} alt="Pedreira Um Valemix Logo" />
+                <img
+                  className={style.brandIconImage}
+                  src={logo}
+                  alt="Pedreira Um Valemix Logo"
+                />
               </div>
-              <span className={style.brandName}>PEDREIRA UM VALEMIX ATIVOS</span>
+              <span className={style.brandName}>
+                PEDREIRA UM VALEMIX ATIVOS
+              </span>
             </div>
             <p className={style.brandDesc}>
-              Portal de comercialização de ativos usados do Grupo Pedreira Um Valemix. 
-              Equipamentos de alta performance, revisados e prontos para operação.
+              Portal de comercialização de ativos usados do Grupo Pedreira Um
+              Valemix. Equipamentos de alta performance, revisados e prontos
+              para operação.
             </p>
             <div className={style.socialLinks}>
-                <a href="https://valemix.com.br" target="_blank" rel="noreferrer" className={style.socialLink}>
-                    <ExternalLink size={20} />
-                </a>
+              <a
+                href={import.meta.env.VITE_COMPANY_WEBSITE}
+                target="_blank"
+                rel="noreferrer"
+                className={style.socialLink}
+              >
+                <ExternalLink size={20} />
+              </a>
             </div>
           </div>
 
@@ -32,9 +44,15 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className={style.sectionTitle}>Navegação</h4>
             <ul className={style.linkList}>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/ativos">Catálogo</Link></li>
-              <li><Link to="/login">Administração</Link></li>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/ativos">Catálogo</Link>
+              </li>
+              <li>
+                <Link to="/login">Administração</Link>
+              </li>
             </ul>
           </div>
 
@@ -44,23 +62,28 @@ export const Footer: React.FC = () => {
             <ul className={style.contactList}>
               <li className={style.contactItem}>
                 <MapPin size={18} className={style.contactIcon} />
-                <span>Belo Horizonte, MG - Brasil</span>
+                <span>{import.meta.env.VITE_COMPANY_ADDRESS}</span>
               </li>
               <li className={style.contactItemCentered}>
                 <Phone size={18} className={style.contactIcon} />
-                <span>(31) 9XXXX-XXXX</span>
+                <span>{import.meta.env.VITE_COMPANY_PHONE}</span>
               </li>
               <li className={style.contactItemCentered}>
                 <Mail size={18} className={style.contactIcon} />
-                <span>contato@valemix.com.br</span>
+                <span>{import.meta.env.VITE_COMPANY_EMAIL}</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className={style.bottomBar}>
-          <p>© {new Date().getFullYear()} GRUPO PEDREIRA UM VALEMIX. TODOS OS DIREITOS RESERVADOS.</p>
-          <p className={style.bottomBarText}>Desenvolvido com Foco em Performance</p>
+          <p>
+            © {new Date().getFullYear()} GRUPO PEDREIRA UM VALEMIX. TODOS OS
+            DIREITOS RESERVADOS.
+          </p>
+          <p className={style.bottomBarText}>
+            Desenvolvido com Foco em Performance
+          </p>
         </div>
       </div>
     </footer>
