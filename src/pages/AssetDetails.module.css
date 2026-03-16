@@ -1,0 +1,372 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+
+.loadingBreadcrumb {
+  height: 2.5rem;
+  width: 33.333333%;
+  background-color: var(--color-surface);
+}
+
+.loadingGallery {
+  height: 500px;
+  background-color: var(--color-surface);
+}
+
+.loadingInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.loadingTitle {
+  height: 3rem;
+  width: 100%;
+  background-color: var(--color-surface);
+}
+
+.loadingDescription {
+  height: 10rem;
+  width: 100%;
+  background-color: var(--color-surface);
+}
+
+.errorState {
+  text-align: center;
+  padding: 5rem 1rem;
+  background-color: var(--color-dark-card);
+  border: 1px solid var(--color-border);
+}
+
+.errorTitle {
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.errorText {
+  color: var(--color-text-dim);
+  margin-bottom: 2rem;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-text-dim);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0;
+  width: fit-content;
+}
+
+.backButton:hover {
+  color: var(--color-industrial-orange);
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-cols: 1fr;
+  gap: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .mainGrid {
+    grid-template-cols: repeat(2, 1fr);
+  }
+}
+
+.galleryWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mainImageWrapper {
+  position: relative;
+  height: 450px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.mainImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badgesWrapper {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.galleryNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.galleryNav:hover {
+  background-color: var(--color-industrial-orange);
+}
+
+.galleryNavPrev {
+  left: 1rem;
+}
+
+.galleryNavNext {
+  right: 1rem;
+}
+
+.zoomIndicator {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.thumbnailsGrid {
+  display: grid;
+  grid-template-cols: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+.thumbnailButton {
+  height: 5rem;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+  opacity: 0.5;
+}
+
+.thumbnailButton:hover {
+  opacity: 0.8;
+}
+
+.thumbnailButtonActive {
+  border-color: var(--color-industrial-orange);
+  opacity: 1;
+}
+
+.thumbnailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoHeader {
+  margin-bottom: 1.5rem;
+}
+
+.categoryBreadcrumb {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.3em;
+  color: var(--color-industrial-orange);
+}
+
+.assetTitle {
+  font-size: 2.25rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-style: italic;
+  letter-spacing: -0.05em;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.metaBar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  color: var(--color-text-dim);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 0;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+}
+
+.metaIcon {
+  margin-right: 0.5rem;
+  color: var(--color-industrial-orange);
+}
+
+.metaSeparator {
+  color: var(--color-border);
+}
+
+.priceActionBox {
+  background-color: var(--color-surface);
+  padding: 2rem;
+  border-left: 4px solid var(--color-industrial-orange);
+  margin-bottom: 2rem;
+}
+
+.priceWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.priceLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: var(--color-text-dim);
+  letter-spacing: 0.2em;
+  margin-bottom: 0.25rem;
+}
+
+.priceValue {
+  font-size: 2.25rem;
+  font-weight: 900;
+  font-style: italic;
+}
+
+.specsGrid {
+  display: grid;
+  grid-template-cols: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.specItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.specLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: var(--color-text-dim);
+  letter-spacing: 0.2em;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.specValue {
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+}
+
+.specIcon {
+  margin-right: 0.5rem;
+}
+
+.descriptionLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: var(--color-text-dim);
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+  display: block;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.5rem;
+  font-style: italic;
+}
+
+.descriptionText {
+  color: var(--color-text-main);
+  font-size: 0.875rem;
+  line-height: 1.625;
+  white-space: pre-line;
+}
+
+.bottomDecorator {
+  margin-top: 3rem;
+  height: 5rem;
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.decoratorLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0.5rem;
+  background-color: var(--color-industrial-orange);
+}
+
+.decoratorText {
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  color: var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.decoratorBullet {
+  color: var(--color-industrial-orange);
+}

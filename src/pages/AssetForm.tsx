@@ -15,6 +15,7 @@ import {
     X
 } from 'lucide-react';
 import { type Asset, AssetCategory, AssetCondition, AssetStatus } from '../schemas/entities';
+import style from './AssetForm.module.css';
 
 export const AssetForm: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -122,18 +123,18 @@ export const AssetForm: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col gap-10">
+        <div className={style.container}>
             {/* Header */}
-            <div className="flex justify-between items-center border-b border-[var(--color-border)] pb-6">
-                <div className="flex items-center gap-4">
-                    <button onClick={() => navigate('/admin')} className="p-2 hover:bg-white/10 text-[var(--color-text-dim)]">
+            <div className={style.header}>
+                <div className={style.headerLeft}>
+                    <button onClick={() => navigate('/admin')} className={style.backButton}>
                         <ArrowLeft size={24} />
                     </button>
-                    <h1 className="text-3xl font-black uppercase italic tracking-tighter">
-                        {id ? 'Editar' : 'Cadastrar'} <span className="text-[var(--color-industrial-orange)]">Ativo</span>
+                    <h1 className={style.title}>
+                        {id ? 'Editar' : 'Cadastrar'} <span className={style.highlight}>Ativo</span>
                     </h1>
                 </div>
-                <div className="flex gap-4">
+                <div className={style.headerActions}>
                     <Button variant="ghost" onClick={() => navigate('/admin')}>Cancelar</Button>
                     <Button onClick={handleSubmit} className="flex items-center gap-2">
                         <Save size={18} /> Salvar Registro
@@ -141,33 +142,33 @@ export const AssetForm: React.FC = () => {
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <form onSubmit={handleSubmit} className={style.formGrid}>
                 {/* Left Column: Main Info */}
-                <div className="lg:col-span-2 space-y-8">
-                    <div className="bg-[var(--color-dark-card)] p-8 border border-[var(--color-border)] space-y-6">
-                        <h3 className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-industrial-orange)] mb-4 flex items-center">
-                            <Settings size={14} className="mr-2" /> Informações Gerais
+                <div className={style.mainColumn}>
+                    <div className={style.card}>
+                        <h3 className={style.cardTitle}>
+                            <Settings size={14} className={style.cardIcon} /> Informações Gerais
                         </h3>
                         
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="md:col-span-2 space-y-1">
-                                <label className="text-[10px] uppercase font-black tracking-widest text-[var(--color-text-dim)]">Nome do Equipamento / Título</label>
+                        <div className={style.inputGrid}>
+                            <div className={style.inputGroupFull}>
+                                <label className={style.label}>Nome do Equipamento / Título</label>
                                 <input 
                                     name="name" 
                                     required 
                                     value={formData.name} 
                                     onChange={handleChange}
-                                    className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] p-3 text-sm focus:border-[var(--color-industrial-orange)] outline-none"
+                                    className={style.input}
                                 />
                             </div>
 
-                            <div className="space-y-1">
-                                <label className="text-[10px] uppercase font-black tracking-widest text-[var(--color-text-dim)]">Categoria</label>
+                            <div className={style.inputGroup}>
+                                <label className={style.label}>Categoria</label>
                                 <select 
                                     name="category" 
                                     value={formData.category} 
                                     onChange={handleChange}
-                                    className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] p-3 text-sm focus:border-[var(--color-industrial-orange)] outline-none"
+                                    className={style.input}
                                 >
                                     {AssetCategory.options.map(cat => (
                                         <option key={cat} value={cat}>{cat}</option>
@@ -175,118 +176,118 @@ export const AssetForm: React.FC = () => {
                                 </select>
                             </div>
 
-                            <div className="space-y-1">
-                                <label className="text-[10px] uppercase font-black tracking-widest text-[var(--color-text-dim)]">Subcategoria</label>
+                            <div className={style.inputGroup}>
+                                <label className={style.label}>Subcategoria</label>
                                 <input 
                                     name="subcategory" 
                                     value={formData.subcategory} 
                                     onChange={handleChange}
-                                    className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] p-3 text-sm focus:border-[var(--color-industrial-orange)] outline-none"
+                                    className={style.input}
                                     placeholder="Ex: 6x4, Basculante, etc."
                                 />
                             </div>
 
-                            <div className="space-y-1">
-                                <label className="text-[10px] uppercase font-black tracking-widest text-[var(--color-text-dim)]">Marca / Fabricante</label>
+                            <div className={style.inputGroup}>
+                                <label className={style.label}>Marca / Fabricante</label>
                                 <input 
                                     name="brand" 
                                     value={formData.brand} 
                                     onChange={handleChange}
-                                    className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] p-3 text-sm focus:border-[var(--color-industrial-orange)] outline-none"
+                                    className={style.input}
                                 />
                             </div>
 
-                            <div className="space-y-1">
-                                <label className="text-[10px] uppercase font-black tracking-widest text-[var(--color-text-dim)]">Modelo</label>
+                            <div className={style.inputGroup}>
+                                <label className={style.label}>Modelo</label>
                                 <input 
                                     name="model" 
                                     value={formData.model} 
                                     onChange={handleChange}
-                                    className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] p-3 text-sm focus:border-[var(--color-industrial-orange)] outline-none"
+                                    className={style.input}
                                 />
                             </div>
 
-                            <div className="space-y-1">
-                                <label className="text-[10px] uppercase font-black tracking-widest text-[var(--color-text-dim)]">Ano de Fabricação</label>
+                            <div className={style.inputGroup}>
+                                <label className={style.label}>Ano de Fabricação</label>
                                 <input 
                                     type="number" 
                                     name="year" 
                                     value={formData.year} 
                                     onChange={handleChange}
-                                    className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] p-3 text-sm focus:border-[var(--color-industrial-orange)] outline-none"
+                                    className={style.input}
                                 />
                             </div>
 
-                            <div className="space-y-1">
-                                <label className="text-[10px] uppercase font-black tracking-widest text-[var(--color-text-dim)]">Nº de Série / Patrimônio</label>
+                            <div className={style.inputGroup}>
+                                <label className={style.label}>Nº de Série / Patrimônio</label>
                                 <input 
                                     name="serial_number" 
                                     value={formData.serial_number} 
                                     onChange={handleChange}
-                                    className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] p-3 text-sm focus:border-[var(--color-industrial-orange)] outline-none"
+                                    className={style.input}
                                 />
                             </div>
                         </div>
 
-                        <div className="space-y-1">
-                            <label className="text-[10px] uppercase font-black tracking-widest text-[var(--color-text-dim)]">Descrição Detalhada</label>
+                        <div className={style.inputGroupFull}>
+                            <label className={style.label}>Descrição Detalhada</label>
                             <textarea 
                                 name="description" 
                                 rows={5}
                                 value={formData.description} 
                                 onChange={handleChange}
-                                className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] p-3 text-sm focus:border-[var(--color-industrial-orange)] outline-none resize-none"
+                                className={`${style.input} ${style.textarea}`}
                             ></textarea>
                         </div>
                     </div>
 
-                    <div className="bg-[var(--color-dark-card)] p-8 border border-[var(--color-border)] space-y-6">
-                         <h3 className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-industrial-orange)] mb-4 flex items-center">
-                            <Camera size={14} className="mr-2" /> Galeria de Imagens
+                    <div className={style.card}>
+                         <h3 className={style.cardTitle}>
+                            <Camera size={14} className={style.cardIcon} /> Galeria de Imagens
                         </h3>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className={style.imageGrid}>
                             {formData.gallery?.map((url, index) => (
-                                <div key={index} className="aspect-square bg-[var(--color-surface)] border border-[var(--color-border)] relative group overflow-hidden">
-                                    <img src={url} alt={`Asset ${index}`} className="w-full h-full object-cover" />
+                                <div key={index} className={style.imageItem}>
+                                    <img src={url} alt={`Asset ${index}`} className={style.image} />
                                     {url === formData.main_image && (
-                                        <div className="absolute top-0 left-0 bg-[var(--color-industrial-orange)] text-black text-[8px] font-black uppercase px-2 py-0.5">Principal</div>
+                                        <div className={style.imageBadge}>Principal</div>
                                     )}
                                     <button 
                                         type="button"
                                         onClick={() => handleRemoveImage(url)}
-                                        className="absolute top-1 right-1 p-1 bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                                        className={style.removeImageButton}
                                     >
                                         <X size={12} />
                                     </button>
                                 </div>
                             ))}
-                            <label className="aspect-square bg-[var(--color-surface)] border-2 border-dashed border-[var(--color-border)] flex flex-col items-center justify-center cursor-pointer hover:border-[var(--color-industrial-orange)] transition-colors">
-                                <Plus size={24} className="text-[var(--color-text-dim)]" />
-                                <span className="text-[8px] font-black uppercase tracking-widest mt-2">Adicionar</span>
+                            <label className={style.addImageButton}>
+                                <Plus size={24} className={style.addImageIcon} />
+                                <span className={style.addImageText}>Adicionar</span>
                                 <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
                             </label>
                         </div>
-                        <p className="text-[9px] text-[var(--color-text-dim)] uppercase font-bold tracking-widest italic flex items-center">
+                        <p className={style.helpText}>
                             <AlertCircle size={10} className="mr-1" /> A primeira imagem da galeria será definida como principal automaticamente se nenhuma existir.
                         </p>
                     </div>
                 </div>
 
                 {/* Right Column: Status & Price */}
-                <div className="space-y-8">
-                    <div className="bg-[var(--color-dark-card)] p-8 border border-[var(--color-border)] space-y-6">
-                        <h3 className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-industrial-orange)] mb-4 flex items-center">
-                            <Package size={14} className="mr-2" /> Status Operacional
+                <div className={style.sideColumn}>
+                    <div className={style.card}>
+                        <h3 className={style.cardTitle}>
+                            <Package size={14} className={style.cardIcon} /> Status Operacional
                         </h3>
 
-                        <div className="space-y-4">
-                            <div className="space-y-1">
-                                <label className="text-[10px] uppercase font-black tracking-widest text-[var(--color-text-dim)]">Estado de Conservação</label>
+                        <div className="flex flex-col gap-4">
+                            <div className={style.inputGroup}>
+                                <label className={style.label}>Estado de Conservação</label>
                                 <select 
                                     name="condition" 
                                     value={formData.condition} 
                                     onChange={handleChange}
-                                    className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] p-3 text-sm focus:border-[var(--color-industrial-orange)] outline-none"
+                                    className={style.input}
                                 >
                                     {AssetCondition.options.map(cond => (
                                         <option key={cond} value={cond}>{cond}</option>
@@ -294,13 +295,13 @@ export const AssetForm: React.FC = () => {
                                 </select>
                             </div>
 
-                            <div className="space-y-1">
-                                <label className="text-[10px] uppercase font-black tracking-widest text-[var(--color-text-dim)]">Status do Catálogo</label>
+                            <div className={style.inputGroup}>
+                                <label className={style.label}>Status do Catálogo</label>
                                 <select 
                                     name="status" 
                                     value={formData.status} 
                                     onChange={handleChange}
-                                    className="w-full bg-[var(--color-surface)] border border-[var(--color-border)] p-3 text-sm focus:border-[var(--color-industrial-orange)] outline-none"
+                                    className={style.input}
                                 >
                                     {AssetStatus.options.map(stat => (
                                         <option key={stat} value={stat}>{stat}</option>
@@ -308,45 +309,47 @@ export const AssetForm: React.FC = () => {
                                 </select>
                             </div>
 
-                            <div className="flex items-center space-x-3 p-3 bg-[var(--color-surface)] border border-[var(--color-border)]">
+                            <div className={style.checkboxWrapper}>
                                 <input 
                                     type="checkbox" 
                                     name="is_featured" 
                                     id="is_featured" 
                                     checked={formData.is_featured} 
                                     onChange={handleChange}
-                                    className="w-4 h-4 accent-[var(--color-industrial-orange)]"
+                                    className={style.checkbox}
                                 />
-                                <label htmlFor="is_featured" className="text-xs font-black uppercase tracking-widest cursor-pointer">Destacar Ativo na Home</label>
+                                <label htmlFor="is_featured" className={style.checkboxLabel}>Destacar Ativo na Home</label>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-[var(--color-surface)] p-8 border-l-4 border-[var(--color-industrial-orange)] space-y-6">
-                        <h3 className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-industrial-orange)] mb-4">Comercial</h3>
-                        <div className="space-y-1">
-                            <label className="text-[10px] uppercase font-black tracking-widest text-white">Preço de Venda (R$)</label>
+                    <div className={style.commercialCard}>
+                        <h3 className={style.cardTitle}>Comercial</h3>
+                        <div className={style.inputGroup}>
+                            <label className={style.commercialLabel}>Preço de Venda (R$)</label>
                             <input 
                                 type="number" 
                                 name="price" 
                                 value={formData.price || ''} 
                                 onChange={handlePriceChange}
-                                className="w-full bg-black/20 border border-white/10 p-4 text-xl font-black italic focus:border-white outline-none"
+                                className={style.commercialInput}
                                 placeholder="0,00"
                             />
-                            <p className="text-[8px] text-black font-bold uppercase tracking-widest bg-[var(--color-industrial-orange)] px-2 py-0.5 mt-2 inline-block">
-                                Deixe em branco para "Consultar"
-                            </p>
+                            <div className="mt-2">
+                                <p className={style.commercialHelp}>
+                                    Deixe em branco para "Consultar"
+                                </p>
+                            </div>
                         </div>
                     </div>
 
                     {id && (
-                        <div className="bg-[var(--color-error)]/5 p-6 border border-[var(--color-error)]/20 space-y-4">
-                            <p className="text-[9px] font-bold text-[var(--color-error)] uppercase tracking-widest">Zona de Perigo</p>
+                        <div className={style.dangerZone}>
+                            <p className={style.dangerZoneTitle}>Zona de Perigo</p>
                             <button 
                                 type="button" 
                                 onClick={handleDelete}
-                                className="text-xs font-black text-[var(--color-error)] uppercase flex items-center gap-2 hover:opacity-80 transition-opacity"
+                                className={style.deleteButton}
                             >
                                 <Trash2 size={16} /> Excluir Registro Permanente
                             </button>

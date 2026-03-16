@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useAssetStore } from '../stores/useAssetStore';
 import { AssetCard } from '../components/assets/AssetCard';
 import { AssetFilters } from '../components/assets/AssetFilters';
+import style from './AssetCatalog.module.css';
 
 export const AssetCatalog: React.FC = () => {
     const assets = useAssetStore((state) => state.assets);
@@ -13,33 +14,33 @@ export const AssetCatalog: React.FC = () => {
     }, [fetchAssets]);
 
     return (
-        <div className="flex flex-col gap-8">
-            <h1 className="text-4xl font-black uppercase italic tracking-tighter">
-                Catálogo de <span className="text-[var(--color-industrial-orange)]">Ativos</span>
+        <div className={style.container}>
+            <h1 className={style.title}>
+                Catálogo de <span className={style.highlight}>Ativos</span>
             </h1>
 
-            <div className="flex flex-col lg:flex-row gap-10">
+            <div className={style.content}>
                 <AssetFilters />
 
-                <div className="flex-1">
+                <div className={style.mainContent}>
                     {isLoading ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className={style.assetsGrid}>
                             {[1, 2, 3, 4].map(i => (
-                                <div key={i} className="aspect-[4/5] bg-[var(--color-surface)] animate-pulse border border-[var(--color-border)]"></div>
+                                <div key={i} className={style.skeletonCard}></div>
                             ))}
                         </div>
                     ) : assets.length === 0 ? (
-                        <div className="text-center py-20 bg-[var(--color-surface)] border border-[var(--color-border)] flex flex-col items-center">
-                            <p className="text-[var(--color-text-dim)] uppercase font-black tracking-widest">Nenhum ativo encontrado com estes filtros.</p>
+                        <div className={style.emptyState}>
+                            <p className={style.emptyStateText}>Nenhum ativo encontrado com estes filtros.</p>
                             <button 
                                 onClick={() => useAssetStore.getState().clearFilters()}
-                                className="mt-4 text-[var(--color-industrial-orange)] font-black uppercase text-xs hover:underline"
+                                className={style.clearFiltersButton}
                             >
                                 Limpar Filtros
                             </button>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className={style.assetsGrid}>
                             {assets.map((asset) => (
                                 <AssetCard key={asset.id} asset={asset} />
                             ))}

@@ -14,6 +14,7 @@ import {
     ChevronRight,
     ZoomIn
 } from 'lucide-react';
+import style from './AssetDetails.module.css';
 
 export const AssetDetails: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
@@ -29,13 +30,13 @@ export const AssetDetails: React.FC = () => {
 
     if (isLoading && !currentAsset) {
         return (
-            <div className="flex flex-col gap-8 animate-pulse">
-                <div className="h-10 w-1/3 bg-[var(--color-surface)]"></div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <div className="h-[500px] bg-[var(--color-surface)]"></div>
-                    <div className="space-y-6">
-                        <div className="h-12 w-full bg-[var(--color-surface)]"></div>
-                        <div className="h-40 w-full bg-[var(--color-surface)]"></div>
+            <div className={style.loadingContainer}>
+                <div className={style.loadingBreadcrumb}></div>
+                <div className={style.mainGrid}>
+                    <div className={style.loadingGallery}></div>
+                    <div className={style.loadingInfo}>
+                        <div className={style.loadingTitle}></div>
+                        <div className={style.loadingDescription}></div>
                     </div>
                 </div>
             </div>
@@ -44,9 +45,9 @@ export const AssetDetails: React.FC = () => {
 
     if (error || !currentAsset) {
         return (
-            <div className="text-center py-20 px-4 bg-[var(--color-dark-card)] border border-[var(--color-border)]">
-                <h2 className="text-2xl font-black uppercase mb-4">Ativo não encontrado</h2>
-                <p className="text-[var(--color-text-dim)] mb-8">{error || "O equipamento que você procura não está disponível."}</p>
+            <div className={style.errorState}>
+                <h2 className={style.errorTitle}>Ativo não encontrado</h2>
+                <p className={style.errorText}>{error || "O equipamento que você procura não está disponível."}</p>
                 <Button onClick={() => navigate('/ativos')}>Voltar para o Catálogo</Button>
             </div>
         );
@@ -86,25 +87,25 @@ Poderia me passar mais informações sobre disponibilidade e valor?`;
     const isMachine = ["EXCAVATORS", "CRUSHERS", "GRADERS", "PLANT"].includes(currentAsset.category);
 
     return (
-        <div className="flex flex-col gap-10">
+        <div className={style.container}>
             {/* Breadcrumb / Back */}
             <button 
                 onClick={() => navigate('/ativos')}
-                className="flex items-center text-[10px] font-black uppercase tracking-[0.2em] text-[var(--color-text-dim)] hover:text-[var(--color-industrial-orange)] transition-colors"
+                className={style.backButton}
             >
                 <ArrowLeft size={14} className="mr-2" /> Voltar ao Catálogo
             </button>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className={style.mainGrid}>
                 {/* Gallery Section */}
-                <div className="flex flex-col gap-4">
-                    <div className="relative h-[450px] bg-[var(--color-surface)] border border-[var(--color-border)] group overflow-hidden">
+                <div className={style.galleryWrapper}>
+                    <div className={style.mainImageWrapper}>
                         <img 
                             src={currentAsset.gallery[activeImage] || currentAsset.main_image} 
                             alt={currentAsset.name}
-                            className="w-full h-full object-cover"
+                            className={style.mainImage}
                         />
-                        <div className="absolute top-4 left-4 flex flex-col gap-2">
+                        <div className={style.badgesWrapper}>
                              <Badge variant="orange">{currentAsset.condition}</Badge>
                              <Badge variant="default">{currentAsset.status}</Badge>
                         </div>
@@ -113,59 +114,59 @@ Poderia me passar mais informações sobre disponibilidade e valor?`;
                             <>
                                 <button 
                                     onClick={prevImage}
-                                    className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 text-white flex items-center justify-center hover:bg-[var(--color-industrial-orange)] transition-colors"
+                                    className={`${style.galleryNav} ${style.galleryNavPrev}`}
                                 >
                                     <ChevronLeft size={24} />
                                 </button>
                                 <button 
                                     onClick={nextImage}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 text-white flex items-center justify-center hover:bg-[var(--color-industrial-orange)] transition-colors"
+                                    className={`${style.galleryNav} ${style.galleryNavNext}`}
                                 >
                                     <ChevronRight size={24} />
                                 </button>
                             </>
                         )}
-                        <div className="absolute bottom-4 right-4 bg-black/50 p-2 text-white/50">
+                        <div className={style.zoomIndicator}>
                             <ZoomIn size={20} />
                         </div>
                     </div>
 
                     {/* Thumbnails */}
-                    <div className="grid grid-cols-5 gap-2">
+                    <div className={style.thumbnailsGrid}>
                         {currentAsset.gallery.map((img, idx) => (
                             <button 
                                 key={idx}
                                 onClick={() => setActiveImage(idx)}
-                                className={`h-20 border-2 transition-all ${activeImage === idx ? 'border-[var(--color-industrial-orange)] opacity-100' : 'border-transparent opacity-50 hover:opacity-80'}`}
+                                className={`${style.thumbnailButton} ${activeImage === idx ? style.thumbnailButtonActive : style.thumbnailButtonInactive}`}
                             >
-                                <img src={img} alt={`${currentAsset.name} thumb ${idx}`} className="w-full h-full object-cover" />
+                                <img src={img} alt={`${currentAsset.name} thumb ${idx}`} className={style.thumbnailImage} />
                             </button>
                         ))}
                     </div>
                 </div>
 
                 {/* Info Section */}
-                <div className="flex flex-col">
-                    <div className="mb-6">
-                        <span className="text-[10px] uppercase font-black tracking-[0.3em] text-[var(--color-industrial-orange)]">
+                <div className={style.infoWrapper}>
+                    <div className={style.infoHeader}>
+                        <span className={style.categoryBreadcrumb}>
                             {currentAsset.category} / {currentAsset.subcategory}
                         </span>
-                        <h1 className="text-4xl font-black uppercase italic tracking-tighter mb-4 leading-tight">
+                        <h1 className={style.assetTitle}>
                             {currentAsset.name}
                         </h1>
-                        <div className="flex items-center gap-6 text-[var(--color-text-dim)] text-xs font-bold uppercase tracking-widest border-y border-[var(--color-border)] py-4">
-                            <span className="flex items-center"><Calendar size={14} className="mr-2 text-[var(--color-industrial-orange)]" /> {currentAsset.year}</span>
-                            <span className="flex items-center"><MapPin size={14} className="mr-2 text-[var(--color-industrial-orange)]" /> {currentAsset.location}</span>
-                            <span className="text-[var(--color-border)]">|</span>
+                        <div className={style.metaBar}>
+                            <span className={style.metaItem}><Calendar size={14} className={style.metaIcon} /> {currentAsset.year}</span>
+                            <span className={style.metaItem}><MapPin size={14} className={style.metaIcon} /> {currentAsset.location}</span>
+                            <span className={style.metaSeparator}>|</span>
                             <span>Ref: {currentAsset.serial_number}</span>
                         </div>
                     </div>
 
                     {/* Price and Action */}
-                    <div className="bg-[var(--color-surface)] p-8 border-l-4 border-[var(--color-industrial-orange)] mb-8">
-                        <div className="flex flex-col mb-6">
-                            <span className="text-[10px] uppercase font-black text-[var(--color-text-dim)] tracking-[0.2em] mb-1">Preço Sugerido</span>
-                            <span className="text-4xl font-black italic">
+                    <div className={style.priceActionBox}>
+                        <div className={style.priceWrapper}>
+                            <span className={style.priceLabel}>Preço Sugerido</span>
+                            <span className={style.priceValue}>
                                 {currentAsset.price ? `R$ ${currentAsset.price.toLocaleString('pt-BR')}` : "Consultar Valor"}
                             </span>
                         </div>
@@ -176,28 +177,28 @@ Poderia me passar mais informações sobre disponibilidade e valor?`;
                     </div>
 
                     {/* Specifications Grid */}
-                    <div className="grid grid-cols-2 gap-6 mb-8">
-                        <div>
-                            <label className="text-[10px] uppercase font-black text-[var(--color-text-dim)] tracking-[0.2em] mb-2 block">Fabricante</label>
-                            <span className="text-sm font-bold uppercase tracking-widest">{currentAsset.brand}</span>
+                    <div className={style.specsGrid}>
+                        <div className={style.specItem}>
+                            <label className={style.specLabel}>Fabricante</label>
+                            <span className={style.specValue}>{currentAsset.brand}</span>
                         </div>
-                        <div>
-                            <label className="text-[10px] uppercase font-black text-[var(--color-text-dim)] tracking-[0.2em] mb-2 block">Modelo</label>
-                            <span className="text-sm font-bold uppercase tracking-widest">{currentAsset.model}</span>
+                        <div className={style.specItem}>
+                            <label className={style.specLabel}>Modelo</label>
+                            <span className={style.specValue}>{currentAsset.model}</span>
                         </div>
                         {isMachine && currentAsset.specifications?.hours && (
-                             <div>
-                                <label className="text-[10px] uppercase font-black text-[var(--color-text-dim)] tracking-[0.2em] mb-2 block">Horas de Uso</label>
-                                <span className="text-sm font-bold uppercase tracking-widest flex items-center">
-                                    <Clock size={14} className="mr-2" /> {currentAsset.specifications.hours}h
+                             <div className={style.specItem}>
+                                <label className={style.specLabel}>Horas de Uso</label>
+                                <span className={style.specValue}>
+                                    <Clock size={14} className={style.specIcon} /> {currentAsset.specifications.hours}h
                                 </span>
                             </div>
                         )}
                         {isVehicle && currentAsset.specifications?.mileage && (
-                             <div>
-                                <label className="text-[10px] uppercase font-black text-[var(--color-text-dim)] tracking-[0.2em] mb-2 block">Quilometragem</label>
-                                <span className="text-sm font-bold uppercase tracking-widest flex items-center">
-                                    <Gauge size={14} className="mr-2" /> {currentAsset.specifications.mileage.toLocaleString()} KM
+                             <div className={style.specItem}>
+                                <label className={style.specLabel}>Quilometragem</label>
+                                <span className={style.specValue}>
+                                    <Gauge size={14} className={style.specIcon} /> {currentAsset.specifications.mileage.toLocaleString()} KM
                                 </span>
                             </div>
                         )}
@@ -205,8 +206,8 @@ Poderia me passar mais informações sobre disponibilidade e valor?`;
 
                     {/* Description */}
                     <div>
-                        <label className="text-[10px] uppercase font-black text-[var(--color-text-dim)] tracking-[0.2em] mb-4 block border-b border-[var(--color-border)] pb-2 italic">Descrição & Observações</label>
-                        <p className="text-[var(--color-text-main)] text-sm leading-relaxed whitespace-pre-line">
+                        <label className={style.descriptionLabel}>Descrição & Observações</label>
+                        <p className={style.descriptionText}>
                             {currentAsset.description}
                         </p>
                     </div>
@@ -214,10 +215,10 @@ Poderia me passar mais informações sobre disponibilidade e valor?`;
             </div>
 
             {/* Bottom Industrial Decorator */}
-            <div className="mt-12 h-20 bg-[var(--color-surface)] border-t border-[var(--color-border)] flex items-center justify-center relative overflow-hidden">
-                <div className="absolute top-0 left-0 h-full w-2 bg-[var(--color-industrial-orange)]"></div>
-                <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--color-border)] flex items-center gap-4">
-                    QUALIDADE <span className="text-[var(--color-industrial-orange)]">●</span> PERFORMANCE <span className="text-[var(--color-industrial-orange)]">●</span> CONFIANÇA
+            <div className={style.bottomDecorator}>
+                <div className={style.decoratorLine}></div>
+                <p className={style.decoratorText}>
+                    QUALIDADE <span className={style.decoratorBullet}>●</span> PERFORMANCE <span className={style.decoratorBullet}>●</span> CONFIANÇA
                 </p>
             </div>
         </div>

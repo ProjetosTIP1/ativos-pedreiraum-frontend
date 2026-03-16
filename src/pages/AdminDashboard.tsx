@@ -15,6 +15,7 @@ import {
     ExternalLink
 } from 'lucide-react';
 import { useNavigate, Navigate } from 'react-router-dom';
+import style from './AdminDashboard.module.css';
 
 export const AdminDashboard: React.FC = () => {
     const { assets, fetchAssets } = useAssetStore();
@@ -36,22 +37,22 @@ export const AdminDashboard: React.FC = () => {
     const availableAssets = assets.filter(a => a.status === 'AVAILABLE').length;
     
     return (
-        <div className="flex flex-col gap-8">
+        <div className={style.container}>
             {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-end gap-6 border-b-4 border-[var(--color-industrial-orange)] pb-8">
+            <div className={style.header}>
                 <div>
-                    <span className="text-[10px] uppercase font-black tracking-[0.4em] text-[var(--color-industrial-orange)] mb-2 block">
+                    <span className={style.headerBadge}>
                         Área Restrita
                     </span>
-                    <h1 className="text-4xl md:text-5xl font-black uppercase italic leading-none tracking-tighter flex items-center">
-                        <LayoutDashboard size={40} className="mr-4 text-[var(--color-industrial-orange)]" />
-                        Admin <span className="text-[var(--color-industrial-orange)]">Dashboard</span>
+                    <h1 className={style.title}>
+                        <LayoutDashboard size={40} className={style.titleIcon} />
+                        Admin <span className={style.highlight}>Dashboard</span>
                     </h1>
                 </div>
-                <div className="flex items-center gap-4">
-                    <div className="text-right hidden md:block">
-                        <p className="text-[10px] font-black uppercase text-[var(--color-text-dim)]">Logado como</p>
-                        <p className="text-sm font-bold uppercase">{user?.full_name}</p>
+                <div className={style.headerActions}>
+                    <div className={style.userInfo}>
+                        <p className={style.userInfoLabel}>Logado como</p>
+                        <p className={style.userName}>{user?.full_name}</p>
                     </div>
                     <Button onClick={() => navigate('/admin/create')} className="flex items-center gap-2 italic">
                         <Plus size={18} /> Novo Ativo
@@ -60,86 +61,86 @@ export const AdminDashboard: React.FC = () => {
             </div>
 
             {/* Metrics Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className={style.metricsGrid}>
                 {[
                     { label: "Total de Ativos", value: assets.length, icon: <TrendingUp size={24} />, color: "var(--color-info)" },
                     { label: "Ativos Disponíveis", value: availableAssets, icon: <CheckCircle size={24} />, color: "var(--color-success)" },
                     { label: "Total de Visualizações", value: totalViews, icon: <Eye size={24} />, color: "var(--color-industrial-orange)" },
                     { label: "Interesses (WhatsApp)", value: Math.floor(totalViews * 0.1), icon: <MessageSquare size={24} />, color: "var(--color-industrial-yellow)" },
                 ].map((metric, i) => (
-                    <div key={i} className="bg-[var(--color-dark-card)] p-6 border border-[var(--color-border)] relative overflow-hidden group">
-                        <div className="relative z-10">
-                            <p className="text-[10px] font-black uppercase tracking-widest text-[var(--color-text-dim)] mb-2">{metric.label}</p>
-                            <p className="text-3xl font-black italic text-white">{metric.value}</p>
+                    <div key={i} className={style.metricCard}>
+                        <div className={style.metricContent}>
+                            <p className={style.metricLabel}>{metric.label}</p>
+                            <p className={style.metricValue}>{metric.value}</p>
                         </div>
-                        <div className="absolute top-1/2 right-6 -translate-y-1/2 opacity-10 text-white group-hover:scale-125 transition-transform duration-500">
+                        <div className={style.metricIcon}>
                             {metric.icon}
                         </div>
-                        <div className="absolute bottom-0 left-0 h-1 w-full bg-[var(--color-border)]">
-                            <div className="h-full bg-[var(--color-industrial-orange)]" style={{ width: '30%', backgroundColor: metric.color }}></div>
+                        <div className={style.metricProgressTrack}>
+                            <div className={style.metricProgressBar} style={{ width: '30%', backgroundColor: metric.color }}></div>
                         </div>
                     </div>
                 ))}
             </div>
 
             {/* Asset Table */}
-            <div className="bg-[var(--color-dark-card)] border border-[var(--color-border)] overflow-hidden">
-                <div className="p-6 border-b border-[var(--color-border)] flex justify-between items-center bg-[var(--color-surface)]">
-                    <h2 className="text-xl font-black uppercase italic tracking-tighter">Gestão de Inventário</h2>
-                    <div className="text-[10px] font-bold uppercase text-[var(--color-text-dim)] tracking-widest">
+            <div className={style.tableWrapper}>
+                <div className={style.tableHeader}>
+                    <h2 className={style.tableTitle}>Gestão de Inventário</h2>
+                    <div className={style.tableCount}>
                         Exibindo {assets.length} registros
                     </div>
                 </div>
                 
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
+                <div className={style.tableOverflow}>
+                    <table className={style.table}>
                         <thead>
-                            <tr className="bg-[var(--color-dark-bg)] text-[10px] font-black uppercase tracking-widest text-[var(--color-text-dim)] border-b border-[var(--color-border)]">
-                                <th className="px-6 py-4">Ativo</th>
-                                <th className="px-6 py-4">Categoria</th>
-                                <th className="px-6 py-4">Status</th>
-                                <th className="px-6 py-4">Ano</th>
-                                <th className="px-6 py-4">Views</th>
-                                <th className="px-6 py-4 text-right">Ações</th>
+                            <tr className={style.tableHeadRow}>
+                                <th className={style.tableTh}>Ativo</th>
+                                <th className={style.tableTh}>Categoria</th>
+                                <th className={style.tableTh}>Status</th>
+                                <th className={style.tableTh}>Ano</th>
+                                <th className={style.tableTh}>Views</th>
+                                <th className={style.tableTh} style={{ textAlign: 'right' }}>Ações</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-[var(--color-border)]">
+                        <tbody className={style.tableBody}>
                             {assets.length > 0 ? (
                                 assets.map((asset) => (
-                                    <tr key={asset.id} className="hover:bg-white/5 transition-colors group">
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 bg-[var(--color-surface)] overflow-hidden hidden sm:block">
-                                                    <img src={asset.main_image} alt={asset.name} className="w-full h-full object-cover" />
+                                    <tr key={asset.id} className={style.tableRow}>
+                                        <td className={style.tableTd}>
+                                            <div className={style.assetInfo}>
+                                                <div className={style.assetImageWrapper}>
+                                                    <img src={asset.main_image} alt={asset.name} className={style.assetImage} />
                                                 </div>
-                                                <div className="flex flex-col">
-                                                    <span className="text-sm font-bold uppercase tracking-tight text-white group-hover:text-[var(--color-industrial-orange)] transition-colors">
+                                                <div className={style.assetText}>
+                                                    <span className={style.assetName}>
                                                         {asset.name}
                                                     </span>
-                                                    <span className="text-[10px] text-[var(--color-text-dim)]">Ref: {asset.serial_number}</span>
+                                                    <span className={style.assetRef}>Ref: {asset.serial_number}</span>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-text-dim)]">{asset.category}</span>
+                                        <td className={style.tableTd}>
+                                            <span className={style.assetCategory}>{asset.category}</span>
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className={style.tableTd}>
                                             <Badge variant={asset.status === 'AVAILABLE' ? 'success' : asset.status === 'SOLD' ? 'error' : 'warning'}>
                                                 {asset.status}
                                             </Badge>
                                         </td>
-                                        <td className="px-6 py-4 text-sm font-mono">{asset.year}</td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center text-xs text-[var(--color-text-dim)] font-bold">
+                                        <td className={`${style.tableTd} ${style.assetYear}`}>{asset.year}</td>
+                                        <td className={style.tableTd}>
+                                            <div className={style.assetViews}>
                                                 <Eye size={12} className="mr-1" /> {asset.view_count}
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 text-right">
-                                            <div className="flex justify-end gap-2">
-                                                <button onClick={() => navigate(`/ativos/${asset.slug}`)} className="p-2 hover:bg-white/10 text-[var(--color-text-dim)] title='Ver Público'">
+                                        <td className={style.tableTd}>
+                                            <div className={style.rowActions}>
+                                                <button onClick={() => navigate(`/ativos/${asset.slug}`)} className={style.actionButton} title='Ver Público'>
                                                     <ExternalLink size={16} />
                                                 </button>
-                                                <button onClick={() => navigate(`/admin/edit/${asset.id}`)} className="p-2 hover:bg-[var(--color-industrial-orange)]/20 text-[var(--color-industrial-orange)]" title='Editar'>
+                                                <button onClick={() => navigate(`/admin/edit/${asset.id}`)} className={style.editButton} title='Editar'>
                                                     <Edit size={16} />
                                                 </button>
                                                 <button 
@@ -148,7 +149,7 @@ export const AdminDashboard: React.FC = () => {
                                                             useAssetStore.getState().deleteAsset(asset.id);
                                                         }
                                                     }}
-                                                    className="p-2 hover:bg-[var(--color-error)]/20 text-[var(--color-error)]" 
+                                                    className={style.deleteButton} 
                                                     title='Excluir'
                                                 >
                                                     <Trash2 size={16} />
@@ -159,8 +160,8 @@ export const AdminDashboard: React.FC = () => {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={6} className="px-6 py-20 text-center">
-                                         <p className="text-[var(--color-text-dim)] uppercase font-black tracking-widest italic">Nenhum ativo cadastrado até o momento.</p>
+                                    <td colSpan={6} className={style.emptyState}>
+                                         <p className={style.emptyStateText}>Nenhum ativo cadastrado até o momento.</p>
                                     </td>
                                 </tr>
                             )}
@@ -170,7 +171,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
             
             {/* Industrial Texture at bottom */}
-            <div className="h-2 w-full bg-[repeating-linear-gradient(45deg,var(--color-industrial-orange),var(--color-industrial-orange)_20px,transparent_20px,transparent_40px)] opacity-10"></div>
+            <div className={style.bottomDecorator}></div>
         </div>
     );
 };
