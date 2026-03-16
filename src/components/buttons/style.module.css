@@ -1,0 +1,95 @@
+.button {
+  background-color: var(--green-color);
+  border: 1px solid var(--green-color);
+  border-radius: 8px;
+  color: var(--text-color);
+  cursor: pointer;
+  font-family: var(--main-font);
+  font-size: 0.75rem;
+  padding: 0.4rem 0.75rem;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .button {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+.button:disabled {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--green-color);
+  cursor: not-allowed;
+}
+
+.button:hover:not(:disabled) {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  scale: 2;
+}
+
+.iconButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.deleteIconButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.deleteButton {
+  background-color: var(--red-color);
+  border: 1px solid var(--red-color);
+  border-radius: 8px;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-family: var(--main-font);
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.deleteButton:disabled {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--green-color);
+  cursor: not-allowed;
+}
+
+.deleteButton:hover:not(:disabled) {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+}
+
+.ghostButton {
+  background-color: var(--red-light-color);
+  border: 1px solid var(--red-color);
+  border-radius: 8px;
+  color: var(--red-color);
+  cursor: pointer;
+  font-family: var(--main-font);
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease, color 0.3s ease;
+}
+
+.ghostButton:disabled {
+  border-color: var(--disabled-color);
+  color: var(--disabled-color);
+  cursor: not-allowed;
+}
