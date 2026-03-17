@@ -54,7 +54,7 @@ export type Branch = z.infer<typeof BranchSchema>;
 
 export const ImageMetadataSchema = z.object({
     id: z.string().uuid(),
-    asset_id: z.string().uuid(),
+    asset_id: z.string().uuid().optional(),
     url: z.string().url(),
     name: z.string(),
     alt_text: z.string().optional(),
@@ -62,8 +62,8 @@ export const ImageMetadataSchema = z.object({
     size: z.number().optional(),
     width: z.number().optional(),
     height: z.number().optional(),
-    is_main: z.boolean(),
-    created_at: z.string(),
+    is_main: z.boolean().default(false),
+    created_at: z.string().optional(),
 });
 export type ImageMetadata = z.infer<typeof ImageMetadataSchema>;
 
@@ -109,8 +109,9 @@ export const AssetSchema = z.object({
     status: AssetStatus,
     price: z.number().positive().optional(),
     description: z.string(),
-    main_image: z.string().url(),
-    gallery: z.array(z.string().url()),
+    images: z.array(ImageMetadataSchema).default([]),
+    main_image: z.string().url().optional(),
+    gallery: z.array(z.string().url()).optional(),
     is_featured: z.boolean(),
     view_count: z.number().int().nonnegative(),
     branch_id: z.number().int(),

@@ -70,15 +70,22 @@ Poderia me passar mais informações sobre disponibilidade e valor?`;
         window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
     };
 
+    const images = currentAsset.images && currentAsset.images.length > 0 
+        ? currentAsset.images 
+        : (currentAsset.main_image ? [{ url: currentAsset.main_image, is_main: true, id: 'main', name: 'Main' }] : []);
+    
+    const galleryUrls = images.map(img => img.url);
+    const mainImageUrl = images.find(img => img.is_main)?.url || images[0]?.url || currentAsset.main_image;
+
     const nextImage = () => {
-        if (currentAsset.gallery.length > 0) {
-            setActiveImage((prev) => (prev + 1) % currentAsset.gallery.length);
+        if (galleryUrls.length > 0) {
+            setActiveImage((prev) => (prev + 1) % galleryUrls.length);
         }
     };
 
     const prevImage = () => {
-        if (currentAsset.gallery.length > 0) {
-            setActiveImage((prev) => (prev - 1 + currentAsset.gallery.length) % currentAsset.gallery.length);
+        if (galleryUrls.length > 0) {
+            setActiveImage((prev) => (prev - 1 + galleryUrls.length) % galleryUrls.length);
         }
     };
 
@@ -101,7 +108,7 @@ Poderia me passar mais informações sobre disponibilidade e valor?`;
                 <div className={style.galleryWrapper}>
                     <div className={style.mainImageWrapper}>
                         <img 
-                            src={currentAsset.gallery[activeImage] || currentAsset.main_image} 
+                            src={galleryUrls[activeImage] || mainImageUrl} 
                             alt={currentAsset.name}
                             className={style.mainImage}
                         />
@@ -110,7 +117,7 @@ Poderia me passar mais informações sobre disponibilidade e valor?`;
                              <Badge variant="default">{currentAsset.status}</Badge>
                         </div>
                         
-                        {currentAsset.gallery.length > 1 && (
+                        {galleryUrls.length > 1 && (
                             <>
                                 <button 
                                     onClick={prevImage}
@@ -133,7 +140,7 @@ Poderia me passar mais informações sobre disponibilidade e valor?`;
 
                     {/* Thumbnails */}
                     <div className={style.thumbnailsGrid}>
-                        {currentAsset.gallery.map((img, idx) => (
+                        {galleryUrls.map((img, idx) => (
                             <button 
                                 key={idx}
                                 onClick={() => setActiveImage(idx)}

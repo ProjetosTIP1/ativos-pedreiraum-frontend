@@ -21,7 +21,9 @@ const assetService = {
   },
 
   async create(asset: Partial<Asset>): Promise<Asset> {
-    const response = await apiClient.post("/assets", asset);
+    console.log("Creating asset with data:", asset);
+    const response = await apiClient.post("/assets/", asset);
+    console.log("API Response for Create:", response.data);
     return AssetSchema.parse(response.data);
   },
 

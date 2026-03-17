@@ -32,12 +32,14 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     }
   };
 
+  const mainImageUrl = asset.main_image || asset.images?.find(img => img.is_main)?.url || asset.images?.[0]?.url;
+
   return (
     <div className={style.card}>
       {/* Image Container */}
       <div className={style.imageContainer}>
         <img 
-          src={asset.main_image} 
+          src={mainImageUrl} 
           alt={asset.name}
           className={style.image}
         />

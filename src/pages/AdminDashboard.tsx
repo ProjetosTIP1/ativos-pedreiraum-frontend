@@ -111,7 +111,11 @@ export const AdminDashboard: React.FC = () => {
                                         <td className={style.tableTd}>
                                             <div className={style.assetInfo}>
                                                 <div className={style.assetImageWrapper}>
-                                                    <img src={asset.main_image} alt={asset.name} className={style.assetImage} />
+                                                    <img 
+                                                        src={asset.main_image || asset.images?.find(img => img.is_main)?.url || asset.images?.[0]?.url} 
+                                                        alt={asset.name} 
+                                                        className={style.assetImage} 
+                                                    />
                                                 </div>
                                                 <div className={style.assetText}>
                                                     <span className={style.assetName}>
