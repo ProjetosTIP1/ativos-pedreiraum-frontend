@@ -57,6 +57,7 @@ export const ImageMetadataSchema = z.object({
     asset_id: z.string().uuid().optional(),
     url: z.string().url(),
     name: z.string(),
+    position: z.string().optional(), // POV: Front, Back, Side, etc.
     alt_text: z.string().optional(),
     content_type: z.string().optional(),
     size: z.number().optional(),
