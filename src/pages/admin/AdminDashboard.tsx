@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { useAssetStore } from '../stores/useAssetStore';
-import { useAuthStore } from '../stores/useAuthStore';
-import { Badge } from '../components/ui/Badge';
-import { Button } from '../components/ui/Button';
+import { useAssetStore } from '../../stores/useAssetStore';
+import { useAuthStore } from '../../stores/useAuthStore';
+import { Badge } from '../../components/ui/Badge';
+import { Button } from '../../components/ui/Button';
 import { 
     LayoutDashboard, 
     Plus, 

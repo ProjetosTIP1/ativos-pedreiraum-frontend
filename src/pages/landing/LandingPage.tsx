@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { useAssetStore } from "../stores/useAssetStore";
-import { AssetCard } from "../components/assets/AssetCard";
-import { Button } from "../components/ui/Button";
+import { useAssetStore } from "../../stores/useAssetStore";
+import { AssetCard } from "../../components/assets/AssetCard";
+import { Button } from "../../components/ui/Button";
 import { ArrowRight, HardHat, ShieldCheck, Truck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import style from "./LandingPage.module.css";

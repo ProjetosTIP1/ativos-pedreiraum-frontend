@@ -3,9 +3,14 @@
    (tablet-first: 768px–1024px as baseline)
    =========================== */
 
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
 .blur {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  background-color: var(--glass-color);
+  background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
   padding: 0.75rem;
   transition: all 0.3s ease-in-out;
@@ -31,6 +36,8 @@
   -webkit-overflow-scrolling: touch;
   width: 100%;
   max-width: 70vw;
+  background-color: white;
+  padding: 1.5rem;
 }
 
 .modal.hidden {

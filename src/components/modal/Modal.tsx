@@ -98,7 +98,7 @@ export default function Modal({
 
   return (
     <div
-      className={`fixed inset-0 z-40 flex items-center justify-center ${isBlur ? styles.blur : ""
+      className={`fixed inset-0 z-40 flex items-center justify-center ${isBlur ? styles.blur : styles.backdrop
         }`}
     >
       <div

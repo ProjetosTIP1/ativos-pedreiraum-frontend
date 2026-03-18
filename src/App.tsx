@@ -1,17 +1,17 @@
-import { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { Layout } from './components/layout/Layout';
-import { LandingPage } from './pages/LandingPage';
-import { AssetCatalog } from './pages/AssetCatalog';
-import { AssetDetails } from './pages/AssetDetails';
-import { Login } from './pages/Login';
-import { AdminDashboard } from './pages/AdminDashboard';
-import { AssetForm } from './pages/AssetForm';
-import { useAuthStore } from './stores/useAuthStore';
-import { ProtectedRoute } from './components/layout/ProtectedRoute';
+import { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import { Layout } from "./components/layout/Layout";
+import { LandingPage } from "./pages/landing/LandingPage";
+import { AssetCatalog } from "./pages/catalog/AssetCatalog";
+import { AssetDetails } from "./pages/asset/AssetDetails";
+import { Login } from "./pages/login/Login";
+import { AdminDashboard } from "./pages/admin/AdminDashboard";
+import { AssetForm } from "./pages/new-asset/AssetForm";
+import { useAuthStore } from "./stores/useAuthStore";
+import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 
 function App() {
-  const checkAuth = useAuthStore(state => state.checkAuth);
+  const checkAuth = useAuthStore((state) => state.checkAuth);
 
   useEffect(() => {
     checkAuth();
@@ -24,7 +24,7 @@ function App() {
         <Route path="/ativos" element={<AssetCatalog />} />
         <Route path="/ativos/:slug" element={<AssetDetails />} />
         <Route path="/login" element={<Login />} />
-        
+
         {/* Protected Admin Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/admin" element={<AdminDashboard />} />
@@ -32,7 +32,17 @@ function App() {
           <Route path="/admin/edit/:id" element={<AssetForm />} />
         </Route>
 
-        <Route path="*" element={<div className="text-center py-20"><h1 className="text-4xl font-black mb-4">404</h1><p className="text-[var(--color-text-dim)] uppercase tracking-widest">Página não encontrada</p></div>} />
+        <Route
+          path="*"
+          element={
+            <div className="text-center py-20">
+              <h1 className="text-4xl font-black mb-4">404</h1>
+              <p className="text-[var(--color-text-dim)] uppercase tracking-widest">
+                Página não encontrada
+              </p>
+            </div>
+          }
+        />
       </Routes>
     </Layout>
   );

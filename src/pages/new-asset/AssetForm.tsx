@@ -1,17 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAssetStore } from "../stores/useAssetStore";
-import { Button } from "../components/ui/Button";
-import imageService from "../server/imageService";
+import { useAssetStore } from "../../stores/useAssetStore";
+import { Button } from "../../components/ui/Button";
+import imageService from "../../server/imageService";
 import {
   Save,
   ArrowLeft,
   Camera,
   Trash2,
-  AlertCircle,
   Settings,
   Package,
-  Plus,
   X,
   Upload,
 } from "lucide-react";
@@ -21,9 +19,9 @@ import {
   AssetCondition,
   AssetStatus,
   type ImageMetadata,
-} from "../schemas/entities";
+} from "../../schemas/entities";
 import style from "./AssetForm.module.css";
-import Modal from "../components/modal/Modal";
+import Modal from "../../components/modal/Modal";
 
 // Define the POVs
 const REQUIRED_POVS = [
@@ -70,7 +68,7 @@ export const AssetForm: React.FC = () => {
     REQUIRED_POVS.map((pos) => ({ position: pos })),
   );
 
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const initialized = useRef(false);
 
@@ -92,14 +90,6 @@ export const AssetForm: React.FC = () => {
               previewUrl: existing?.url,
             };
           });
-
-          // Handle "Outros" which might have multiple
-          const others = assetToEdit.images?.filter(
-            (img) =>
-              !REQUIRED_POVS.includes(img.position || "") ||
-              img.position === "Outros",
-          );
-          // This is a simplification, we might need a more complex structure for multiple "Outros"
 
           setPositionedFiles(newPositionedFiles);
         }

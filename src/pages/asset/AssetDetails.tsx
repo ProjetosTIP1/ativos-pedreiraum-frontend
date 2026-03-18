@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAssetStore } from '../stores/useAssetStore';
-import { Badge } from '../components/ui/Badge';
-import { Button } from '../components/ui/Button';
+import { useAssetStore } from '../../stores/useAssetStore';
+import { Badge } from '../../components/ui/Badge';
+import { Button } from '../../components/ui/Button';
 import { 
     Calendar, 
     MapPin, 
