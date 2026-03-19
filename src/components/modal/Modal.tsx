@@ -72,7 +72,7 @@ export default function Modal({
       } else {
         document.body.style.overflow = ""; // Restore scrolling when modal is closed
       }
-    }
+    };
 
     handleOpen();
   }, [isOpen, isVisible]);
@@ -98,13 +98,15 @@ export default function Modal({
 
   return (
     <div
-      className={`fixed inset-0 z-40 flex items-center justify-center ${isBlur ? styles.blur : styles.backdrop
-        }`}
+      className={`${styles.modalWrapper} ${
+        isBlur ? styles.blur : styles.backdrop
+      }`}
     >
       <div
         ref={modalRef}
-        className={`absolute z-50 ${positionClass} ${styles.modal} ${isClosing ? styles.hidden : ""
-          }`}
+        className={`${positionClass} ${styles.modal} ${
+          isClosing ? styles.hidden : ""
+        }`}
       >
         <CloseBtn onClose={onClose} />
         {children}

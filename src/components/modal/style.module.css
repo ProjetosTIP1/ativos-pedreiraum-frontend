@@ -22,7 +22,17 @@
    Modal Card
    =========================== */
 
+.modalWrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .modal {
+  position: absolute;
   border-radius: 14px;
   border: 1px solid var(--secondary-color);
   word-wrap: break-word;
@@ -32,11 +42,12 @@
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   animation: show 0.3s ease-in-out;
   max-height: 90dvh;
+  min-height: 100px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   width: 100%;
   max-width: 70vw;
-  background-color: white;
+  background-color: var(--color-dark-bg);
   padding: 1.5rem;
 }
 
