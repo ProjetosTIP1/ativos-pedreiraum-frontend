@@ -27,7 +27,6 @@ export const LandingPage: React.FC = () => {
             className={style.heroImage}
             fallback="/images/image-placeholder.png"
           />
-          <div className={style.heroOverlay}></div>
         </div>
 
         {/* Content */}
