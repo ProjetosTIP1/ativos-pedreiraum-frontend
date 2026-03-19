@@ -25,6 +25,19 @@ export type AssetCategory = z.infer<typeof AssetCategory>;
 export const PartState = z.enum(["NEW", "REFURBISHED", "USED"]);
 export type PartState = z.infer<typeof PartState>;
 
+export const ImagePosition = z.enum([
+    "FRONT",
+    "BACK",
+    "SIDE_LEFT",
+    "SIDE_RIGHT",
+    "INTERIOR",
+    "ENGINE",
+    "TIRE",
+    "DASHBOARD",
+    "OTHERS",
+]);
+export type ImagePosition = z.infer<typeof ImagePosition>;
+
 // --- Entities ---
 
 export const UserSchema = z.object({
@@ -55,9 +68,9 @@ export type Branch = z.infer<typeof BranchSchema>;
 export const ImageMetadataSchema = z.object({
     id: z.string().uuid(),
     asset_id: z.string().uuid().optional(),
-    url: z.string().url(),
+    url: z.string(),
     name: z.string(),
-    position: z.string().optional(), // POV: Front, Back, Side, etc.
+    position: ImagePosition.default("OTHERS"), // POV: Front, Back, Side, etc.
     alt_text: z.string().optional(),
     content_type: z.string().optional(),
     size: z.number().optional(),

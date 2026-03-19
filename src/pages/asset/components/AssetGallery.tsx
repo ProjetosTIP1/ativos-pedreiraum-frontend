@@ -1,6 +1,7 @@
 import React from "react";
 import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { Badge } from "../../../components/ui/Badge";
+import { AssetImage } from "../../../components/ui/AssetImage";
 import style from "../AssetDetails.module.css";
 
 interface AssetGalleryProps {
@@ -33,7 +34,7 @@ export const AssetGallery: React.FC<AssetGalleryProps> = ({
   return (
     <div className={style.galleryWrapper}>
       <div className={style.mainImageWrapper}>
-        <img
+        <AssetImage
           src={galleryUrls[activeImage]}
           alt={assetName}
           className={style.mainImage}
@@ -72,7 +73,7 @@ export const AssetGallery: React.FC<AssetGalleryProps> = ({
             onClick={() => onSetActiveImage(idx)}
             className={`${style.thumbnailButton} ${activeImage === idx ? style.thumbnailButtonActive : style.thumbnailButtonInactive}`}
           >
-            <img
+            <AssetImage
               src={img}
               alt={`${assetName} thumb ${idx}`}
               className={style.thumbnailImage}

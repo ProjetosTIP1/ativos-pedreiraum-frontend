@@ -19,7 +19,7 @@ export const useImageGallery = (asset?: Asset) => {
               is_main: true,
               id: "main",
               name: "Main",
-              position: "Main",
+              position: "FRONT",
             },
           ]
         : [];

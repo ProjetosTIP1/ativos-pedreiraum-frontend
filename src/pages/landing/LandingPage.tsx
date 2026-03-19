@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useAssetStore } from "../../stores/useAssetStore";
 import { AssetCard } from "../../components/assets/AssetCard";
 import { Button } from "../../components/ui/Button";
+import { AssetImage } from "../../components/ui/AssetImage";
 import { ArrowRight, HardHat, ShieldCheck, Truck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import style from "./LandingPage.module.css";
@@ -20,10 +21,11 @@ export const LandingPage: React.FC = () => {
       <section className={style.heroSection}>
         {/* Background Overlay */}
         <div className={style.heroBackground}>
-          <img
-            src="/brain/4d6dea86-3b9d-4d8c-a30b-35f0a672524e/hero_industrial_machines_1773661536200.png"
+          <AssetImage
+            src="/images/hero-industrial.jpg"
             alt="Industrial Machines"
             className={style.heroImage}
+            fallback="/images/image-placeholder.png"
           />
           <div className={style.heroOverlay}></div>
         </div>

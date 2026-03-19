@@ -2,6 +2,7 @@ import React from 'react';
 import { type Asset } from '../../schemas/entities';
 import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
+import { AssetImage } from '../ui/AssetImage';
 import { Eye, MapPin, Calendar, Clock, Gauge } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import style from './AssetCard.module.css';
@@ -38,7 +39,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     <div className={style.card}>
       {/* Image Container */}
       <div className={style.imageContainer}>
-        <img 
+        <AssetImage 
           src={mainImageUrl} 
           alt={asset.name}
           className={style.image}

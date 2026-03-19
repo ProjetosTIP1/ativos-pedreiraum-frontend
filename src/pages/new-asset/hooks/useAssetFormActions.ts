@@ -19,45 +19,40 @@ export const useAssetFormActions = (assetId?: string) => {
   ) => {
     setIsSubmitting(true);
     try {
-      // 1. Upload new images
+      let currentAssetId = assetId;
+
+      // 1. Create or Update asset first to ensure we have a valid asset state
+      if (!currentAssetId) {
+        // Initial creation with basic data
+        const initialData = {
+          ...formData,
+          main_image: "",
+          gallery: [],
+        };
+        const newAsset = await useAssetStore.getState().createAsset(initialData);
+        currentAssetId = newAsset.id;
+      } else {
+        // Update existing asset metadata
+        await useAssetStore.getState().updateAsset(currentAssetId, formData);
+      }
+
+      // 2. Upload new images
+      // They will automatically sync with the assets table via SQLImageRepository
       const uploadPromises = positionedFiles
         .filter((pf) => pf.file)
         .map(async (pf) => {
-          const metadata = await imageService.uploadAnImage(
+          const isMainImage = pf.position === "FRONT"; // Example logic
+          return await imageService.uploadAnImage(
+            currentAssetId!,
             pf.file!,
             pf.position,
+            isMainImage
           );
-          return metadata;
         });
 
-      const newUploadedMetadata = await Promise.all(uploadPromises);
+      await Promise.all(uploadPromises);
 
-      // 2. Combine with existing metadata
-      const finalImages = [
-        ...(formData.images || []).filter(
-          (img) =>
-            !positionedFiles.some(
-              (pf) => pf.file && pf.position === img.position,
-            ),
-        ),
-        ...newUploadedMetadata,
-      ];
-
-      // Ensure one is main (e.g., the "Frente" one)
-      if (finalImages.length > 0 && !finalImages.some((img) => img.is_main)) {
-        const front =
-          finalImages.find((img) => img.position === "Frente") ||
-          finalImages[0];
-        front.is_main = true;
-      }
-
-      const finalData = { ...formData, images: finalImages };
-
-      if (assetId) {
-        await useAssetStore.getState().updateAsset(assetId, finalData);
-      } else {
-        await useAssetStore.getState().createAsset(finalData);
-      }
+      // Navigate to admin
       navigate("/admin");
     } catch (error) {
       console.error("Error saving asset:", error);
