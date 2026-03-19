@@ -34,7 +34,7 @@ export const AdminDashboard: React.FC = () => {
 
   // Mock metrics based on loaded assets
   const totalViews = assets.reduce((acc, curr) => acc + curr.view_count, 0);
-  const availableAssets = assets.filter((a) => a.status === "AVAILABLE").length;
+  const availableAssets = assets.filter((a) => a.status === "DISPONÍVEL").length;
 
   return (
     <div className={style.container}>
@@ -136,13 +136,12 @@ export const AdminDashboard: React.FC = () => {
                       <div className={style.assetInfo}>
                         <div className={style.assetImageWrapper}>
                           <img
-                            src={
-                              asset.main_image ||
-                              asset.images?.find((img) => img.is_main)?.url ||
-                              asset.images?.[0]?.url
-                            }
+                            src={asset.main_image || '/placeholder-asset.jpg'}
                             alt={asset.name}
                             className={style.assetImage}
+                            onError={(e) => {
+                              e.currentTarget.src = '/placeholder-asset.jpg';
+                            }}
                           />
                         </div>
                         <div className={style.assetText}>
@@ -161,9 +160,9 @@ export const AdminDashboard: React.FC = () => {
                     <td className={style.tableTd}>
                       <Badge
                         variant={
-                          asset.status === "AVAILABLE"
+                          asset.status === "DISPONÍVEL"
                             ? "success"
-                            : asset.status === "SOLD"
+                            : asset.status === "VENDIDO"
                               ? "error"
                               : "warning"
                         }
@@ -182,7 +181,7 @@ export const AdminDashboard: React.FC = () => {
                     <td className={style.tableTd}>
                       <div className={style.rowActions}>
                         <button
-                          onClick={() => navigate(`/ativos/${asset.slug}`)}
+                          onClick={() => navigate(`/ativos/${asset.id}`)}
                           className={style.actionButton}
                           title="Ver Público"
                         >

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import type { Asset, ImageMetadata } from "../../../schemas/entities";
+import type { ImageMetadata } from "../../../schemas/entities";
+import imageService from "../../../server/imageService";
 
 export const REQUIRED_POVS = [
   "Frente",
@@ -20,21 +21,32 @@ export interface PositionedFile {
 
 /**
  * Custom hook to manage image uploads with position-based organization
- * Handles file selection, preview generation, and existing image mapping
+ * Handles file selection, preview generation, and existing image fetching
  */
-export const useImageManagement = (existingAsset?: Partial<Asset>) => {
+export const useImageManagement = (assetId?: string) => {
   const [positionedFiles, setPositionedFiles] = useState<PositionedFile[]>(
     REQUIRED_POVS.map((pos) => ({ position: pos })),
   );
+  const [isLoadingImages, setIsLoadingImages] = useState(false);
 
-  // Map existing images to POVs when editing - derived from props
+  // Fetch existing images for the asset when editing
   useEffect(() => {
-    if (existingAsset?.images && existingAsset.images.length > 0) {
-      const hasExistingImages = positionedFiles.some((pf) => pf.existingMetadata);
-      // Only update if we haven't already loaded the images
-      if (!hasExistingImages) {
+    const loadExistingImages = async () => {
+      if (!assetId) {
+        // Reset to empty state for new assets
+        setPositionedFiles(REQUIRED_POVS.map((pos) => ({ position: pos })));
+        return;
+      }
+
+      setIsLoadingImages(true);
+      try {
+        console.log(`Fetching images for asset ${assetId}...`);
+        const imageMetadata = await imageService.getAssetImages(assetId);
+        console.log(`Loaded ${imageMetadata.length} images for asset ${assetId}`);
+
+        // Map metadata to positioned files
         const newPositionedFiles = REQUIRED_POVS.map((pos) => {
-          const existing = existingAsset.images?.find(
+          const existing = imageMetadata.find(
             (img) => img.position === pos,
           );
           return {
@@ -44,10 +56,17 @@ export const useImageManagement = (existingAsset?: Partial<Asset>) => {
           };
         });
         setPositionedFiles(newPositionedFiles);
+      } catch (error) {
+        console.error("Error loading asset images:", error);
+        // Keep empty state on error
+        setPositionedFiles(REQUIRED_POVS.map((pos) => ({ position: pos })));
+      } finally {
+        setIsLoadingImages(false);
       }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [existingAsset?.images?.length]);
+    };
+
+    loadExistingImages();
+  }, [assetId]);
 
   const handleFileSelect = (position: string, file: File) => {
     const previewUrl = URL.createObjectURL(file);
@@ -70,7 +89,9 @@ export const useImageManagement = (existingAsset?: Partial<Asset>) => {
 
   return {
     positionedFiles,
+    setPositionedFiles,
     handleFileSelect,
     removeFile,
+    isLoadingImages,
   };
 };

@@ -22,7 +22,7 @@ interface AssetStore {
   // Actions
   fetchAssets: (params?: AssetFilter) => Promise<void>;
   fetchHighlights: () => Promise<void>;
-  fetchAssetBySlug: (slug: string) => Promise<void>;
+  fetchAssetById: (id: string) => Promise<void>;
   setFilters: (filters: AssetFilter) => void;
   clearFilters: () => void;
   createAsset: (asset: Partial<Asset>) => Promise<Asset>;
@@ -67,7 +67,6 @@ export const useAssetStore = create<AssetStore>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const featuredAssets = await assetService.getHighlights();
-      console.log("Featured Assets:", featuredAssets);
       set({ featuredAssets, isLoading: false });
     } catch (error: unknown) {
       set({
@@ -78,10 +77,10 @@ export const useAssetStore = create<AssetStore>((set, get) => ({
     }
   },
 
-  fetchAssetBySlug: async (slug: string) => {
+  fetchAssetById: async (id: string) => {
     set({ isLoading: true, error: null, currentAsset: null });
     try {
-      const currentAsset = await assetService.getBySlug(slug);
+      const currentAsset = await assetService.getById(id);
       set({ currentAsset, isLoading: false });
     } catch (error: unknown) {
       set({

@@ -1,40 +1,43 @@
 import { z } from "zod";
 
-// --- Enums ---
+// --- Enums (Reflecting Backend values in Portuguese) ---
 
 export const UserRole = z.enum(["ADMIN", "REGULAR"]);
 export type UserRole = z.infer<typeof UserRole>;
 
-export const AssetStatus = z.enum(["PENDING", "AVAILABLE", "RESERVED", "SOLD", "REJECTED"]);
+export const AssetStatus = z.enum([
+    "PENDENTE",
+    "DISPONÍVEL",
+    "RESERVADO",
+    "VENDIDO",
+    "REJEITADO"
+]);
 export type AssetStatus = z.infer<typeof AssetStatus>;
 
-export const AssetCondition = z.enum(["EXCELLENT", "GOOD", "REGULAR"]);
+export const AssetCondition = z.enum(["EXCELENTE", "BOM", "REGULAR"]);
 export type AssetCondition = z.infer<typeof AssetCondition>;
 
 export const AssetCategory = z.enum([
-    "TRUCKS",
-    "EXCAVATORS",
-    "CRUSHERS",
-    "GRADERS",
-    "PLANT",
-    "PARTS",
-    "OTHER",
+    "CAMINHÕES",
+    "ESCAVADEIRAS",
+    "BRITADORES",
+    "MOTONIVELADORAS",
+    "PLANTA",
+    "PEÇAS",
+    "OUTROS",
 ]);
 export type AssetCategory = z.infer<typeof AssetCategory>;
 
-export const PartState = z.enum(["NEW", "REFURBISHED", "USED"]);
-export type PartState = z.infer<typeof PartState>;
-
 export const ImagePosition = z.enum([
-    "FRONT",
-    "BACK",
-    "SIDE_LEFT",
-    "SIDE_RIGHT",
+    "FRENTE",
+    "TRÁS",
+    "LADO_ESQUERDO",
+    "LADO_DIREITO",
     "INTERIOR",
-    "ENGINE",
-    "TIRE",
-    "DASHBOARD",
-    "OTHERS",
+    "MOTOR",
+    "PNEU",
+    "PAINEL",
+    "OUTROS",
 ]);
 export type ImagePosition = z.infer<typeof ImagePosition>;
 
@@ -44,6 +47,7 @@ export const UserSchema = z.object({
     id: z.string().uuid(),
     email: z.string().email(),
     full_name: z.string(),
+    contact: z.string(),
     role: UserRole,
     created_at: z.string(),
 });
@@ -52,30 +56,15 @@ export type User = z.infer<typeof UserSchema>;
 export const CategorySchema = z.object({
     id: z.number(),
     name: z.string(),
-    slug: z.string(),
-    parent_id: z.number().optional(),
+    created_at: z.string().optional(),
 });
 export type Category = z.infer<typeof CategorySchema>;
-
-export const BranchSchema = z.object({
-    id: z.number(),
-    name: z.string(),
-    location: z.string(),
-    contact_info: z.string().optional(),
-});
-export type Branch = z.infer<typeof BranchSchema>;
 
 export const ImageMetadataSchema = z.object({
     id: z.string().uuid(),
     asset_id: z.string().uuid().optional(),
     url: z.string(),
-    name: z.string(),
-    position: ImagePosition.default("OTHERS"), // POV: Front, Back, Side, etc.
-    alt_text: z.string().optional(),
-    content_type: z.string().optional(),
-    size: z.number().optional(),
-    width: z.number().optional(),
-    height: z.number().optional(),
+    position: ImagePosition.default("OUTROS"),
     is_main: z.boolean().default(false),
     created_at: z.string().optional(),
 });
@@ -99,19 +88,11 @@ export const ExcavatorSpecsSchema = z.object({
 });
 export type ExcavatorSpecs = z.infer<typeof ExcavatorSpecsSchema>;
 
-export const PartSpecsSchema = z.object({
-    oem_code: z.string(),
-    compatible_equipment: z.string(),
-    part_state: PartState,
-});
-export type PartSpecs = z.infer<typeof PartSpecsSchema>;
-
 // --- Asset Entity ---
 
 export const AssetSchema = z.object({
     id: z.string().uuid(),
-    slug: z.string(),
-    name: z.string().min(3).max(100),
+    name: z.string().min(2).max(100),
     category: AssetCategory,
     subcategory: z.string(),
     brand: z.string(),
@@ -121,21 +102,15 @@ export const AssetSchema = z.object({
     location: z.string(),
     condition: AssetCondition,
     status: AssetStatus,
-    price: z.number().positive().optional(),
-    description: z.string(),
-    images: z.array(ImageMetadataSchema).default([]),
-    main_image: z.string().url().optional(),
-    gallery: z.array(z.string().url()).optional(),
-    is_featured: z.boolean(),
-    view_count: z.number().int().nonnegative(),
-    branch_id: z.number().int(),
+    price: z.number().min(0).optional(),
+    description: z.string().min(10).max(1000),
+    rep_contact: z.string().optional(),
+    main_image: z.string(),
+    highlighted: z.boolean().default(false),
+    view_count: z.number().int().nonnegative().default(0),
     created_by_user_id: z.string().uuid().optional(),
     created_at: z.string(),
-    specifications: z.union([
-        TruckSpecsSchema,
-        ExcavatorSpecsSchema,
-        PartSpecsSchema,
-        z.any()
-    ]).optional(),
+    updated_at: z.string().optional(),
+    specifications: z.record(z.string(), z.any()).optional(),
 });
 export type Asset = z.infer<typeof AssetSchema>;

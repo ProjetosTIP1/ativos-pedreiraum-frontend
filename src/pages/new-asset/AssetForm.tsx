@@ -24,18 +24,42 @@ export const AssetForm: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
 
   // Custom hooks for business logic
-  const { formData, handleChange, handlePriceChange } =
+  const { formData, setFormData, handleChange, handlePriceChange } =
     useAssetFormData(id);
 
-  const { positionedFiles, handleFileSelect, removeFile } =
-    useImageManagement(formData);
+  const { positionedFiles, setPositionedFiles, handleFileSelect, removeFile } =
+    useImageManagement(id);
 
   const { isSubmitting, handleSubmit, handleDelete, handleCancel } =
     useAssetFormActions(id);
 
+  const resetForm = () => {
+    // Reset data to defaults (from useAssetFormData)
+    setFormData({
+      name: "",
+      category: "OUTROS",
+      subcategory: "",
+      brand: "",
+      model: "",
+      year: new Date().getFullYear(),
+      serial_number: "",
+      location: "",
+      condition: "BOM",
+      status: "PENDENTE",
+      price: undefined,
+      description: "",
+      highlighted: false,
+    });
+    
+    // Clear image previews and files
+    import("./hooks/useImageManagement").then(({ REQUIRED_POVS }) => {
+      setPositionedFiles(REQUIRED_POVS.map((pos) => ({ position: pos })));
+    });
+  };
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await handleSubmit(formData, positionedFiles);
+    await handleSubmit(formData, positionedFiles, resetForm);
   };
 
   return (

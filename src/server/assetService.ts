@@ -11,24 +11,25 @@ const assetService = {
 
   async getHighlights(): Promise<Asset[]> {
     const response = await apiClient.get<Asset[]>("/assets/highlights");
-    console.log("API Response for Highlights:", response.data);
     return response.data;
   },
 
-  async getBySlug(slug: string): Promise<Asset> {
-    const response = await apiClient.get(`/assets/${slug}`);
+  async getById(id: string): Promise<Asset> {
+    const response = await apiClient.get(`/assets/${id}`);
     return AssetSchema.parse(response.data);
   },
 
   async create(asset: Partial<Asset>): Promise<Asset> {
     console.log("Creating asset with data:", asset);
-    const response = await apiClient.post("/assets/", asset);
+    const response = await apiClient.post("/admin/assets/", { asset_data: asset });
     console.log("API Response for Create:", response.data);
     return AssetSchema.parse(response.data);
   },
 
   async updateAsset(id: string, asset: Partial<Asset>): Promise<Asset> {
-    const response = await apiClient.put(`/assets/${id}`, asset);
+    console.log(`Updating asset ${id} with data:`, asset);
+    const response = await apiClient.patch(`/admin/assets/${id}`, { asset_data: asset });
+    console.log("API Response for Update:", response.data);
     return AssetSchema.parse(response.data);
   },
 

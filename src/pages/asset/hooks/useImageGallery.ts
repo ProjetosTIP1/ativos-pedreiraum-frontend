@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Asset, ImageMetadata } from "../../../schemas/entities";
+import imageService from "../../../server/imageService";
 
 /**
  * Custom hook to manage image gallery navigation and state
@@ -7,22 +8,31 @@ import type { Asset, ImageMetadata } from "../../../schemas/entities";
  */
 export const useImageGallery = (asset?: Asset) => {
   const [activeImage, setActiveImage] = useState(0);
+  const [images, setImages] = useState<ImageMetadata[]>([]);
+  const [isLoadingImages, setIsLoadingImages] = useState(false);
 
-  // Build gallery URLs from asset images
-  const images: ImageMetadata[] =
-    asset?.images && asset.images.length > 0
-      ? asset.images
-      : asset?.main_image
-        ? [
-            {
-              url: asset.main_image,
-              is_main: true,
-              id: "main",
-              name: "Main",
-              position: "FRONT",
-            },
-          ]
-        : [];
+  // Fetch images for the asset
+  useEffect(() => {
+    const fetchImages = async () => {
+      if (!asset?.id) {
+        setImages([]);
+        return;
+      }
+
+      setIsLoadingImages(true);
+      try {
+        const imageMetadata = await imageService.getAssetImages(asset.id);
+        setImages(imageMetadata);
+      } catch (error) {
+        console.error("Error loading gallery images:", error);
+        setImages([]);
+      } finally {
+        setIsLoadingImages(false);
+      }
+    };
+
+    fetchImages();
+  }, [asset?.id]);
 
   const galleryUrls = images.map((img) => img.url);
   const mainImageUrl =
@@ -48,6 +58,7 @@ export const useImageGallery = (asset?: Asset) => {
     activeImage,
     setActiveImage,
     galleryUrls,
+    isLoadingImages,
     mainImageUrl,
     nextImage,
     prevImage,

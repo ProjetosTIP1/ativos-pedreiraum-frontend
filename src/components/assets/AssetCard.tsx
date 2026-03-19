@@ -33,14 +33,12 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     }
   };
 
-  const mainImageUrl = asset.main_image || asset.images?.find(img => img.is_main)?.url || asset.images?.[0]?.url;
-
   return (
     <div className={style.card}>
       {/* Image Container */}
       <div className={style.imageContainer}>
         <AssetImage 
-          src={mainImageUrl} 
+          src={asset.main_image} 
           alt={asset.name}
           className={style.image}
         />
@@ -48,7 +46,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
           <Badge variant={getConditionColor(asset.condition)}>{asset.condition}</Badge>
           <Badge variant={getStatusColor(asset.status)}>{asset.status}</Badge>
         </div>
-        {asset.is_featured && (
+        {asset.highlighted && (
           <div className={style.featuredBadge}>
             DESTAQUE
           </div>
@@ -101,7 +99,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
               {asset.price ? `R$ ${asset.price.toLocaleString('pt-BR')}` : "Consultar"}
             </span>
           </div>
-          <Link to={`/ativos/${asset.slug}`} className="flex-shrink-0">
+          <Link to={`/ativos/${asset.id}`} className="flex-shrink-0">
             <Button size="sm" variant="outline">Ver Detalhes</Button>
           </Link>
         </div>
