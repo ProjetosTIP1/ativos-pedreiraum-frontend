@@ -56,16 +56,12 @@ const imageService = {
   },
 
   async uploadAnImage(
-    assetId: string,
     file: File,
+    assetId?: string,
     position: string = "OTHERS",
     isMain: boolean = false
   ): Promise<ImageMetadata> {
     try {
-      if (!assetId) {
-        throw new Error("Asset ID is required for image upload");
-      }
-
       if (!file || !(file instanceof File)) {
         throw new Error("Invalid file provided for upload");
       }
@@ -89,7 +85,9 @@ const imageService = {
 
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("asset_id", assetId);
+      if (assetId) {
+        formData.append("asset_id", assetId);
+      }
       formData.append("position", position);
       formData.append("is_main", String(isMain));
 

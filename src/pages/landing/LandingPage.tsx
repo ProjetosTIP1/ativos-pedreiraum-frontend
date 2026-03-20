@@ -18,40 +18,35 @@ export const LandingPage: React.FC = () => {
   return (
     <div className={style.container}>
       {/* Hero Section */}
-      <section className={style.heroSection}>
-        {/* Background Overlay */}
-        <div className={style.heroBackground}>
+      <section className={style.hero}>
+        <div className={style.heroBg}>
           <AssetImage
             src="/images/hero-industrial.jpg"
-            alt="Industrial Machines"
+            alt="Grupo Pedreira Um Valemix"
             className={style.heroImage}
             fallback="/images/image-placeholder.png"
           />
         </div>
 
-        {/* Content */}
         <div className={style.heroContent}>
           <div className={style.heroTextWrapper}>
-            <span className={style.badge}>Grupo Pedreira Um Valemix</span>
+            <span className={style.heroBadge}>Grupo Pedreira Um Valemix</span>
             <h1 className={style.heroTitle}>
-              Potência que <span className={style.highlight}>Constrói</span> o
-              Futuro
+              Potência que <span className={style.heroHighlight}>Constrói</span>{" "}
+              o Futuro
             </h1>
             <p className={style.heroDescription}>
               O maior catálogo de equipamentos, máquinas e peças usadas de alta
-              performance para mineração e construção.
+              performance para mineração e infraestrutura pesada.
             </p>
-            <div className={style.buttonGroup}>
+            <div className={style.heroActions}>
               <Button
                 onClick={() => navigate("/ativos")}
                 size="lg"
-                className="group"
+                className={style.heroActionButton}
               >
                 Explorar Catálogo{" "}
-                <ArrowRight
-                  className="ml-2 transition-transform group-hover:translate-x-1"
-                  size={20}
-                />
+                <ArrowRight className={style.actionButtonIcon} size={20} />
               </Button>
               <Button
                 variant="outline"
@@ -60,34 +55,34 @@ export const LandingPage: React.FC = () => {
                   window.scrollTo({ top: 800, behavior: "smooth" })
                 }
               >
-                Saiba Mais
+                Nossa Expertise
               </Button>
             </div>
           </div>
         </div>
 
         {/* Diagonal Decorator */}
-        <div className={style.diagonalDecorator}></div>
+        <div className={style.heroDecorator}></div>
       </section>
 
-      {/* Features/Stats Section */}
+      {/* Features Section */}
       <section className={style.section}>
         <div className={style.featuresGrid}>
           {[
             {
-              icon: <ShieldCheck size={32} />,
+              icon: <ShieldCheck size={40} />,
               title: "Qualidade Garantida",
-              text: "Ativos rigorosamente revisados pela nossa equipe técnica.",
+              text: "Ativos rigorosamente revisados por especialistas técnicos certificados.",
             },
             {
-              icon: <Truck size={32} />,
+              icon: <Truck size={40} />,
               title: "Pronta Entrega",
-              text: "Equipamentos disponíveis para retirada imediata em nossas unidades.",
+              text: "Equipamentos em estoque real, disponíveis para logística imediata.",
             },
             {
-              icon: <HardHat size={32} />,
-              title: "Suporte Valemix",
-              text: "Toda a tradição e confiabilidade de quem entende de mineração.",
+              icon: <HardHat size={40} />,
+              title: "DNA Valemix",
+              text: "A solidez e autoridade de quem lidera o mercado de mineração nacional.",
             },
           ].map((feature, i) => (
             <div key={i} className={style.featureCard}>
@@ -102,46 +97,43 @@ export const LandingPage: React.FC = () => {
       {/* Featured Assets Section */}
       <section className={style.section}>
         <div className={style.sectionHeader}>
-          <div>
-            <h2 className={style.sectionTitle}>
-              Equipamentos em <span className={style.highlight}>Destaque</span>
-            </h2>
-            <div className={style.titleUnderline}></div>
-          </div>
+          <h2 className={style.sectionTitle}>
+            Equipamentos em <span className={style.sectionTitleHighlight}>Destaque</span>
+          </h2>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => navigate("/ativos")}
             className="text-xs"
           >
-            Ver Tudo <ArrowRight size={14} className="ml-2" />
+            Ver Catálogo <ArrowRight size={14} className="ml-2" />
           </Button>
         </div>
 
         {isLoading ? (
-          <div className={style.assetsGrid}>
+          <div className={style.highlightsGrid}>
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className={style.skeletonCard}></div>
+              <div key={i} className={style.loadingSkeleton}></div>
             ))}
           </div>
         ) : (
-          <div className={style.assetsGrid}>
+          <div className={style.highlightsGrid}>
             {featuredAssets.length > 0 ? (
               featuredAssets.map((asset) => (
                 <AssetCard key={asset.id} asset={asset} />
               ))
             ) : (
               <div className={style.emptyState}>
-                <p className={style.emptyStateText}>
-                  Nenhum ativo em destaque no momento
+                <p className={style.emptyText}>
+                  Nenhum ativo disponível em destaque
                 </p>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="mt-4"
+                  className="mt-6"
                   onClick={() => navigate("/ativos")}
                 >
-                  Ver Catálogo Completo
+                  Ver Todos os Ativos
                 </Button>
               </div>
             )}
@@ -153,32 +145,30 @@ export const LandingPage: React.FC = () => {
       <section className={style.section}>
         <div className={style.ctaSection}>
           <div className={style.ctaContent}>
-            <div className={style.ctaTextWrapper}>
-              <h2 className={style.ctaTitle}>Não encontrou o que procurava?</h2>
-              <p className={style.ctaDescription}>
-                Nossa equipe pode te ajudar a encontrar o equipamento ideal para
-                sua operação.
-              </p>
-            </div>
-            <Button
-              variant="secondary"
-              size="lg"
-              className="border-2 border-black"
-              onClick={() =>
-                window.open(
-                  `https://wa.me/${import.meta.env.VITE_COMPANY_CONSULTOR_CONTACT}?text=${encodeURIComponent(`Olá, gostaria de falar com um consultor sobre os ativos disponíveis no catálogo da Pedreira Um Valemix.`)}`,
-                  "_blank",
-                )
-              }
-            >
-              Falar com Consultor
-            </Button>
+            <h2 className={style.ctaTitle}>Soluções Customizadas?</h2>
+            <p className={style.ctaSubtitle}>
+              Nossa equipe de consultoria técnica está pronta para apoiar seu projeto.
+            </p>
           </div>
-          {/* Decorative Pattern */}
-          <div className={style.ctaCircle1}></div>
-          <div className={style.ctaCircle2}></div>
+          <Button
+            variant="secondary"
+            size="lg"
+            onClick={() =>
+              window.open(
+                `https://wa.me/${import.meta.env.VITE_COMPANY_CONSULTOR_CONTACT}?text=${encodeURIComponent(`Olá, gostaria de falar com um consultor sobre os ativos disponíveis no catálogo da Pedreira Um Valemix.`)}`,
+                "_blank",
+              )
+            }
+          >
+            Falar com Especialista
+          </Button>
+
+          {/* Decorative Elements */}
+          <div className={style.ctaDecoratorCircle}></div>
+          <div className={style.ctaDecoratorSquare}></div>
         </div>
       </section>
     </div>
   );
 };
+

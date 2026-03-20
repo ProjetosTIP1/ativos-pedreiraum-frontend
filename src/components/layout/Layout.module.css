@@ -1,11 +1,12 @@
 .mainContent {
-  flex-grow: 1;
-  width: 100%;
-  max-width: 1280px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  min-height: 100vh;
+  background-color: var(--color-surface);
+  padding-top: 6rem; /* Space for sticky navbar */
+  transition: var(--transition-smooth);
+}
+
+@media (min-width: 1024px) {
+  .mainContent {
+    padding-top: 6rem;
+  }
 }

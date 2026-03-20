@@ -28,7 +28,6 @@ export const useAssetFormActions = (assetId?: string) => {
         // Initial creation with basic data
         const initialData = {
           ...formData,
-          main_image: "", // Will be updated by backend when images are uploaded
         };
         const newAsset = await useAssetStore.getState().createAsset(initialData);
         createdAssetId = newAsset.id;
@@ -50,8 +49,8 @@ export const useAssetFormActions = (assetId?: string) => {
         console.log(`Uploading image for position: ${pf.position}, isMain: ${isMainImage}`);
         
         return await imageService.uploadAnImage(
-          createdAssetId!,
           pf.file!,
+          createdAssetId!,
           pf.position,
           isMainImage
         );

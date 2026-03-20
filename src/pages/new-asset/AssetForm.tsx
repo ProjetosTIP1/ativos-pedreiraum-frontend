@@ -9,15 +9,16 @@ import { AssetImageManager } from "./components/AssetImageManager";
 import { AssetStatusPanel } from "./components/AssetStatusPanel";
 import { AssetCommercialPanel } from "./components/AssetCommercialPanel";
 import { AssetDangerZone } from "./components/AssetDangerZone";
+import { AssetSchema } from "../../schemas/entities";
 import style from "./AssetForm.module.css";
 
 /**
  * AssetForm - Main form component for creating/editing assets
- * 
+ *
  * This component orchestrates the Asset form by composing:
  * - Custom hooks for business logic (form state, image handling, actions)
  * - Smaller UI components for each section (header, info, images, status, etc.)
- * 
+ *
  * Follows Clean Architecture: presentation is separated from business logic
  */
 export const AssetForm: React.FC = () => {
@@ -27,8 +28,13 @@ export const AssetForm: React.FC = () => {
   const { formData, setFormData, handleChange, handlePriceChange } =
     useAssetFormData(id);
 
-  const { positionedFiles, setPositionedFiles, handleFileSelect, removeFile, toggleMain } =
-    useImageManagement(id);
+  const {
+    positionedFiles,
+    setPositionedFiles,
+    handleFileSelect,
+    removeFile,
+    toggleMain,
+  } = useImageManagement(id);
 
   const { isSubmitting, handleSubmit, handleDelete, handleCancel } =
     useAssetFormActions(id);
@@ -49,18 +55,25 @@ export const AssetForm: React.FC = () => {
       price: undefined,
       description: "",
       highlighted: false,
-      main_image: "placeholder.png",
     });
-    
+
     // Clear image previews and files
     import("./hooks/useImageManagement").then(({ REQUIRED_POVS }) => {
       setPositionedFiles(REQUIRED_POVS.map((pos) => ({ position: pos })));
     });
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await handleSubmit(formData, positionedFiles, resetForm);
+  const onSubmit = async () => {
+    const validation = AssetSchema.safeParse(formData);
+    if (!validation.success) {
+      console.error("Validation error:", validation.error);
+      return;
+    }
+    try {
+      await handleSubmit(validation.data, positionedFiles, resetForm);
+    } catch (error) {
+      console.error("Error submitting asset:", error);
+    }
   };
 
   return (

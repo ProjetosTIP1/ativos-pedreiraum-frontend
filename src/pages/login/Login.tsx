@@ -39,7 +39,7 @@ export const Login: React.FC = () => {
         <form className={style.form} onSubmit={handleSubmit}>
           {error && (
             <div className={style.errorBox}>
-              <AlertTriangle size={18} className={style.errorIcon} />
+              <AlertTriangle size={18} className="text-[var(--color-error)]" />
               <p className={style.errorText}>{error}</p>
             </div>
           )}
@@ -88,8 +88,8 @@ export const Login: React.FC = () => {
               type="submit"
               fullWidth
               size="lg"
+              variant="primary"
               isLoading={isLoading}
-              className="italic"
             >
               Entrar no Sistema
             </Button>

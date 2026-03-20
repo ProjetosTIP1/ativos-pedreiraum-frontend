@@ -2,6 +2,7 @@ import React from "react";
 import { Settings } from "lucide-react";
 import { AssetCategory } from "../../../schemas/entities";
 import type { Asset } from "../../../schemas/entities";
+import { TextField } from "../../../components/ui/TextField";
 import style from "../AssetForm.module.css";
 
 interface AssetGeneralInfoProps {
@@ -28,14 +29,14 @@ export const AssetGeneralInfo: React.FC<AssetGeneralInfoProps> = ({
       </h3>
 
       <div className={style.inputGrid}>
-        <div className={style.inputGroupFull}>
-          <label className={style.label}>Nome do Equipamento / Título</label>
-          <input
+        <div className="md:col-span-2">
+          <TextField
+            label="Nome do Equipamento / Título"
             name="name"
             required
-            value={formData.name}
+            value={formData.name || ""}
             onChange={onChange}
-            className={style.input}
+            fullWidth
           />
         </div>
 
@@ -56,80 +57,82 @@ export const AssetGeneralInfo: React.FC<AssetGeneralInfoProps> = ({
         </div>
 
         <div className={style.inputGroup}>
-          <label className={style.label}>Subcategoria</label>
-          <input
+          <TextField
+            label="Subcategoria"
             name="subcategory"
-            value={formData.subcategory}
+            value={formData.subcategory || ""}
             onChange={onChange}
-            className={style.input}
             placeholder="Ex: 6x4, Basculante, etc."
+            fullWidth
           />
         </div>
 
         <div className={style.inputGroup}>
-          <label className={style.label}>Marca / Fabricante</label>
-          <input
+          <TextField
+            label="Marca / Fabricante"
             name="brand"
-            value={formData.brand}
+            value={formData.brand || ""}
             onChange={onChange}
-            className={style.input}
+            fullWidth
           />
         </div>
 
         <div className={style.inputGroup}>
-          <label className={style.label}>Modelo</label>
-          <input
+          <TextField
+            label="Modelo"
             name="model"
-            value={formData.model}
+            value={formData.model || ""}
             onChange={onChange}
-            className={style.input}
+            fullWidth
           />
         </div>
 
         <div className={style.inputGroup}>
-          <label className={style.label}>Ano de Fabricação</label>
-          <input
+          <TextField
+            label="Ano de Fabricação"
             type="number"
             name="year"
-            value={formData.year}
+            value={formData.year || ""}
             onChange={onChange}
-            className={style.input}
+            fullWidth
           />
         </div>
 
         <div className={style.inputGroup}>
-          <label className={style.label}>Nº de Série / Patrimônio</label>
-          <input
+          <TextField
+            label="Nº de Série / Patrimônio"
             name="serial_number"
-            value={formData.serial_number}
+            value={formData.serial_number || ""}
             onChange={onChange}
-            className={style.input}
+            fullWidth
           />
         </div>
 
-        <div className={style.inputGroupFull}>
-          <label className={style.label}>Localização (Cidade / Estado)</label>
-          <input
+        <div className="md:col-span-2">
+          <TextField
+            label="Localização (Cidade / Estado)"
             name="location"
             required
-            value={formData.location}
+            value={formData.location || ""}
             onChange={onChange}
-            className={style.input}
             placeholder="Ex: Timóteo, MG"
+            fullWidth
           />
         </div>
       </div>
 
-      <div className={style.inputGroupFull}>
-        <label className={style.label}>Descrição Detalhada</label>
-        <textarea
+      <div className="w-full">
+        <TextField
+          label="Descrição Detalhada"
           name="description"
+          multiline
           rows={5}
-          value={formData.description}
+          value={formData.description || ""}
           onChange={onChange}
-          className={`${style.input} ${style.textarea}`}
-        ></textarea>
+          fullWidth
+        />
       </div>
     </div>
   );
 };
+

@@ -39,6 +39,7 @@ export const AssetImage: React.FC<AssetImageProps> = ({
 
   useEffect(() => {
     // Reset state for new source
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHasError(false);
 
     if (!src) {

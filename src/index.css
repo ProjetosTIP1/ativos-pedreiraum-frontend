@@ -1,32 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
 :root {
-  /* Industrial Palette */
-  --color-dark-bg: #121212;
-  --color-dark-card: #1e1e1e;
-  --color-industrial-orange: #f39c12; /* Construction Orange */
-  --color-industrial-yellow: #f1c40f; /* Construction Yellow */
-  --color-text-main: #e0e0e0;
-  --color-text-dim: #b0b0b0;
-  --color-border: #333333;
-  --color-surface: #25262b;
+  /* Editorial Industrial Palette */
+  --color-surface: #fcf9f8;
+  --color-surface-container-low: #f6f3f2;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-high: #f0ecea;
+  --color-surface-container-highest: #e9e4e1;
+  --color-surface-bright: #fffbff;
   
-  /* Status Colors */
-  --color-success: #27ae60;
-  --color-warning: #e67e22;
-  --color-error: #e74c3c;
-  --color-info: #3498db;
+  --color-primary: #785900;
+  --color-primary-container: #f2b705;
+  --color-on-primary-container: #644a00;
+  
+  --color-secondary: #5f5e5e;
+  --color-on-secondary: #ffffff;
+  
+  --color-tertiary: #006684;
+  --color-tertiary-container: #4cceff;
+  
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  
+  --color-on-background: #1c1b1b;
+  --color-on-surface: #1c1b1b;
+  --color-on-surface-variant: #4e4639;
+  
+  --color-outline: #817660;
+  --color-outline-variant: #d3c5ac;
 
   /* Typography */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Manrope', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  /* Effects */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Spacing Tokens (Editorial Industrial) */
+  --spacing-4: 1rem;
+  --spacing-8: 2rem;
+  --spacing-20: 4.5rem;
+  --spacing-24: 5.5rem;
 
-  background-color: var(--color-dark-bg);
-  color: var(--color-text-main);
-  font-family: var(--font-sans);
+  /* Corner Radius */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.5rem;
+  --radius-full: 9999px;
+
+  /* Transition */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  background-color: var(--color-surface);
+  color: var(--color-on-background);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -39,24 +65,31 @@
 
 body {
   min-height: 100vh;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
-  font-weight: 700;
-  color: #fff;
+h1, h2, h3, h4, .display-lg {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--color-on-background);
   letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-transform: none;
 }
+
+h1 { font-size: 3.5rem; }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.25rem; }
 
 a {
-  color: var(--color-industrial-orange);
+  color: var(--color-primary);
   text-decoration: none;
   transition: var(--transition-fast);
 }
 
 a:hover {
-  filter: brightness(1.2);
+  color: var(--color-primary-container);
 }
 
 button {
@@ -64,30 +97,30 @@ button {
   font-family: inherit;
 }
 
-/* Glassmorphism Utilities */
 .glass {
-  background: rgba(30, 30, 30, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-dark-bg);
+  background: var(--color-surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 4px;
+  background: var(--color-outline-variant);
+  border: 3px solid var(--color-surface);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-dim);
+  background: var(--color-outline);
 }
 
 #root {
@@ -95,4 +128,3 @@ button {
   flex-direction: column;
   min-height: 100vh;
 }
-

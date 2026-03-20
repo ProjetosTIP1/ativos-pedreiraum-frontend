@@ -1,124 +1,140 @@
 .card {
-  background-color: var(--color-dark-card);
-  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-container-lowest);
+  border-radius: var(--radius-sm);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: all 0.3s ease;
+  transition: var(--transition-smooth);
+  border: 1px solid transparent; /* Placeholder for ghost border */
 }
 
 .card:hover {
-  border-color: var(--color-industrial-orange);
+  background-color: var(--color-surface-bright);
+  border-color: rgba(211, 197, 172, 0.1); /* Ghost Border: outline_variant at 10% */
 }
 
 .imageContainer {
   position: relative;
-  height: 12rem; /* h-48 */
+  height: 14rem;
   overflow: hidden;
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-container-low);
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card:hover .image {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .badgeContainer {
   position: absolute;
-  top: 0.5rem;
-  left: 0.5rem;
+  top: 1rem;
+  left: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.5rem;
+  z-index: 10;
 }
 
 .featuredBadge {
   position: absolute;
   top: 0;
   right: 0;
-  background-color: var(--color-industrial-orange);
-  color: black;
-  font-weight: 900;
-  font-size: 10px;
-  padding: 0.25rem 0.5rem;
-  transform: translate(0.25rem, 0.5rem) rotate(45deg);
-  box-shadow: var(--shadow-lg);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.625rem;
+  padding: 0.25rem 1rem;
+  transform: translate(15%, 50%) rotate(45deg);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  letter-spacing: 0.1em;
 }
 
 .content {
-  padding: 1rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
-.contentHeader {
+.mainInfo {
+  padding: 1.5rem;
+  background-color: var(--color-surface-container-lowest);
+  transition: var(--transition-smooth);
+}
+
+.card:hover .mainInfo {
+  background-color: var(--color-surface-bright);
+}
+
+.categoryGroup {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
 }
 
 .category {
-  font-size: 10px;
+  font-family: var(--font-body);
+  font-size: 0.625rem;
   text-transform: uppercase;
   font-weight: 700;
-  color: var(--color-industrial-orange);
+  color: var(--color-primary);
   letter-spacing: 0.1em;
 }
 
 .views {
   display: flex;
   align-items: center;
-  color: var(--color-text-dim);
-  font-size: 10px;
-}
-
-.views :global(.lucide) {
-  margin-right: 0.25rem;
+  color: var(--color-outline);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
 }
 
 .title {
-  font-size: 1.125rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  line-height: 1.25;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--color-on-background);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.specsContainer {
+  padding: 1.25rem 1.5rem;
+  background-color: var(--color-surface-container-low);
+  flex-grow: 1;
 }
 
 .specs {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  row-gap: 0.5rem;
-  margin-bottom: 1rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
 }
 
 .specItem {
   display: flex;
   align-items: center;
   font-size: 0.75rem;
-  color: var(--color-text-dim);
+  color: var(--color-on-surface-variant);
+  font-family: var(--font-body);
 }
 
 .specIcon {
   margin-right: 0.5rem;
-  color: var(--color-industrial-orange);
+  color: var(--color-outline);
+  opacity: 0.7;
 }
 
 .footer {
-  margin-top: auto;
-  padding-top: 1rem;
-  border-top: 1px solid var(--color-border);
+  padding: 1.25rem 1.5rem;
+  background-color: var(--color-surface-container-low);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -131,14 +147,16 @@
 }
 
 .priceLabel {
-  font-size: 10px;
+  font-size: 0.625rem;
   text-transform: uppercase;
-  color: var(--color-text-dim);
-  font-weight: 900;
+  color: var(--color-outline);
+  font-weight: 700;
+  letter-spacing: 0.05em;
 }
 
 .priceValue {
+  font-family: var(--font-display);
   font-size: 1.125rem;
-  font-weight: 900;
-  color: white;
+  font-weight: 800;
+  color: var(--color-on-background);
 }

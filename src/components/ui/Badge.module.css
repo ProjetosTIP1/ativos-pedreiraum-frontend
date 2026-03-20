@@ -1,47 +1,47 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.125rem 0.625rem;
-  border-radius: 0;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
   font-size: 0.75rem;
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: -0.05em;
-  border: 1px solid transparent;
+  letter-spacing: 0.05em;
 }
 
 .default {
-  background-color: var(--color-surface);
-  color: var(--color-text-dim);
-  border-color: var(--color-border);
+  background-color: var(--color-surface-container-high);
+  color: var(--color-on-surface-variant);
 }
 
 .success {
-  background-color: var(--color-success);
-  color: white;
-  border-color: var(--color-success);
+  background-color: #e8f5e9; /* Light green for success if tertiary is used for something else */
+  color: #2e7d32;
+}
+
+/* Following DESIGN.md specifically: tertiary_container for "Active" */
+.active {
+  background-color: var(--color-tertiary-container);
+  color: #004e66;
 }
 
 .warning {
-  background-color: var(--color-warning);
-  color: white;
-  border-color: var(--color-warning);
+  background-color: #fff8e1;
+  color: #f57f17;
 }
 
 .error {
-  background-color: var(--color-error);
-  color: white;
-  border-color: var(--color-error);
+  background-color: var(--color-error-container);
+  color: var(--color-error);
 }
 
 .info {
-  background-color: var(--color-info);
-  color: white;
-  border-color: var(--color-info);
+  background-color: var(--color-surface-container-highest);
+  color: var(--color-on-surface);
 }
 
-.orange {
-  background-color: var(--color-industrial-orange);
-  color: black;
-  border-color: var(--color-industrial-orange);
+.primary {
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
 }

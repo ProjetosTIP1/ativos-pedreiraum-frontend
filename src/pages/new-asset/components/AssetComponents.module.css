@@ -1,31 +1,72 @@
 .card {
-  background-color: var(--color-dark-card);
-  padding: 2rem;
-  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-container-lowest);
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.cardHeader {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+  .cardHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
+.cardHeaderInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .cardTitle {
+  font-family: var(--font-display);
   font-size: 0.75rem;
-  font-weight: 900;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  color: var(--color-industrial-orange);
-  margin-bottom: 1rem;
+  letter-spacing: 0.2em;
+  color: var(--color-primary);
   display: flex;
   align-items: center;
 }
 
 .cardIcon {
-  margin-right: 0.5rem;
+  margin-right: 0.75rem;
+  opacity: 0.8;
+}
+
+.cardCounter {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--color-outline);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cardHeaderButton {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .cardHeaderButton {
+    width: auto;
+  }
 }
 
 .imageGrid {
   display: grid;
-  grid-template-cols: repeat(2, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
 }
 
 @media (min-width: 640px) {
@@ -40,28 +81,23 @@
   }
 }
 
-@media (min-width: 1280px) {
-  .imageGrid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-
 .imageItem {
   aspect-ratio: 1 / 1;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-container-low);
   position: relative;
   overflow: hidden;
-  max-width: 100%;
+  border-radius: var(--radius-sm);
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-  max-width: 100%;
-  max-height: 100%;
+  transition: var(--transition-smooth);
+}
+
+.imageItem:hover .image {
+  transform: scale(1.05);
 }
 
 .imageBadge {
@@ -69,70 +105,54 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: var(--color-on-background);
   color: white;
-  font-size: 8px;
-  font-weight: 900;
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 700;
   text-transform: uppercase;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
   text-align: center;
+  letter-spacing: 0.05em;
 }
 
 .uploadPendingBadge {
   position: absolute;
   top: 0;
   right: 0;
-  background-color: var(--color-industrial-yellow);
-  color: black;
-  font-size: 8px;
-  font-weight: 900;
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 800;
   text-transform: uppercase;
-  padding: 0.125rem 0.5rem;
+  padding: 0.25rem 0.5125rem;
+  letter-spacing: 0.05em;
 }
 
-.removeImageButton {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-  padding: 0.25rem;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.imageItem:hover .removeImageButton {
-  opacity: 1;
-}
-
-.addImageButton {
-  aspect-ratio: 1 / 1;
-  background-color: var(--color-surface);
-  border: 2px dashed var(--color-border);
+.emptyState {
+  grid-column: 1 / -1;
+  padding: 5rem 2rem;
+  text-align: center;
+  background-color: var(--color-surface-container-low);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: border-color 0.2s;
+  gap: 1.5rem;
 }
 
-.addImageButton:hover {
-  border-color: var(--color-industrial-orange);
+.emptyStateIcon {
+  color: var(--color-outline);
+  opacity: 0.5;
 }
 
-.addImageIcon {
-  color: var(--color-text-dim);
-}
-
-.addImageText {
-  font-size: 8px;
-  font-weight: 900;
+.emptyStateText {
+  font-family: var(--font-body);
+  color: var(--color-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-top: 0.5rem;
+  letter-spacing: 0.05em;
 }
 
 /* ===========================
@@ -140,133 +160,92 @@
    =========================== */
 
 .modalContent {
-  max-width: 95vw;
-  max-height: 85vh;
-  overflow-y: auto;
-  background-color: #fffcff;
-}
-
-@media (min-width: 640px) {
-  .modalContent {
-    padding: 1.5rem;
-    max-width: 90vw;
-  }
-}
-
-@media (min-width: 1024px) {
-  .modalContent {
-    max-width: 1280px;
-  }
-}
-
-@media (min-width: 1280px) {
-  .modalContent {
-    max-width: 1536px;
-  }
+  padding: 0;
+  background-color: var(--color-surface);
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .modalHeader {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 1rem;
-  top: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 10;
-  padding: 0.5rem 0;
-  margin-top: -0.5rem;
-}
-
-@media (min-width: 640px) {
-  .modalHeader {
-    font-size: 1.25rem;
-    margin-bottom: 1.5rem;
-  }
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-on-background);
+  padding: 3rem 3rem 1rem 3rem;
+  background-color: var(--color-surface);
+  letter-spacing: -0.02em;
 }
 
 .modalGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
-  padding: 0.5rem 0 1rem 0;
+  gap: 2rem;
+  padding: 2rem 3rem;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .modalGrid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    padding: 1rem 0 1.5rem 0;
   }
 }
 
-/* ===========================
-   Position Card Styles
-   =========================== */
+@media (min-width: 1280px) {
+  .modalGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 
 .positionCard {
+  background-color: var(--color-surface-container-low);
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 1.25rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.75rem;
-  background-color: #f9fafb;
-  transition: all 0.2s ease;
+  gap: 1.5rem;
+  transition: var(--transition-fast);
 }
 
 .positionCard:hover {
-  background-color: #f3f4f6;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background-color: var(--color-surface-container-high);
 }
 
 .positionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 1.5rem;
-  margin-bottom: 0.25rem;
 }
 
 .positionLabel {
-  font-weight: 600;
-  color: #374151;
-  font-size: 0.875rem;
-  letter-spacing: 0.01em;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-primary);
 }
 
 .removeButton {
-  color: #ef4444;
-  padding: 0.375rem;
-  border-radius: 0.375rem;
+  color: var(--color-outline);
+  background: none;
   border: none;
-  background: transparent;
   cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: var(--transition-fast);
+  padding: 0.5rem;
 }
 
 .removeButton:hover {
-  color: #dc2626;
-  background-color: #fee2e2;
+  color: var(--color-error);
 }
 
-/* ===========================
-   Image Preview Styles
-   =========================== */
-
 .imagePreview {
-  position: relative;
+  width: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: 0.5rem;
+  background-color: var(--color-surface-container-high);
+  position: relative;
   overflow: hidden;
-  border: 2px solid #d1d5db;
-  min-height: 200px;
-  max-height: 350px;
-  background-color: #ffffff;
+  border-radius: var(--radius-sm);
 }
 
 .previewImage {
@@ -277,171 +256,100 @@
 
 .newBadge {
   position: absolute;
-  bottom: 0.5rem;
-  left: 0.5rem;
-  background-color: #fbbf24;
-  color: #000000;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
+  top: 1rem;
+  right: 1rem;
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 800;
   text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
   letter-spacing: 0.05em;
 }
 
-/* ===========================
-   Upload Area Styles
-   =========================== */
+.mainImageSelect {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  cursor: pointer;
+}
+
+.mainImageSelect input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--color-primary);
+}
 
 .uploadArea {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: var(--color-surface-container-high);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1 / 1;
-  min-height: 200px;
-  max-height: 350px;
-  background-color: #ffffff;
-  border: 2px dashed #d1d5db;
-  border-radius: 0.5rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition-fast);
+  gap: 1rem;
+  border-radius: var(--radius-sm);
 }
 
 .uploadArea:hover {
-  border-color: #9ca3af;
-  background-color: #f9fafb;
+  background-color: var(--color-primary-container);
 }
 
 .uploadIcon {
-  color: #9ca3af;
-  margin-bottom: 0.75rem;
+  color: var(--color-outline);
+  transition: var(--transition-fast);
+}
+
+.uploadArea:hover .uploadIcon {
+  color: var(--color-on-primary-container);
 }
 
 .uploadLabel {
-  font-size: 0.75rem;
-  color: #6b7280;
-  font-weight: 500;
-  padding: 0 1rem;
-  text-align: center;
-  line-height: 1.4;
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-secondary);
+  transition: var(--transition-fast);
+}
+
+.uploadArea:hover .uploadLabel {
+  color: var(--color-on-primary-container);
 }
 
 .uploadHint {
-  font-size: 0.75rem;
-  color: #9ca3af;
-  margin-top: 0.375rem;
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  color: var(--color-outline);
+  opacity: 0.7;
 }
 
 .uploadInput {
   display: none;
 }
 
-/* ===========================
-   Modal Footer Styles
-   =========================== */
-
 .modalFooter {
+  padding: 2.5rem 3rem;
+  background-color: var(--color-surface-container-low);
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e5e7eb;
-  position: sticky;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-@media (min-width: 640px) {
-  .modalFooter {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footerCounter {
-  font-size: 0.875rem;
-  color: #4b5563;
-  font-weight: 500;
-}
-
-/* ===========================
-   Card Header Styles
-   =========================== */
-
-.cardHeader {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-@media (min-width: 640px) {
-  .cardHeader {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
-.cardHeaderInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-}
-
-.cardCounter {
+  font-family: var(--font-body);
   font-size: 0.75rem;
-  color: #9ca3af;
-  font-weight: 500;
-}
-
-.cardHeaderButton {
-  width: 100%;
-}
-
-@media (min-width: 640px) {
-  .cardHeaderButton {
-    width: auto;
-  }
-}
-
-/* ===========================
-   Empty State Styles
-   =========================== */
-
-.emptyState {
-  grid-column: 1 / -1;
-  padding: 3rem 1rem;
-  text-align: center;
-  border: 2px dashed #e5e7eb;
-  border-radius: 0.75rem;
-  background-color: rgba(249, 250, 251, 0.5);
-}
-
-@media (min-width: 640px) {
-  .emptyState {
-    padding: 4rem 1rem;
-  }
-}
-
-.emptyStateIcon {
-  margin: 0 auto 0.75rem auto;
-  color: #9ca3af;
-}
-
-.emptyStateText {
-  color: #6b7280;
-  font-size: 0.875rem;
-  line-height: 1.5;
-}
-
-@media (min-width: 640px) {
-  .emptyStateText {
-    font-size: 1rem;
-  }
+  font-weight: 700;
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }

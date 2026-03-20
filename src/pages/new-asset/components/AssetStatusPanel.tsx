@@ -25,7 +25,7 @@ export const AssetStatusPanel: React.FC<AssetStatusPanelProps> = ({
         <Package size={14} className={style.cardIcon} /> Status Operacional
       </h3>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-6">
         <div className={style.inputGroup}>
           <label className={style.label}>Estado de Conservação</label>
           <select
@@ -61,13 +61,13 @@ export const AssetStatusPanel: React.FC<AssetStatusPanelProps> = ({
         <div className={style.checkboxWrapper}>
           <input
             type="checkbox"
-            name="is_featured"
-            id="is_featured"
-            checked={formData.is_featured}
+            name="highlighted"
+            id="highlighted"
+            checked={formData.highlighted}
             onChange={onChange}
             className={style.checkbox}
           />
-          <label htmlFor="is_featured" className={style.checkboxLabel}>
+          <label htmlFor="highlighted" className={style.checkboxLabel}>
             Destacar Ativo na Home
           </label>
         </div>
@@ -75,3 +75,4 @@ export const AssetStatusPanel: React.FC<AssetStatusPanelProps> = ({
     </div>
   );
 };
+

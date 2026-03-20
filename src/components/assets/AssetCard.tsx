@@ -55,41 +55,45 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
 
       {/* Content */}
       <div className={style.content}>
-        <div className={style.contentHeader}>
-          <span className={style.category}>
-            {asset.category} / {asset.subcategory}
-          </span>
-          <div className={style.views}>
-            <Eye size={12} />
-            {asset.view_count}
+        <div className={style.mainInfo}>
+          <div className={style.categoryGroup}>
+            <span className={style.category}>
+              {asset.category} / {asset.subcategory}
+            </span>
+            <div className={style.views}>
+              <Eye size={12} className="mr-1" />
+              {asset.view_count}
+            </div>
           </div>
+
+          <h3 className={style.title}>
+            {asset.name}
+          </h3>
         </div>
 
-        <h3 className={style.title}>
-          {asset.name}
-        </h3>
-
-        <div className={style.specs}>
-          <div className={style.specItem}>
-            <Calendar size={14} className={style.specIcon} />
-            {asset.year}
-          </div>
-          <div className={style.specItem}>
-            <MapPin size={14} className={style.specIcon} />
-            {asset.location}
-          </div>
-          {isMachine && asset.specifications?.hours && (
+        <div className={style.specsContainer}>
+          <div className={style.specs}>
             <div className={style.specItem}>
-              <Clock size={14} className={style.specIcon} />
-              {asset.specifications.hours}h
+              <Calendar size={14} className={style.specIcon} />
+              {asset.year}
             </div>
-          )}
-          {isVehicle && asset.specifications?.mileage && (
             <div className={style.specItem}>
-              <Gauge size={14} className={style.specIcon} />
-              {asset.specifications.mileage.toLocaleString()} km
+              <MapPin size={14} className={style.specIcon} />
+              {asset.location}
             </div>
-          )}
+            {isMachine && asset.specifications?.hours && (
+              <div className={style.specItem}>
+                <Clock size={14} className={style.specIcon} />
+                {asset.specifications.hours as React.ReactNode}h
+              </div>
+            )}
+            {isVehicle && asset.specifications?.mileage && (
+              <div className={style.specItem}>
+                <Gauge size={14} className={style.specIcon} />
+                {(asset.specifications.mileage as number).toLocaleString()} km
+              </div>
+            )}
+          </div>
         </div>
 
         <div className={style.footer}>
@@ -100,7 +104,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
             </span>
           </div>
           <Link to={`/ativos/${asset.id}`} className="flex-shrink-0">
-            <Button size="sm" variant="outline">Ver Detalhes</Button>
+            <Button size="sm" variant="primary">Ver Detalhes</Button>
           </Link>
         </div>
       </div>

@@ -17,9 +17,9 @@ export const AssetCommercialPanel: React.FC<AssetCommercialPanelProps> = ({
 }) => {
   return (
     <div className={style.commercialCard}>
-      <h3 className={style.cardTitle}>Comercial</h3>
-      <div className={style.inputGroup}>
-        <label className={style.commercialLabel}>Preço de Venda (R$)</label>
+      <h3 className={style.commercialLabel}>Valor de Venda</h3>
+      <div className="flex items-baseline gap-2">
+        <span className="font-display text-2xl font-800 opacity-70">R$</span>
         <input
           type="number"
           name="price"
@@ -29,6 +29,8 @@ export const AssetCommercialPanel: React.FC<AssetCommercialPanelProps> = ({
           placeholder="0,00"
         />
       </div>
+      <p className={style.commercialHelp}>O valor será exibido no catálogo público.</p>
     </div>
   );
 };
+
