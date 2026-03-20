@@ -23,20 +23,20 @@ export const useAssetFormData = (assetId?: string) => {
     price: undefined,
     description: "",
     highlighted: false,
-    main_image: "placeholder.png",
+    main_image: undefined,
   });
 
-  // Load existing asset data in edit mode (derived state, not effect)
+  // Track if we've already initialized the form with existing data
+  const [isInitialized, setIsInitialized] = useState(false);
   const existingAsset = assetId ? assets.find((a) => a.id === assetId) : null;
   
   // Initialize formData from existing asset when found
   useEffect(() => {
-    if (existingAsset && Object.keys(formData).length === 13) {
-      // Only initialize if formData is still at default values
-      setFormData((prev) => ({ ...prev, ...existingAsset }));
+    if (existingAsset && !isInitialized) {
+      setFormData(existingAsset as Partial<Asset>);
+      setIsInitialized(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [existingAsset?.id]);
+  }, [existingAsset, isInitialized]);
 
   const handleChange = (
     e: React.ChangeEvent<
