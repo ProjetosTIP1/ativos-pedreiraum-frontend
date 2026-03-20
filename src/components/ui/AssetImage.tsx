@@ -1,92 +1,92 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useAssetStore } from "../../stores/useAssetStore";
+import styles from "./AssetImage.module.css";
+import imagesPlaceholder from "../../../public/images/image-placeholder.png";
 
-/**
- * Props for the AssetImage component.
- * Extends the standard HTML <img> attributes for maximum compatibility.
- */
-interface AssetImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-  /**
-   * The source of the image. Can be a full URL, a public path, or a filename from the backend.
-   */
+interface AssetImageProps {
   src?: string;
-  /**
-   * An optional fallback image path if the main image fails to load.
-   * Defaults to '/images/image-placeholder.png'.
-   */
+  alt: string;
+  className?: string;
   fallback?: string;
 }
 
-const PLACEHOLDER_PATH = "/images/image-placeholder.png";
-const API_IMAGES_ENDPOINT = "/api/v1/images";
 
-/**
- * AssetImage Component
- *
- * Responsibilities:
- * 1. Handles dynamic construction of asset URLs pointing to the backend API.
- * 2. Gracefully falls back to a placeholder image if the source is missing or broken.
- * 3. Handles extraction of filenames from paths to ensure compatibility with backend endpoints.
- */
-export const AssetImage: React.FC<AssetImageProps> = ({
-  src,
-  alt,
-  fallback = PLACEHOLDER_PATH,
+export const AssetImage: React.FC<AssetImageProps> = ({ 
+  src, 
+  alt, 
   className,
-  ...props
+  fallback 
 }) => {
-  const [currentSrc, setCurrentSrc] = useState<string>(fallback);
-  const [hasError, setHasError] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
+  const fetchImageByUrl = useAssetStore((state) => state.fetchImageByUrl);
 
-  useEffect(() => {
-    // Reset state for new source
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setHasError(false);
-
+  const loadImage = useCallback(async () => {
     if (!src) {
-      setCurrentSrc(fallback);
+      setError(true);
+      setIsLoading(false);
       return;
     }
 
-    // Determine the final source URL
-    let finalSrc = src;
+    // If it's already a full URL or data URI, we could potentially just use it,
+    // but the user specifically asked to "use this functions to fetch it".
+    // Also, backend images might need authentication headers which the store's fetch provides.
+    
+    try {
+      setIsLoading(true);
+      setError(false);
+      
+      // Attempt to fetch as blob (handles auth/custom logic in store)
+      const blob = await fetchImageByUrl(src);
+      const objectUrl = URL.createObjectURL(blob);
+      setImageUrl(objectUrl);
+    } catch (err) {
+      console.error("Failed to load image from store:", err);
+      setError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [src, fetchImageByUrl]);
 
-    // Logic for constructing backend URLs:
-    // If the src is NOT an external URL, a data URI, or already a public folder path,
-    // we assume it is a backend filename or path and route it through the API.
-    const isExternal = src.startsWith("http") || src.startsWith("data:");
-    const isPublicPath = src.startsWith("/images/") || src.startsWith("/assets/") || src.includes(".svg");
+  useEffect(() => {
+    loadImage();
 
-    if (!isExternal && !isPublicPath) {
-      // Extract filename only (handles /uploads/abc.jpg or just abc.jpg)
-      const filename = src.split("/").pop();
-      if (filename) {
-        finalSrc = `${API_IMAGES_ENDPOINT}/${filename}`;
-      } else {
-        finalSrc = fallback;
+    return () => {
+      if (imageUrl) {
+        URL.revokeObjectURL(imageUrl);
       }
-    }
+    };
+  }, [loadImage, imageUrl]);
 
-    setCurrentSrc(finalSrc);
-  }, [src, fallback]);
-
-  /**
-   * Handle image load errors by switching to the fallback image.
-   * We only attempt to fallback once to avoid infinite loops if the fallback is also broken.
-   */
-  const handleError = () => {
-    if (!hasError) {
-      setHasError(true);
-      setCurrentSrc(fallback);
-    }
-  };
+  // Handle case where src changes - cleanup is handled by the useEffect return
+  
+  if (error || !src) {
+    return (
+      <div className={`${styles.container} ${className}`}>
+        {fallback ? (
+          <img src={fallback} alt={alt} className={styles.image} />
+        ) : (
+          <div className={styles.placeholder}>
+            <img src={imagesPlaceholder} alt={alt} className={styles.image} />
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
-    <img
-      src={currentSrc}
-      alt={alt || "Imagem do ativo"}
-      onError={handleError}
-      className={className}
-      {...props}
-    />
+    <div className={`${styles.container} ${className}`}>
+      {isLoading && <div className={styles.loadingOverlay} />}
+      {imageUrl && (
+        <img
+          src={imageUrl}
+          alt={alt}
+          className={`${styles.image} ${!isLoading ? styles.imageLoaded : ""}`}
+          onLoad={() => setIsLoading(false)}
+          onError={() => setError(true)}
+        />
+      )}
+    </div>
   );
 };

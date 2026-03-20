@@ -25,6 +25,16 @@ const assetService = {
     return response.data;
   },
 
+  async getImageByUrl(url: string): Promise<Blob> {
+    const response = await apiClient.get(`/images/${url}`, {
+      params: {
+        url,
+      },
+      responseType: "blob",
+    });
+    return response.data;
+  },
+
   async getHighlights(): Promise<Asset[]> {
     const response = await apiClient.get<Asset[]>("/assets/highlights");
     return response.data;

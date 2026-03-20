@@ -1,35 +1,45 @@
-import React from 'react';
-import { type Asset } from '../../schemas/entities';
-import { Badge } from '../ui/Badge';
-import { Button } from '../ui/Button';
-import { AssetImage } from '../ui/AssetImage';
-import { Eye, MapPin, Calendar, Clock, Gauge } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import style from './AssetCard.module.css';
+import React from "react";
+import { type Asset } from "../../schemas/entities";
+import { Badge } from "../ui/Badge";
+import { Button } from "../ui/Button";
+import { AssetImage } from "../ui/AssetImage";
+import { Eye, MapPin, Calendar, Clock, Gauge } from "lucide-react";
+import { Link } from "react-router-dom";
+import style from "./AssetCard.module.css";
 
 interface AssetCardProps {
   asset: Asset;
 }
 
 export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
-  const isMachine = ["EXCAVATORS", "CRUSHERS", "GRADERS", "PLANT"].includes(asset.category);
+  const isMachine = ["EXCAVATORS", "CRUSHERS", "GRADERS", "PLANT"].includes(
+    asset.category,
+  );
   const isVehicle = ["TRUCKS"].includes(asset.category);
 
   const getConditionColor = (condition: string) => {
     switch (condition) {
-      case 'EXCELENTE': return 'success';
-      case 'BOM': return 'info';
-      case 'REGULAR': return 'warning';
-      default: return 'default';
+      case "EXCELENTE":
+        return "success";
+      case "BOM":
+        return "info";
+      case "REGULAR":
+        return "warning";
+      default:
+        return "default";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'DISPONÍVEL': return 'success';
-      case 'RESERVADO': return 'warning';
-      case 'VENDIDO': return 'error';
-      default: return 'default';
+      case "DISPONÍVEL":
+        return "success";
+      case "RESERVADO":
+        return "warning";
+      case "VENDIDO":
+        return "error";
+      default:
+        return "default";
     }
   };
 
@@ -37,19 +47,19 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     <div className={style.card}>
       {/* Image Container */}
       <div className={style.imageContainer}>
-        <AssetImage 
-          src={asset.main_image} 
+        <AssetImage
+          src={asset.main_image}
           alt={asset.name}
           className={style.image}
         />
         <div className={style.badgeContainer}>
-          <Badge variant={getConditionColor(asset.condition)}>{asset.condition}</Badge>
+          <Badge variant={getConditionColor(asset.condition)}>
+            {asset.condition}
+          </Badge>
           <Badge variant={getStatusColor(asset.status)}>{asset.status}</Badge>
         </div>
         {asset.highlighted && (
-          <div className={style.featuredBadge}>
-            DESTAQUE
-          </div>
+          <div className={style.featuredBadge}>DESTAQUE</div>
         )}
       </div>
 
@@ -66,9 +76,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
             </div>
           </div>
 
-          <h3 className={style.title}>
-            {asset.name}
-          </h3>
+          <h3 className={style.title}>{asset.name}</h3>
         </div>
 
         <div className={style.specsContainer}>
@@ -100,11 +108,15 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
           <div className={style.priceContainer}>
             <span className={style.priceLabel}>Preço</span>
             <span className={style.priceValue}>
-              {asset.price ? `R$ ${asset.price.toLocaleString('pt-BR')}` : "Consultar"}
+              {asset.price
+                ? `R$ ${asset.price.toLocaleString("pt-BR")}`
+                : "Consultar"}
             </span>
           </div>
           <Link to={`/ativos/${asset.id}`} className="flex-shrink-0">
-            <Button size="sm" variant="primary">Ver Detalhes</Button>
+            <Button size="sm" variant="primary">
+              Ver Detalhes
+            </Button>
           </Link>
         </div>
       </div>

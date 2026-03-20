@@ -22,6 +22,7 @@ interface AssetStore {
   // Actions
   fetchAssets: (params?: AssetFilter) => Promise<void>;
   fetchAssetsImagesMetadata: () => Promise<void>;
+  fetchImageByUrl: (url: string) => Promise<Blob>;
   fetchHighlights: () => Promise<void>;
   fetchAssetById: (id: string) => Promise<void>;
   setFilters: (filters: AssetFilter) => void;
@@ -87,6 +88,23 @@ export const useAssetStore = create<AssetStore>((set, get) => ({
             : "Falha ao buscar imagens do ativo",
         isLoading: false,
       });
+    }
+  },
+
+  fetchImageByUrl: async (url: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      const image = await assetService.getImageByUrl(url);
+      return image;
+    } catch (error: unknown) {
+      set({
+        error:
+          error instanceof Error
+            ? error.message
+            : "Falha ao buscar imagem do ativo",
+        isLoading: false,
+      });
+      throw error;
     }
   },
 
