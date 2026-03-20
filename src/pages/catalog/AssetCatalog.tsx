@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useAssetStore } from "../../stores/useAssetStore";
 import { AssetCard } from "../../components/assets/AssetCard";
 import { AssetFilters } from "../../components/assets/AssetFilters";
@@ -7,18 +7,6 @@ import style from "./AssetCatalog.module.css";
 export const AssetCatalog: React.FC = () => {
   const assets = useAssetStore((state) => state.assets);
   const isLoading = useAssetStore((state) => state.isLoading);
-  const fetchAssets = useAssetStore((state) => state.fetchAssets);
-  const fetchAssetsImagesMetadata = useAssetStore(
-    (state) => state.fetchAssetsImagesMetadata,
-  );
-
-  useEffect(() => {
-    fetchAssets();
-  }, [fetchAssets]);
-
-  useEffect(() => {
-    fetchAssetsImagesMetadata();
-  }, [fetchAssetsImagesMetadata]);
 
   return (
     <div className={style.container}>

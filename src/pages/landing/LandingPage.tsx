@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAssetStore } from "../../stores/useAssetStore";
 import { AssetCard } from "../../components/assets/AssetCard";
 import { Button } from "../../components/ui/Button";
@@ -8,12 +8,27 @@ import { useNavigate } from "react-router-dom";
 import style from "./LandingPage.module.css";
 
 export const LandingPage: React.FC = () => {
+  const [isInitialized, setIsInitialized] = useState(false);
   const { featuredAssets, fetchHighlights, isLoading } = useAssetStore();
+  const fetchAssets = useAssetStore((state) => state.fetchAssets);
+  const fetchAssetsImagesMetadata = useAssetStore(
+    (state) => state.fetchAssetsImagesMetadata,
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchHighlights();
-  }, [fetchHighlights]);
+    Promise.all([
+      fetchHighlights(),
+      fetchAssets(),
+      fetchAssetsImagesMetadata(),
+    ]).then(() => {
+      setIsInitialized(true);
+    });
+  }, [fetchHighlights, fetchAssets, fetchAssetsImagesMetadata]);
+
+  if (!isInitialized) {
+    return;
+  }
 
   return (
     <div className={style.container}>
@@ -98,7 +113,8 @@ export const LandingPage: React.FC = () => {
       <section className={style.section}>
         <div className={style.sectionHeader}>
           <h2 className={style.sectionTitle}>
-            Equipamentos em <span className={style.sectionTitleHighlight}>Destaque</span>
+            Equipamentos em{" "}
+            <span className={style.sectionTitleHighlight}>Destaque</span>
           </h2>
           <Button
             variant="ghost"
@@ -147,7 +163,8 @@ export const LandingPage: React.FC = () => {
           <div className={style.ctaContent}>
             <h2 className={style.ctaTitle}>Soluções Customizadas?</h2>
             <p className={style.ctaSubtitle}>
-              Nossa equipe de consultoria técnica está pronta para apoiar seu projeto.
+              Nossa equipe de consultoria técnica está pronta para apoiar seu
+              projeto.
             </p>
           </div>
           <Button
@@ -171,4 +188,3 @@ export const LandingPage: React.FC = () => {
     </div>
   );
 };
-

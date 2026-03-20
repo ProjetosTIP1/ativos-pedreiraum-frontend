@@ -43,6 +43,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     }
   };
 
+  console.log(asset);
+
   return (
     <div className={style.card}>
       {/* Image Container */}
