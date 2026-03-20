@@ -1,11 +1,27 @@
 import apiClient from "./apiClient";
-import { type Asset, AssetSchema } from "../schemas/entities";
+import {
+  type Asset,
+  AssetSchema,
+  type ImageMetadata,
+} from "../schemas/entities";
 
 const assetService = {
   async getAll(
     params?: Record<string, string | number | boolean | undefined>,
   ): Promise<Asset[]> {
     const response = await apiClient.get<Asset[]>("/assets/", { params });
+    return response.data;
+  },
+
+  async getAssetImagesMetadata(assetId: string): Promise<ImageMetadata[]> {
+    const response = await apiClient.get<ImageMetadata[]>(
+      `/images/asset/${assetId}`,
+      {
+        params: {
+          asset_id: assetId,
+        },
+      },
+    );
     return response.data;
   },
 

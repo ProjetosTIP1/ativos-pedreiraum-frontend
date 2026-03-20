@@ -17,8 +17,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
 
   const getConditionColor = (condition: string) => {
     switch (condition) {
-      case 'EXCELLENT': return 'success';
-      case 'GOOD': return 'info';
+      case 'EXCELENTE': return 'success';
+      case 'BOM': return 'info';
       case 'REGULAR': return 'warning';
       default: return 'default';
     }
@@ -26,9 +26,9 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'AVAILABLE': return 'success';
-      case 'RESERVED': return 'warning';
-      case 'SOLD': return 'error';
+      case 'DISPONÍVEL': return 'success';
+      case 'RESERVADO': return 'warning';
+      case 'VENDIDO': return 'error';
       default: return 'default';
     }
   };

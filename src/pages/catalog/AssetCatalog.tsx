@@ -8,10 +8,17 @@ export const AssetCatalog: React.FC = () => {
   const assets = useAssetStore((state) => state.assets);
   const isLoading = useAssetStore((state) => state.isLoading);
   const fetchAssets = useAssetStore((state) => state.fetchAssets);
+  const fetchAssetsImagesMetadata = useAssetStore(
+    (state) => state.fetchAssetsImagesMetadata,
+  );
 
   useEffect(() => {
     fetchAssets();
   }, [fetchAssets]);
+
+  useEffect(() => {
+    fetchAssetsImagesMetadata();
+  }, [fetchAssetsImagesMetadata]);
 
   return (
     <div className={style.container}>

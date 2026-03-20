@@ -116,5 +116,6 @@ export const AssetSchema = z.object({
   created_by_user_id: z.string().uuid().optional(),
   created_at: z.string(),
   updated_at: z.string().optional(),
+  images_metadata: ImageMetadataSchema.array().optional(),
 });
 export type Asset = z.infer<typeof AssetSchema>;

@@ -21,6 +21,7 @@ interface AssetStore {
 
   // Actions
   fetchAssets: (params?: AssetFilter) => Promise<void>;
+  fetchAssetsImagesMetadata: () => Promise<void>;
   fetchHighlights: () => Promise<void>;
   fetchAssetById: (id: string) => Promise<void>;
   setFilters: (filters: AssetFilter) => void;
@@ -58,6 +59,32 @@ export const useAssetStore = create<AssetStore>((set, get) => ({
       set({
         error:
           error instanceof Error ? error.message : "Falha ao buscar ativos",
+        isLoading: false,
+      });
+    }
+  },
+
+  // Fetch all assets images metadata by asset id
+  fetchAssetsImagesMetadata: async () => {
+    set({ isLoading: true, error: null });
+    const assets = get().assets;
+    try {
+      const imagesMetadata = await Promise.all(
+        assets.map((asset) => assetService.getAssetImagesMetadata(asset.id)),
+      );
+      set({
+        assets: assets.map((asset, index) => ({
+          ...asset,
+          images_metadata: imagesMetadata[index],
+        })),
+        isLoading: false,
+      });
+    } catch (error: unknown) {
+      set({
+        error:
+          error instanceof Error
+            ? error.message
+            : "Falha ao buscar imagens do ativo",
         isLoading: false,
       });
     }
