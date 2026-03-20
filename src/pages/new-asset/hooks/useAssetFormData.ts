@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAssetStore } from "../../../stores/useAssetStore";
 import type { Asset } from "../../../schemas/entities";
 
@@ -7,9 +7,7 @@ import type { Asset } from "../../../schemas/entities";
  * Handles initialization from existing asset (edit mode) and form field updates
  */
 export const useAssetFormData = (assetId?: string) => {
-  const { assets } = useAssetStore();
-
-  const [formData, setFormData] = useState<Partial<Asset>>({
+  const defaultValues: Partial<Asset> = {
     name: "",
     category: "OUTROS",
     subcategory: "",
@@ -24,19 +22,17 @@ export const useAssetFormData = (assetId?: string) => {
     description: "",
     highlighted: false,
     main_image: undefined,
-  });
+  };
 
-  // Track if we've already initialized the form with existing data
-  const [isInitialized, setIsInitialized] = useState(false);
-  const existingAsset = assetId ? assets.find((a) => a.id === assetId) : null;
-  
-  // Initialize formData from existing asset when found
-  useEffect(() => {
-    if (existingAsset && !isInitialized) {
-      setFormData(existingAsset as Partial<Asset>);
-      setIsInitialized(true);
+  const [formData, setFormData] = useState<Partial<Asset>>(() => {
+    if (assetId) {
+      const existing = useAssetStore
+        .getState()
+        .assets.find((a) => a.id === assetId);
+      if (existing) return existing as Partial<Asset>;
     }
-  }, [existingAsset, isInitialized]);
+    return defaultValues;
+  });
 
   const handleChange = (
     e: React.ChangeEvent<

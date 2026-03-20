@@ -13,10 +13,13 @@ interface AssetSpecsProps {
  */
 export const AssetSpecs: React.FC<AssetSpecsProps> = ({ asset }) => {
   // Determine specs based on category
-  const isVehicle = asset.category === "TRUCKS";
-  const isMachine = ["EXCAVATORS", "CRUSHERS", "GRADERS", "PLANT"].includes(
-    asset.category,
-  );
+  const isVehicle = asset.category === "CAMINHÕES";
+  const isMachine = [
+    "ESCAVADEIRAS",
+    "BRITADORES",
+    "MOTONIVELADORAS",
+    "PLANT",
+  ].includes(asset.category);
 
   return (
     <div className={style.specsGrid}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAssetDetails } from "./hooks/useAssetDetails";
 import { useImageGallery } from "./hooks/useImageGallery";
 import { useWhatsAppContact } from "./hooks/useWhatsAppContact";
@@ -23,11 +23,10 @@ import style from "./AssetDetails.module.css";
  * Follows Clean Architecture: presentation is separated from business logic
  */
 export const AssetDetails: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
 
   // Custom hooks for business logic
-  const { asset, isLoading, error } = useAssetDetails(slug);
+  const { asset, isLoading, error } = useAssetDetails();
   const {
     activeImage,
     setActiveImage,
