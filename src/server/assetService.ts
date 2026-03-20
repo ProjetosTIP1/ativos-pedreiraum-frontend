@@ -21,14 +21,14 @@ const assetService = {
 
   async create(asset: Partial<Asset>): Promise<Asset> {
     console.log("Creating asset with data:", asset);
-    const response = await apiClient.post("/admin/assets/", { asset_data: asset });
+    const response = await apiClient.post("/admin/assets/", asset);
     console.log("API Response for Create:", response.data);
     return AssetSchema.parse(response.data);
   },
 
   async updateAsset(id: string, asset: Partial<Asset>): Promise<Asset> {
     console.log(`Updating asset ${id} with data:`, asset);
-    const response = await apiClient.patch(`/admin/assets/${id}`, { asset_data: asset });
+    const response = await apiClient.patch(`/admin/assets/${id}`, asset);
     console.log("API Response for Update:", response.data);
     return AssetSchema.parse(response.data);
   },

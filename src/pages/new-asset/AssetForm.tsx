@@ -27,7 +27,7 @@ export const AssetForm: React.FC = () => {
   const { formData, setFormData, handleChange, handlePriceChange } =
     useAssetFormData(id);
 
-  const { positionedFiles, setPositionedFiles, handleFileSelect, removeFile } =
+  const { positionedFiles, setPositionedFiles, handleFileSelect, removeFile, toggleMain } =
     useImageManagement(id);
 
   const { isSubmitting, handleSubmit, handleDelete, handleCancel } =
@@ -49,6 +49,7 @@ export const AssetForm: React.FC = () => {
       price: undefined,
       description: "",
       highlighted: false,
+      main_image: "placeholder.png",
     });
     
     // Clear image previews and files
@@ -79,6 +80,7 @@ export const AssetForm: React.FC = () => {
             positionedFiles={positionedFiles}
             onFileSelect={handleFileSelect}
             onRemoveFile={removeFile}
+            onToggleMain={toggleMain}
           />
         </div>
 

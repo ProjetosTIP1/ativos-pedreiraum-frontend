@@ -3,13 +3,15 @@ import type { ImageMetadata } from "../../../schemas/entities";
 import imageService from "../../../server/imageService";
 
 export const REQUIRED_POVS = [
-  "Frente",
-  "Traseira",
-  "Lateral Direita",
-  "Lateral Esquerda",
-  "Interior / Cabine",
-  "Motor",
-  "Chassi / Serial",
+  "FRENTE",
+  "TRÁS",
+  "LADO_ESQUERDO",
+  "LADO_DIREITO",
+  "INTERIOR",
+  "MOTOR",
+  "PNEU",
+  "PAINEL",
+  "OUTROS",
 ];
 
 export interface PositionedFile {
@@ -17,6 +19,7 @@ export interface PositionedFile {
   previewUrl?: string;
   position: string;
   existingMetadata?: ImageMetadata;
+  isMain?: boolean;
 }
 
 /**
@@ -53,6 +56,7 @@ export const useImageManagement = (assetId?: string) => {
             position: pos,
             existingMetadata: existing,
             previewUrl: existing?.url,
+            isMain: existing?.is_main || false,
           };
         });
         setPositionedFiles(newPositionedFiles);
@@ -70,10 +74,23 @@ export const useImageManagement = (assetId?: string) => {
 
   const handleFileSelect = (position: string, file: File) => {
     const previewUrl = URL.createObjectURL(file);
+    setPositionedFiles((prev) => {
+      // If no image is set as main yet, set this one as main
+      const hasMain = prev.some((p) => p.isMain);
+      return prev.map((p) =>
+        p.position === position
+          ? { ...p, file, previewUrl, isMain: !hasMain || p.isMain }
+          : p,
+      );
+    });
+  };
+
+  const toggleMain = (position: string) => {
     setPositionedFiles((prev) =>
-      prev.map((p) =>
-        p.position === position ? { ...p, file, previewUrl } : p,
-      ),
+      prev.map((p) => ({
+        ...p,
+        isMain: p.position === position,
+      })),
     );
   };
 
@@ -81,7 +98,12 @@ export const useImageManagement = (assetId?: string) => {
     setPositionedFiles((prev) =>
       prev.map((p) =>
         p.position === position
-          ? { ...p, file: undefined, previewUrl: p.existingMetadata?.url }
+          ? {
+              ...p,
+              file: undefined,
+              previewUrl: p.existingMetadata?.url,
+              isMain: p.existingMetadata?.is_main || false,
+            }
           : p,
       ),
     );
@@ -91,6 +113,7 @@ export const useImageManagement = (assetId?: string) => {
     positionedFiles,
     setPositionedFiles,
     handleFileSelect,
+    toggleMain,
     removeFile,
     isLoadingImages,
   };

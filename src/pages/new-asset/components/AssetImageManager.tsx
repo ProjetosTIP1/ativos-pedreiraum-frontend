@@ -9,6 +9,7 @@ interface AssetImageManagerProps {
   positionedFiles: PositionedFile[];
   onFileSelect: (position: string, file: File) => void;
   onRemoveFile: (position: string) => void;
+  onToggleMain: (position: string) => void;
 }
 
 /**
@@ -20,6 +21,7 @@ export const AssetImageManager: React.FC<AssetImageManagerProps> = ({
   positionedFiles,
   onFileSelect,
   onRemoveFile,
+  onToggleMain,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -106,17 +108,29 @@ export const AssetImageManager: React.FC<AssetImageManagerProps> = ({
                 </div>
 
                 {pf.previewUrl ? (
-                  <div className={style.imagePreview}>
-                    <img
-                      src={pf.previewUrl}
-                      alt={`Preview - ${pf.position}`}
-                      className={style.previewImage}
-                      loading="lazy"
-                    />
-                    {pf.file && (
-                      <div className={style.newBadge}>Nova</div>
-                    )}
-                  </div>
+                  <>
+                    <div className={style.imagePreview}>
+                      <img
+                        src={pf.previewUrl}
+                        alt={`Preview - ${pf.position}`}
+                        className={style.previewImage}
+                        loading="lazy"
+                      />
+                      {pf.file && (
+                        <div className={style.newBadge}>Nova</div>
+                      )}
+                    </div>
+                    <div className={style.mainImageSelect}>
+                      <input
+                        type="radio"
+                        id={`main-${pf.position}`}
+                        name="main-image"
+                        checked={pf.isMain}
+                        onChange={() => onToggleMain(pf.position)}
+                      />
+                      <label htmlFor={`main-${pf.position}`}>Usar como Principal</label>
+                    </div>
+                  </>
                 ) : (
                   <label className={style.uploadArea}>
                     <Upload size={32} className={style.uploadIcon} />

@@ -29,7 +29,6 @@ export const useAssetFormActions = (assetId?: string) => {
         const initialData = {
           ...formData,
           main_image: "", // Will be updated by backend when images are uploaded
-          gallery: [],
         };
         const newAsset = await useAssetStore.getState().createAsset(initialData);
         createdAssetId = newAsset.id;
@@ -46,9 +45,9 @@ export const useAssetFormActions = (assetId?: string) => {
       console.log(`Uploading ${filesToUpload.length} images...`);
       
       const uploadPromises = filesToUpload.map(async (pf) => {
-        // Determine if it should be main image (usually the Front view)
-        const isMainImage = pf.position === "Frente"; 
-        console.log(`Uploading image for position: ${pf.position}`);
+        // Use the isMain flag from the positioned file
+        const isMainImage = pf.isMain || false; 
+        console.log(`Uploading image for position: ${pf.position}, isMain: ${isMainImage}`);
         
         return await imageService.uploadAnImage(
           createdAssetId!,

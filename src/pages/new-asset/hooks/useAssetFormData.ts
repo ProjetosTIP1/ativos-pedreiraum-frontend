@@ -11,19 +11,19 @@ export const useAssetFormData = (assetId?: string) => {
 
   const [formData, setFormData] = useState<Partial<Asset>>({
     name: "",
-    category: "OTHER",
+    category: "OUTROS",
     subcategory: "",
     brand: "",
     model: "",
     year: new Date().getFullYear(),
     serial_number: "",
     location: "",
-    condition: "GOOD",
-    status: "PENDING",
+    condition: "BOM",
+    status: "PENDENTE",
     price: undefined,
     description: "",
-    images: [],
-    is_featured: false,
+    highlighted: false,
+    main_image: "placeholder.png",
   });
 
   // Load existing asset data in edit mode (derived state, not effect)

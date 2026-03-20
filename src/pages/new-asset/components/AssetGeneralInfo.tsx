@@ -106,6 +106,18 @@ export const AssetGeneralInfo: React.FC<AssetGeneralInfoProps> = ({
             className={style.input}
           />
         </div>
+
+        <div className={style.inputGroupFull}>
+          <label className={style.label}>Localização (Cidade / Estado)</label>
+          <input
+            name="location"
+            required
+            value={formData.location}
+            onChange={onChange}
+            className={style.input}
+            placeholder="Ex: Timóteo, MG"
+          />
+        </div>
       </div>
 
       <div className={style.inputGroupFull}>
