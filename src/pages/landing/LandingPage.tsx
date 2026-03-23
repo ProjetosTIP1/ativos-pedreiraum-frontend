@@ -6,6 +6,7 @@ import { AssetImage } from "../../components/ui/AssetImage";
 import { ArrowRight, HardHat, ShieldCheck, Truck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import style from "./LandingPage.module.css";
+import imagesPlaceholder from "../../assets/images/image-placeholder.png";
 
 export const LandingPage: React.FC = () => {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -29,10 +30,10 @@ export const LandingPage: React.FC = () => {
       <section className={style.hero}>
         <div className={style.heroBg}>
           <AssetImage
-            src="/images/hero-industrial.jpg"
+            src={imagesPlaceholder}
             alt="Grupo Pedreira Um Valemix"
             className={style.heroImage}
-            fallback="/images/image-placeholder.png"
+            fallback={imagesPlaceholder}
           />
         </div>
 
