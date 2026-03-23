@@ -353,3 +353,79 @@
 .deleteButton:hover {
   opacity: 0.6;
 }
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputGroup label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  cursor: pointer;
+}
+
+/* ── Shared label (used directly via style.label) ── */
+.label {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-secondary);
+  margin-bottom: 0.25rem;
+}
+
+/* ── Shared text input (used via style.input) ── */
+.input {
+  width: 100%;
+  background-color: var(--color-surface-container-highest);
+  border: none;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-on-surface);
+  outline: none;
+  transition: var(--transition-fast);
+  border-left: 2px solid transparent;
+}
+
+.input:focus {
+  background-color: var(--color-surface-bright);
+  border-left: 2px solid var(--color-primary);
+}
+
+/* ── Custom select — hides browser chrome, adds our own chevron ── */
+.selectInput {
+  width: 100%;
+  background-color: var(--color-surface-container-highest);
+  border: none;
+  border-left: 2px solid transparent;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-on-surface);
+  outline: none;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  /* hide native arrow */
+  appearance: none;
+  -webkit-appearance: none;
+  /* custom chevron via inline SVG */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.875rem center;
+}
+
+.selectInput:focus {
+  background-color: var(--color-surface-bright);
+  border-left: 2px solid var(--color-primary);
+}
+
+.selectInput option {
+  background-color: var(--color-surface-container-highest);
+  color: var(--color-on-surface);
+}

@@ -46,7 +46,7 @@ export const AssetGeneralInfo: React.FC<AssetGeneralInfoProps> = ({
             name="category"
             value={formData.category}
             onChange={onChange}
-            className={style.input}
+            className={style.selectInput}
           >
             {AssetCategory.options.map((cat) => (
               <option key={cat} value={cat}>
