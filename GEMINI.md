@@ -41,6 +41,7 @@ This is the frontend application for the **Valemix Assets Catalog**, an industri
 ### 3. Validation & Schemas (Zod)
 - Define domain entities and validation schemas in `src/schemas/entities.ts`.
 - These schemas MUST mirror the backend's Pydantic models to ensure cross-platform type safety.
+- Never use `any` type.
 
 ### 4. Design System & Styling
 - **Theme:** Industrial Precision & Editorial Depth (see `DESIGN.md`).

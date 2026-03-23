@@ -9,7 +9,10 @@ import { AssetImageManager } from "./components/AssetImageManager";
 import { AssetStatusPanel } from "./components/AssetStatusPanel";
 import { AssetCommercialPanel } from "./components/AssetCommercialPanel";
 import { AssetDangerZone } from "./components/AssetDangerZone";
-import { AssetSchema } from "../../schemas/entities";
+import {
+  CreateAssetRequestSchema,
+  UpdateAssetRequestSchema,
+} from "../../schemas/entities";
 import style from "./AssetForm.module.css";
 
 /**
@@ -64,9 +67,12 @@ export const AssetForm: React.FC = () => {
   };
 
   const onSubmit = async () => {
-    const validation = AssetSchema.safeParse(formData);
+    const schema = id ? UpdateAssetRequestSchema : CreateAssetRequestSchema;
+    const validation = schema.safeParse(formData);
+
     if (!validation.success) {
       console.error("Validation error:", validation.error);
+      alert("Por favor, preencha todos os campos obrigatórios corretamente.");
       return;
     }
     try {

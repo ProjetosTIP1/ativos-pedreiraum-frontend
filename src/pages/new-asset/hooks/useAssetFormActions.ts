@@ -2,7 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAssetStore } from "../../../stores/useAssetStore";
 import imageService from "../../../server/imageService";
-import type { Asset } from "../../../schemas/entities";
+import {
+  type CreateAssetRequest,
+  type UpdateAssetRequest,
+} from "../../../schemas/entities";
 import type { PositionedFile } from "./useImageManagement";
 
 /**
@@ -14,9 +17,9 @@ export const useAssetFormActions = (assetId?: string) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (
-    formData: Partial<Asset>,
+    formData: CreateAssetRequest | UpdateAssetRequest,
     positionedFiles: PositionedFile[],
-    onSuccess?: () => void
+    onSuccess?: () => void,
   ) => {
     setIsSubmitting(true);
     let createdAssetId: string | null = null;
@@ -26,15 +29,16 @@ export const useAssetFormActions = (assetId?: string) => {
       if (!assetId) {
         console.log("Creating new asset...");
         // Initial creation with basic data
-        const initialData = {
-          ...formData,
-        };
-        const newAsset = await useAssetStore.getState().createAsset(initialData);
+        const newAsset = await useAssetStore
+          .getState()
+          .createAsset(formData as CreateAssetRequest);
         createdAssetId = newAsset.id;
         console.log("Asset created with ID:", createdAssetId);
       } else {
         console.log("Updating existing asset:", assetId);
-        await useAssetStore.getState().updateAsset(assetId, formData);
+        await useAssetStore
+          .getState()
+          .updateAsset(assetId, formData as UpdateAssetRequest);
         createdAssetId = assetId;
         console.log("Asset updated successfully");
       }
@@ -42,17 +46,19 @@ export const useAssetFormActions = (assetId?: string) => {
       // 2. Upload new images
       const filesToUpload = positionedFiles.filter((pf) => pf.file);
       console.log(`Uploading ${filesToUpload.length} images...`);
-      
+
       const uploadPromises = filesToUpload.map(async (pf) => {
         // Use the isMain flag from the positioned file
-        const isMainImage = pf.isMain || false; 
-        console.log(`Uploading image for position: ${pf.position}, isMain: ${isMainImage}`);
-        
+        const isMainImage = pf.isMain || false;
+        console.log(
+          `Uploading image for position: ${pf.position}, isMain: ${isMainImage}`,
+        );
+
         return await imageService.uploadAnImage(
           pf.file!,
           createdAssetId!,
           pf.position,
-          isMainImage
+          isMainImage,
         );
       });
 
@@ -62,7 +68,7 @@ export const useAssetFormActions = (assetId?: string) => {
 
       // 3. Finalize
       alert("Ativo salvo com sucesso!");
-      
+
       if (onSuccess) {
         onSuccess();
       }
@@ -71,26 +77,32 @@ export const useAssetFormActions = (assetId?: string) => {
       navigate("/admin");
     } catch (error: unknown) {
       console.error("Error saving asset:", error);
-      
+
       // Build detailed error message
       const apiError = error as { message?: string; status?: number };
       const errorMessage = apiError?.message || "Erro desconhecido";
       const errorStatus = apiError?.status || "N/A";
-      console.error(`❌ Operation failed: ${errorMessage} (Status: ${errorStatus})`);
-      
+      console.error(
+        `❌ Operation failed: ${errorMessage} (Status: ${errorStatus})`,
+      );
+
       // Attempt simple "rollback" for new assets if creation succeeded but images failed
       // This is a basic "all or nothing" approach from the frontend perspective
       if (!assetId && createdAssetId) {
         try {
           console.warn("Attempting rollback...");
           await useAssetStore.getState().deleteAsset(createdAssetId);
-          console.warn("Rollback: Deleted incomplete asset after image upload failure");
+          console.warn(
+            "Rollback: Deleted incomplete asset after image upload failure",
+          );
         } catch (rollbackError) {
           console.error("Rollback failed:", rollbackError);
         }
       }
-      
-      alert(`Erro ao salvar ativo: ${errorMessage}\n\nStatus: ${errorStatus}\n\nA operação foi cancelada para garantir a integridade dos dados.`);
+
+      alert(
+        `Erro ao salvar ativo: ${errorMessage}\n\nStatus: ${errorStatus}\n\nA operação foi cancelada para garantir a integridade dos dados.`,
+      );
     } finally {
       setIsSubmitting(false);
     }

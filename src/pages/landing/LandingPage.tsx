@@ -11,20 +11,13 @@ export const LandingPage: React.FC = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const { featuredAssets, fetchHighlights, isLoading } = useAssetStore();
   const fetchAssets = useAssetStore((state) => state.fetchAssets);
-  const fetchAssetsImagesMetadata = useAssetStore(
-    (state) => state.fetchAssetsImagesMetadata,
-  );
   const navigate = useNavigate();
 
   useEffect(() => {
-    Promise.all([
-      fetchHighlights(),
-      fetchAssets(),
-      fetchAssetsImagesMetadata(),
-    ]).then(() => {
+    Promise.all([fetchHighlights(), fetchAssets()]).then(() => {
       setIsInitialized(true);
     });
-  }, [fetchHighlights, fetchAssets, fetchAssetsImagesMetadata]);
+  }, [fetchHighlights, fetchAssets]);
 
   if (!isInitialized) {
     return;

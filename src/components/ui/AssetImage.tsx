@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useAssetStore } from "../../stores/useAssetStore";
+import { useImageStore } from "../../stores/useImageStore";
 import styles from "./AssetImage.module.css";
 import imagesPlaceholder from "../../assets/images/image-placeholder.png";
 
@@ -10,17 +10,16 @@ interface AssetImageProps {
   fallback?: string;
 }
 
-
-export const AssetImage: React.FC<AssetImageProps> = ({ 
-  src, 
-  alt, 
+export const AssetImage: React.FC<AssetImageProps> = ({
+  src,
+  alt,
   className,
-  fallback 
+  fallback,
 }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  const fetchImageByUrl = useAssetStore((state) => state.fetchImageByUrl);
+  const fetchImageBlob = useImageStore((state) => state.fetchImageBlob);
 
   const loadImage = useCallback(async () => {
     if (!src) {
@@ -29,16 +28,12 @@ export const AssetImage: React.FC<AssetImageProps> = ({
       return;
     }
 
-    // If it's already a full URL or data URI, we could potentially just use it,
-    // but the user specifically asked to "use this functions to fetch it".
-    // Also, backend images might need authentication headers which the store's fetch provides.
-    
     try {
       setIsLoading(true);
       setError(false);
-      
+
       // Attempt to fetch as blob (handles auth/custom logic in store)
-      const blob = await fetchImageByUrl(src);
+      const blob = await fetchImageBlob(src);
       const objectUrl = URL.createObjectURL(blob);
       setImageUrl(objectUrl);
     } catch (err) {
@@ -47,7 +42,7 @@ export const AssetImage: React.FC<AssetImageProps> = ({
     } finally {
       setIsLoading(false);
     }
-  }, [src, fetchImageByUrl]);
+  }, [src, fetchImageBlob]);
 
   useEffect(() => {
     loadImage();

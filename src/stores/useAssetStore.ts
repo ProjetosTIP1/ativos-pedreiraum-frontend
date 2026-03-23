@@ -1,6 +1,10 @@
 import { create } from "zustand";
 import assetService from "../server/assetService";
-import { type Asset } from "../schemas/entities";
+import {
+  type Asset,
+  type CreateAssetRequest,
+  type UpdateAssetRequest,
+} from "../schemas/entities";
 
 interface AssetFilter {
   [key: string]: string | number | boolean | undefined;
@@ -21,14 +25,12 @@ interface AssetStore {
 
   // Actions
   fetchAssets: (params?: AssetFilter) => Promise<void>;
-  fetchAssetsImagesMetadata: () => Promise<void>;
-  fetchImageByUrl: (url: string) => Promise<Blob>;
   fetchHighlights: () => Promise<void>;
   fetchAssetById: (id: string) => Promise<void>;
   setFilters: (filters: AssetFilter) => void;
   clearFilters: () => void;
-  createAsset: (asset: Partial<Asset>) => Promise<Asset>;
-  updateAsset: (id: string, asset: Partial<Asset>) => Promise<Asset>;
+  createAsset: (asset: CreateAssetRequest) => Promise<Asset>;
+  updateAsset: (id: string, asset: UpdateAssetRequest) => Promise<Asset>;
   deleteAsset: (id: string) => Promise<void>;
 }
 
@@ -65,49 +67,6 @@ export const useAssetStore = create<AssetStore>((set, get) => ({
     }
   },
 
-  // Fetch all assets images metadata by asset id
-  fetchAssetsImagesMetadata: async () => {
-    set({ isLoading: true, error: null });
-    const assets = get().assets;
-    try {
-      const imagesMetadata = await Promise.all(
-        assets.map((asset) => assetService.getAssetImagesMetadata(asset.id)),
-      );
-      set({
-        assets: assets.map((asset, index) => ({
-          ...asset,
-          images_metadata: imagesMetadata[index],
-        })),
-        isLoading: false,
-      });
-    } catch (error: unknown) {
-      set({
-        error:
-          error instanceof Error
-            ? error.message
-            : "Falha ao buscar imagens do ativo",
-        isLoading: false,
-      });
-    }
-  },
-
-  fetchImageByUrl: async (url: string) => {
-    set({ isLoading: true, error: null });
-    try {
-      const image = await assetService.getImageByUrl(url);
-      return image;
-    } catch (error: unknown) {
-      set({
-        error:
-          error instanceof Error
-            ? error.message
-            : "Falha ao buscar imagem do ativo",
-        isLoading: false,
-      });
-      throw error;
-    }
-  },
-
   fetchHighlights: async () => {
     set({ isLoading: true, error: null });
     try {
@@ -138,7 +97,7 @@ export const useAssetStore = create<AssetStore>((set, get) => ({
     }
   },
 
-  createAsset: async (asset: Partial<Asset>) => {
+  createAsset: async (asset: CreateAssetRequest) => {
     set({ isLoading: true, error: null });
     try {
       const newAsset = await assetService.create(asset);
@@ -155,7 +114,7 @@ export const useAssetStore = create<AssetStore>((set, get) => ({
     }
   },
 
-  updateAsset: async (id: string, asset: Partial<Asset>) => {
+  updateAsset: async (id: string, asset: UpdateAssetRequest) => {
     set({ isLoading: true, error: null });
     try {
       const updatedAsset = await assetService.updateAsset(id, asset);
