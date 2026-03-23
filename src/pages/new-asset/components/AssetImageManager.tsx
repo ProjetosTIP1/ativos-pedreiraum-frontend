@@ -2,23 +2,27 @@ import React, { useState } from "react";
 import { Camera, Upload, X } from "lucide-react";
 import { Button } from "../../../components/ui/Button";
 import Modal from "../../../components/modal/Modal";
+import { AssetImage } from "../../../components/ui/AssetImage";
 import type { PositionedFile } from "../hooks/useImageManagement";
 import style from "./AssetComponents.module.css";
 
 interface AssetImageManagerProps {
   positionedFiles: PositionedFile[];
+  isLoadingImages?: boolean;
   onFileSelect: (position: string, file: File) => void;
   onRemoveFile: (position: string) => void;
   onToggleMain: (position: string) => void;
 }
 
 /**
- * Image management component with grid view and modal
- * Handles photo uploads organized by position/angle (POV)
- * Optimized for responsiveness with proper constraints
+ * Image management component with grid view and modal.
+ * Uses AssetImage for all rendering so that backend image paths
+ * are resolved via the authenticated fetchImageBlob flow,
+ * while local blob: preview URLs are passed through unchanged.
  */
 export const AssetImageManager: React.FC<AssetImageManagerProps> = ({
   positionedFiles,
+  isLoadingImages = false,
   onFileSelect,
   onRemoveFile,
   onToggleMain,
@@ -38,7 +42,9 @@ export const AssetImageManager: React.FC<AssetImageManagerProps> = ({
               (POV)
             </h3>
             <span className={style.cardCounter}>
-              {uploadedCount} / {totalCount} ângulos preenchidos
+              {isLoadingImages
+                ? "Carregando fotos…"
+                : `${uploadedCount} / ${totalCount} ângulos preenchidos`}
             </span>
           </div>
           <Button
@@ -53,29 +59,34 @@ export const AssetImageManager: React.FC<AssetImageManagerProps> = ({
         </div>
 
         <div className={style.imageGrid}>
-          {positionedFiles.map((pf) =>
-            pf.previewUrl ? (
-              <div key={pf.position} className={style.imageItem}>
-                <img
-                  src={pf.previewUrl}
-                  alt={`Foto do ativo - ${pf.position}`}
-                  className={style.image}
-                  loading="lazy"
-                />
-                <div className={style.imageBadge}>{pf.position}</div>
-                {pf.file && (
-                  <div
-                    className={style.uploadPendingBadge}
-                    title="Aguardando salvar para fazer upload"
-                  >
-                    Pendente
+          {/* Skeleton tiles while fetching existing images */}
+          {isLoadingImages
+            ? Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className={`${style.imageItem} ${style.skeleton}`} />
+              ))
+            : positionedFiles.map((pf) =>
+                pf.previewUrl ? (
+                  <div key={pf.position} className={style.imageItem}>
+                    {/* AssetImage resolves both blob: URLs and backend paths */}
+                    <AssetImage
+                      src={pf.previewUrl}
+                      alt={`Foto do ativo - ${pf.position}`}
+                      className={style.image}
+                    />
+                    <div className={style.imageBadge}>{pf.position}</div>
+                    {pf.file && (
+                      <div
+                        className={style.uploadPendingBadge}
+                        title="Aguardando salvar para fazer upload"
+                      >
+                        Pendente
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            ) : null,
-          )}
+                ) : null,
+              )}
 
-          {positionedFiles.every((pf) => !pf.previewUrl) && (
+          {!isLoadingImages && positionedFiles.every((pf) => !pf.previewUrl) && (
             <div className={style.emptyState}>
               <Upload className={style.emptyStateIcon} size={40} />
               <p className={style.emptyStateText}>
@@ -110,11 +121,11 @@ export const AssetImageManager: React.FC<AssetImageManagerProps> = ({
                 {pf.previewUrl ? (
                   <>
                     <div className={style.imagePreview}>
-                      <img
+                      {/* AssetImage handles both local blob: and backend paths */}
+                      <AssetImage
                         src={pf.previewUrl}
                         alt={`Preview - ${pf.position}`}
                         className={style.previewImage}
-                        loading="lazy"
                       />
                       {pf.file && (
                         <div className={style.newBadge}>Nova</div>

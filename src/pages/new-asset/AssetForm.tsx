@@ -37,6 +37,7 @@ export const AssetForm: React.FC = () => {
     handleFileSelect,
     removeFile,
     toggleMain,
+    isLoadingImages,
   } = useImageManagement(id);
 
   const { isSubmitting, handleSubmit, handleDelete, handleCancel } =
@@ -97,6 +98,7 @@ export const AssetForm: React.FC = () => {
           <AssetGeneralInfo formData={formData} onChange={handleChange} />
           <AssetImageManager
             positionedFiles={positionedFiles}
+            isLoadingImages={isLoadingImages}
             onFileSelect={handleFileSelect}
             onRemoveFile={removeFile}
             onToggleMain={toggleMain}
