@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAssetStore } from "../../stores/useAssetStore";
 import { AssetCard } from "../../components/assets/AssetCard";
 import { AssetFilters } from "../../components/assets/AssetFilters";
@@ -7,6 +7,14 @@ import style from "./AssetCatalog.module.css";
 export const AssetCatalog: React.FC = () => {
   const assets = useAssetStore((state) => state.assets);
   const isLoading = useAssetStore((state) => state.isLoading);
+  const filters = useAssetStore((state) => state.filters);
+  const fetchAssets = useAssetStore((state) => state.fetchAssets);
+
+  // Re-fetch whenever filters change.
+  // JSON.stringify as dep prevents re-render loops from object reference changes.
+  useEffect(() => {
+    fetchAssets(filters);
+  }, [fetchAssets, filters]);
 
   return (
     <div className={style.container}>
