@@ -88,11 +88,11 @@ export type Category = z.infer<typeof CategorySchema>;
 
 export const ImageMetadataSchema = z.object({
   id: z.string().uuid(),
-  asset_id: z.string().uuid().optional(),
+  asset_id: z.string().uuid().nullish(),
   url: z.string(),
   position: ImagePosition.default("OUTROS"),
   is_main: z.boolean().default(false),
-  created_at: z.string().optional(),
+  created_at: z.string().nullish(),
 });
 export type ImageMetadata = z.infer<typeof ImageMetadataSchema>;
 
@@ -132,17 +132,17 @@ export const AssetSchema = z.object({
   location: z.string(),
   condition: AssetCondition,
   status: AssetStatus,
-  price: z.number().min(0).optional(),
+  price: z.number().min(0).nullish(),
   description: z.string().min(10).max(1000),
-  main_image: z.string().optional(),
-  specifications: z.record(z.string(), z.any()).optional(),
-  rep_contact: z.string().optional(),
+  main_image: z.string().nullish(),
+  specifications: z.record(z.string(), z.unknown()).nullish(),
+  rep_contact: z.string().nullish(),
   highlighted: z.boolean().default(false),
   view_count: z.number().int().nonnegative().default(0),
-  created_by_user_id: z.string().uuid().optional(),
+  created_by_user_id: z.string().uuid().nullish(),
   created_at: z.string(),
-  updated_at: z.string().optional(),
-  images_metadata: ImageMetadataSchema.array().optional(),
+  updated_at: z.string().nullish(),
+  images_metadata: ImageMetadataSchema.array().nullish(),
 });
 export type Asset = z.infer<typeof AssetSchema>;
 
