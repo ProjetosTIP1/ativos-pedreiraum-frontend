@@ -1,9 +1,9 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuthStore } from '../../stores/useAuthStore';
+import { useAuth } from '../../hooks/useAuth';
 
 export const ProtectedRoute: React.FC = () => {
-    const { isAuthenticated, isLoading } = useAuthStore();
+    const { isAuthenticated, isLoading } = useAuth();
 
     if (isLoading) {
         return (

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 import { useAuthStore } from "../../stores/useAuthStore";
 import { Button } from "../../components/ui/Button";
 import { Lock, User, Eye, EyeOff, AlertTriangle } from "lucide-react";
@@ -9,7 +10,8 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { login, isAuthenticated, isLoading, error } = useAuthStore();
+  const { isAuthenticated, isLoading, error } = useAuth();
+  const { login } = useAuthStore();
   const navigate = useNavigate();
 
   React.useEffect(() => {
