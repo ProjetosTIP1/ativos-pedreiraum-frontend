@@ -1,40 +1,26 @@
 import { useState, useEffect } from "react";
-import type { Asset, ImageMetadata } from "../../../schemas/entities";
-import imageService from "../../../server/imageService";
+import type { Asset } from "../../../schemas/entities";
+import { useImageStore } from "../../../stores/useImageStore";
 
 /**
  * Custom hook to manage image gallery navigation and state
- * Handles active image index and prev/next navigation
+ * Handles active image index and prev/next navigation using the central ImageStore
  */
 export const useImageGallery = (asset?: Asset) => {
   const [activeImage, setActiveImage] = useState(0);
-  const [images, setImages] = useState<ImageMetadata[]>([]);
-  const [isLoadingImages, setIsLoadingImages] = useState(false);
+  const { assetImages, isLoading, fetchAssetImages } = useImageStore();
 
-  // Fetch images for the asset
+  // Fetch images for the asset via the store
   useEffect(() => {
-    const fetchImages = async () => {
-      if (!asset?.id) {
-        setImages([]);
-        return;
-      }
+    if (asset?.id) {
+      fetchAssetImages(asset.id);
+    }
+  }, [asset?.id, fetchAssetImages]);
 
-      setIsLoadingImages(true);
-      try {
-        const imageMetadata = await imageService.getAssetImages(asset.id);
-        setImages(imageMetadata);
-      } catch (error) {
-        console.error("Error loading gallery images:", error);
-        setImages([]);
-      } finally {
-        setIsLoadingImages(false);
-      }
-    };
-
-    fetchImages();
-  }, [asset?.id]);
-
+  // Derived state from store
+  const images = asset?.id ? assetImages[asset.id] || [] : [];
   const galleryUrls = images.map((img) => img.url);
+
   const mainImageUrl =
     images.find((img) => img.is_main)?.url ||
     images[0]?.url ||
@@ -58,7 +44,7 @@ export const useImageGallery = (asset?: Asset) => {
     activeImage,
     setActiveImage,
     galleryUrls,
-    isLoadingImages,
+    isLoadingImages: isLoading,
     mainImageUrl,
     nextImage,
     prevImage,

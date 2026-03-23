@@ -28,16 +28,30 @@ export const AssetImage: React.FC<AssetImageProps> = ({
       return;
     }
 
+    // Check if src is already a full URL, blob URL, or data URI
+    const isFullUrl =
+      src.startsWith("http") ||
+      src.startsWith("blob:") ||
+      src.startsWith("data:") ||
+      src.startsWith("/"); // Assuming root-relative paths are final
+
+    if (isFullUrl) {
+      setImageUrl(src);
+      setIsLoading(false);
+      setError(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(false);
 
-      // Attempt to fetch as blob (handles auth/custom logic in store)
+      // Attempt to fetch as blob from backend (src is likely just a filename)
       const blob = await fetchImageBlob(src);
       const objectUrl = URL.createObjectURL(blob);
       setImageUrl(objectUrl);
     } catch (err) {
-      console.error("Failed to load image from store:", err);
+      console.error(`Failed to load image "${src}" from store:`, err);
       setError(true);
     } finally {
       setIsLoading(false);
