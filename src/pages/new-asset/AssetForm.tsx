@@ -91,7 +91,7 @@ export const AssetForm: React.FC = () => {
         onSubmit={onSubmit}
       />
 
-      <form onSubmit={onSubmit} className={style.formGrid}>
+      <div className={style.formGrid}>
         {/* Left Column: Main Info */}
         <div className={style.mainColumn}>
           <AssetGeneralInfo formData={formData} onChange={handleChange} />
@@ -112,7 +112,7 @@ export const AssetForm: React.FC = () => {
           />
           {id && <AssetDangerZone onDelete={handleDelete} />}
         </div>
-      </form>
+      </div>
     </div>
   );
 };

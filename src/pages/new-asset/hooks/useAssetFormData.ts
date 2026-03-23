@@ -42,6 +42,9 @@ export const useAssetFormData = (assetId?: string) => {
     if (type === "checkbox") {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData((prev) => ({ ...prev, [name]: checked }));
+    } else if (type === "number") {
+      const parsed = value === "" ? undefined : Number(value);
+      setFormData((prev) => ({ ...prev, [name]: parsed }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
