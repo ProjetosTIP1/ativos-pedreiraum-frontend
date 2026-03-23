@@ -22,7 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/ativos" element={<AssetCatalog />} />
-        <Route path="/ativos/:slug" element={<AssetDetails />} />
+        <Route path="/ativos/:id" element={<AssetDetails />} />
         <Route path="/login" element={<Login />} />
 
         {/* Protected Admin Routes */}
