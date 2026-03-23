@@ -1,5 +1,6 @@
 import React from "react";
 import { type Asset } from "../../schemas/entities";
+import { useAssetImages } from "../../hooks/useAssetImages";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { AssetImage } from "../ui/AssetImage";
@@ -12,10 +13,15 @@ interface AssetCardProps {
 }
 
 export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
-  const isMachine = ["EXCAVATORS", "CRUSHERS", "GRADERS", "PLANT"].includes(
-    asset.category,
-  );
-  const isVehicle = ["TRUCKS"].includes(asset.category);
+  const { mainImage } = useAssetImages(asset.id, asset.images_metadata ?? []);
+
+  const isMachine = [
+    "ESCAVADEIRAS",
+    "BRITADORES",
+    "MOTONIVELADORAS",
+    "PÁS CARREGADEIRAS",
+  ].includes(asset.category);
+  const isVehicle = ["CAMINHÕES"].includes(asset.category);
 
   const getConditionColor = (condition: string) => {
     switch (condition) {
@@ -43,14 +49,12 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     }
   };
 
-  console.log(asset);
-
   return (
     <div className={style.card}>
       {/* Image Container */}
       <div className={style.imageContainer}>
         <AssetImage
-          src={asset.main_image}
+          src={mainImage?.url}
           alt={asset.name}
           className={style.image}
         />
@@ -91,13 +95,13 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
               <MapPin size={14} className={style.specIcon} />
               {asset.location}
             </div>
-            {isMachine && asset.specifications?.hours && (
+            {isMachine && !!asset.specifications?.hours && (
               <div className={style.specItem}>
                 <Clock size={14} className={style.specIcon} />
                 {asset.specifications.hours as React.ReactNode}h
               </div>
             )}
-            {isVehicle && asset.specifications?.mileage && (
+            {isVehicle && !!asset.specifications?.mileage && (
               <div className={style.specItem}>
                 <Gauge size={14} className={style.specIcon} />
                 {(asset.specifications.mileage as number).toLocaleString()} km

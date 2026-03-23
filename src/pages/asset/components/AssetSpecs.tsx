@@ -31,21 +31,21 @@ export const AssetSpecs: React.FC<AssetSpecsProps> = ({ asset }) => {
         <label className={style.specLabel}>Modelo</label>
         <span className={style.specValue}>{asset.model}</span>
       </div>
-      {isMachine && asset.specifications?.hours && (
+      {isMachine && !!asset.specifications?.hours && (
         <div className={style.specItem}>
           <label className={style.specLabel}>Horas de Uso</label>
           <span className={style.specValue}>
             <Clock size={14} className={style.specIcon} />{" "}
-            {asset.specifications.hours}h
+            {asset.specifications.hours as React.ReactNode}h
           </span>
         </div>
       )}
-      {isVehicle && asset.specifications?.mileage && (
+      {isVehicle && !!asset.specifications?.mileage && (
         <div className={style.specItem}>
           <label className={style.specLabel}>Quilometragem</label>
           <span className={style.specValue}>
             <Gauge size={14} className={style.specIcon} />{" "}
-            {asset.specifications.mileage.toLocaleString()} KM
+            {(asset.specifications.mileage as number).toLocaleString()} KM
           </span>
         </div>
       )}

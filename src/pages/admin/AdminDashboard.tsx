@@ -3,6 +3,7 @@ import { useAssetStore } from "../../stores/useAssetStore";
 import { useAuthStore } from "../../stores/useAuthStore";
 import { Badge } from "../../components/ui/Badge";
 import { Button } from "../../components/ui/Button";
+import { AssetImage } from "../../components/ui/AssetImage";
 import {
   LayoutDashboard,
   Plus,
@@ -135,13 +136,10 @@ export const AdminDashboard: React.FC = () => {
                     <td className={style.tableTd}>
                       <div className={style.assetInfo}>
                         <div className={style.assetImageWrapper}>
-                          <img
-                            src={asset.main_image || '/placeholder-asset.jpg'}
+                          <AssetImage
+                            src={asset.images_metadata?.[0]?.url}
                             alt={asset.name}
                             className={style.assetImage}
-                            onError={(e) => {
-                              e.currentTarget.src = '/placeholder-asset.jpg';
-                            }}
                           />
                         </div>
                         <div className={style.assetText}>

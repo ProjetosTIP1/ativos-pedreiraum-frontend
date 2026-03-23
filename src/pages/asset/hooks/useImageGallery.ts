@@ -22,9 +22,7 @@ export const useImageGallery = (asset?: Asset) => {
   const galleryUrls = images.map((img) => img.url);
 
   const mainImageUrl =
-    images.find((img) => img.is_main)?.url ||
-    images[0]?.url ||
-    asset?.main_image;
+    images.find((img) => img.is_main)?.url || images[0]?.url;
 
   const nextImage = () => {
     if (galleryUrls.length > 0) {
