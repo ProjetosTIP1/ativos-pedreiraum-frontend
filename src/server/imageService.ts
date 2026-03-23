@@ -1,5 +1,5 @@
 import apiClient from "./apiClient";
-import { type ImageMetadata } from "../schemas/entities";
+import { type ImageMetadata, ImageMetadataSchema } from "../schemas/entities";
 
 const imageService = {
   /**
@@ -14,10 +14,10 @@ const imageService = {
       }
 
       const response = await apiClient.get<ImageMetadata[]>(
-        `/images/assets/${assetId}`
+        `/images/asset/${assetId}`,
       );
 
-      return response.data;
+      return response.data.map((img) => ImageMetadataSchema.parse(img));
     } catch (error) {
       console.error(`Error fetching images for asset "${assetId}":`, error);
       throw new Error(
@@ -38,7 +38,7 @@ const imageService = {
       }
 
       const sanitizedFilename = filename.replace(/[^a-zA-Z0-9._-]/g, "");
-      
+
       const response = await apiClient.get<Blob>(
         `/images/${sanitizedFilename}`,
         {
@@ -58,8 +58,8 @@ const imageService = {
   async uploadAnImage(
     file: File,
     assetId?: string,
-    position: string = "OTHERS",
-    isMain: boolean = false
+    position: string = "OUTROS",
+    isMain: boolean = false,
   ): Promise<ImageMetadata> {
     try {
       if (!file || !(file instanceof File)) {
@@ -98,12 +98,15 @@ const imageService = {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
-      return response.data;
+      return ImageMetadataSchema.parse(response.data);
     } catch (error) {
-      console.error(`Error uploading image "${file?.name || "unknown"}":`, error);
+      console.error(
+        `Error uploading image "${file?.name || "unknown"}":`,
+        error,
+      );
       throw new Error(
         `Failed to upload image: ${error instanceof Error ? error.message : "Unknown error"}`,
       );

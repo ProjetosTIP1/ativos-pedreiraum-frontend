@@ -53,6 +53,32 @@ export const UserSchema = z.object({
 });
 export type User = z.infer<typeof UserSchema>;
 
+export const UserCreateRequestSchema = UserSchema.omit({
+  id: true,
+  created_at: true,
+}).extend({
+  password: z.string().min(8),
+});
+export type UserCreateRequest = z.infer<typeof UserCreateRequestSchema>;
+
+export const UserUpdateRequestSchema = z.object({
+  full_name: z.string().optional(),
+  contact: z.string().optional(),
+});
+export type UserUpdateRequest = z.infer<typeof UserUpdateRequestSchema>;
+
+export const UserUpdatePasswordRequestSchema = z.object({
+  old_password: z.string(),
+  new_password: z.string().min(8),
+});
+export type UserUpdatePasswordRequest = z.infer<typeof UserUpdatePasswordRequestSchema>;
+
+export const AdminUserUpdateRequestSchema = UserUpdateRequestSchema.extend({
+  role: UserRole.optional(),
+  email: z.string().email().optional(),
+});
+export type AdminUserUpdateRequest = z.infer<typeof AdminUserUpdateRequestSchema>;
+
 export const CategorySchema = z.object({
   id: z.number(),
   name: z.string(),
@@ -119,3 +145,16 @@ export const AssetSchema = z.object({
   images_metadata: ImageMetadataSchema.array().optional(),
 });
 export type Asset = z.infer<typeof AssetSchema>;
+
+export const CreateAssetRequestSchema = AssetSchema.omit({
+  id: true,
+  created_at: true,
+  updated_at: true,
+  created_by_user_id: true,
+  view_count: true,
+  images_metadata: true,
+});
+export type CreateAssetRequest = z.infer<typeof CreateAssetRequestSchema>;
+
+export const UpdateAssetRequestSchema = CreateAssetRequestSchema.partial();
+export type UpdateAssetRequest = z.infer<typeof UpdateAssetRequestSchema>;

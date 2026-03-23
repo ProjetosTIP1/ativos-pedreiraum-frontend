@@ -13,7 +13,7 @@ const authService = {
     },
 
     async me(): Promise<User> {
-        const response = await apiClient.get('/auth/me');
+        const response = await apiClient.get('/users/me');
         return UserSchema.parse(response.data.user);
     }
 };

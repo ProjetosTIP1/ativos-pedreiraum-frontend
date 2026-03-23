@@ -2,7 +2,8 @@ import apiClient from "./apiClient";
 import {
   type Asset,
   AssetSchema,
-  type ImageMetadata,
+  type CreateAssetRequest,
+  type UpdateAssetRequest,
 } from "../schemas/entities";
 
 const assetService = {
@@ -10,34 +11,12 @@ const assetService = {
     params?: Record<string, string | number | boolean | undefined>,
   ): Promise<Asset[]> {
     const response = await apiClient.get<Asset[]>("/assets/", { params });
-    return response.data;
-  },
-
-  async getAssetImagesMetadata(assetId: string): Promise<ImageMetadata[]> {
-    const response = await apiClient.get<ImageMetadata[]>(
-      `/images/asset/${assetId}`,
-      {
-        params: {
-          asset_id: assetId,
-        },
-      },
-    );
-    return response.data;
-  },
-
-  async getImageByUrl(url: string): Promise<Blob> {
-    const response = await apiClient.get(`/images/${url}`, {
-      params: {
-        url,
-      },
-      responseType: "blob",
-    });
-    return response.data;
+    return response.data.map((asset) => AssetSchema.parse(asset));
   },
 
   async getHighlights(): Promise<Asset[]> {
     const response = await apiClient.get<Asset[]>("/assets/highlights");
-    return response.data;
+    return response.data.map((asset) => AssetSchema.parse(asset));
   },
 
   async getById(id: string): Promise<Asset> {
@@ -45,22 +24,18 @@ const assetService = {
     return AssetSchema.parse(response.data);
   },
 
-  async create(asset: Partial<Asset>): Promise<Asset> {
-    console.log("Creating asset with data:", asset);
+  async create(asset: CreateAssetRequest): Promise<Asset> {
     const response = await apiClient.post("/admin/assets/", asset);
-    console.log("API Response for Create:", response.data);
     return AssetSchema.parse(response.data);
   },
 
-  async updateAsset(id: string, asset: Partial<Asset>): Promise<Asset> {
-    console.log(`Updating asset ${id} with data:`, asset);
+  async updateAsset(id: string, asset: UpdateAssetRequest): Promise<Asset> {
     const response = await apiClient.patch(`/admin/assets/${id}`, asset);
-    console.log("API Response for Update:", response.data);
     return AssetSchema.parse(response.data);
   },
 
   async delete(id: string): Promise<void> {
-    await apiClient.delete(`/assets/${id}`);
+    await apiClient.delete(`/admin/assets/${id}`);
   },
 };
 
