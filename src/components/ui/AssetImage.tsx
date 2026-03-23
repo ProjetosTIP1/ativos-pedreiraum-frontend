@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useAssetStore } from "../../stores/useAssetStore";
 import styles from "./AssetImage.module.css";
-import imagesPlaceholder from "../../../public/images/image-placeholder.png";
+import imagesPlaceholder from "../../assets/images/image-placeholder.png";
 
 interface AssetImageProps {
   src?: string;
