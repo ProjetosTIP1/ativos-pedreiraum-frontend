@@ -14,6 +14,7 @@ export const ProtectedRoute: React.FC = () => {
     }
 
     if (!isAuthenticated) {
+        console.warn('Unauthorized access attempt - Redirecting to login');
         return <Navigate to="/login" replace />;
     }
 

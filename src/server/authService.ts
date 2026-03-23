@@ -14,7 +14,7 @@ const authService = {
 
     async me(): Promise<User> {
         const response = await apiClient.get('/users/me');
-        return UserSchema.parse(response.data.user);
+        return UserSchema.parse(response.data);
     }
 };
 
