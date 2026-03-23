@@ -1,12 +1,12 @@
 .mainContent {
   min-height: 100vh;
   background-color: var(--color-surface);
-  padding-top: 6rem; /* Space for sticky navbar */
+  padding-top: 2rem; /* Space for sticky navbar */
   transition: var(--transition-smooth);
 }
 
 @media (min-width: 1024px) {
   .mainContent {
-    padding-top: 6rem;
+    padding-top: 2rem;
   }
 }
