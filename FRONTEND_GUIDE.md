@@ -137,7 +137,6 @@ export interface Asset {
   status: AssetStatus;
   price?: number;
   description: string;
-  main_image: string; // URL
   gallery: string[]; // Array of URLs
   is_featured: boolean;
   view_count: number;

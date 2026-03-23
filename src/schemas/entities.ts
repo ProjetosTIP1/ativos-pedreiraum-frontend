@@ -134,7 +134,6 @@ export const AssetSchema = z.object({
   status: AssetStatus,
   price: z.number().min(0).nullish(),
   description: z.string().min(10).max(1000),
-  main_image: z.string().nullish(),
   specifications: z.record(z.string(), z.unknown()).nullish(),
   rep_contact: z.string().nullish(),
   highlighted: z.boolean().default(false),

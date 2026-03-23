@@ -21,7 +21,6 @@ export const useAssetFormData = (assetId?: string) => {
     price: undefined,
     description: "",
     highlighted: false,
-    main_image: undefined,
   };
 
   const [formData, setFormData] = useState<Partial<Asset>>(() => {
