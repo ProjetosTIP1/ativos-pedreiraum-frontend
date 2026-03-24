@@ -172,6 +172,28 @@
   height: 100%;
 }
 
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .mainContent {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.sidebarSection {
+  flex: 0 0 20rem;
+}
+
+.tableSection {
+  flex: 1;
+  min-width: 0; /* Important for horizontal scrolling table */
+}
+
 .tableWrapper {
   background-color: var(--color-surface-container-lowest);
   overflow: hidden;

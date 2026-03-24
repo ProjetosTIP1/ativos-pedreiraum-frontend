@@ -1,0 +1,176 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  background-color: var(--color-surface-container-low);
+  padding: 2.5rem;
+  height: fit-content;
+  position: sticky;
+  top: 8rem;
+  border-left: 4px solid var(--color-primary);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-on-background);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.titleIcon {
+  color: var(--color-primary);
+}
+
+.clearButton {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-outline);
+  padding: 0.25rem 0.5rem;
+  transition: var(--transition-fast);
+  border-radius: var(--radius-sm);
+}
+
+.clearButton:hover {
+  background-color: var(--color-surface-container-high);
+  color: var(--color-error);
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-secondary);
+  opacity: 0.8;
+}
+
+/* Category List Styles */
+.categoryList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.categoryButton {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  border-left: 2px solid transparent;
+}
+
+.categoryButtonInactive {
+  background-color: transparent;
+  color: var(--color-on-surface-variant);
+}
+
+.categoryButtonInactive:hover {
+  background-color: var(--color-surface-container-high);
+  border-left-color: var(--color-outline-variant);
+}
+
+.categoryButtonActive {
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  border-left-color: var(--color-primary);
+}
+
+/* Select Styles */
+.selectWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select {
+  width: 100%;
+  appearance: none;
+  background-color: var(--color-surface-container-high);
+  border: none;
+  padding: 1rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-on-background);
+  cursor: pointer;
+  border-left: 2px solid var(--color-primary);
+  outline: none;
+}
+
+.selectIcon {
+  position: absolute;
+  right: 1rem;
+  color: var(--color-outline);
+  pointer-events: none;
+}
+
+/* Year Range Styles */
+.yearRange {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.yearInput {
+  width: 100%;
+  background-color: var(--color-surface-container-high);
+  border: none;
+  padding: 1rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-on-background);
+  border-left: 2px solid transparent;
+  transition: var(--transition-fast);
+  outline: none;
+}
+
+.yearInput:focus {
+  border-left-color: var(--color-primary);
+  background-color: var(--color-surface-bright);
+}
+
+.footer {
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.footerText {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  line-height: 1.6;
+  color: var(--color-outline);
+  font-style: italic;
+}
