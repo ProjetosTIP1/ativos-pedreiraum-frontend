@@ -56,6 +56,55 @@ O servidor de desenvolvimento utiliza o proxy configurado em `vite.config.ts` pa
 bun run build
 ```
 
+## 🐳 Docker
+
+O frontend pode ser facilmente containerizado utilizando o Docker.
+
+### 1. Criar Imagem Docker
+Certifique-se de estar na raiz da pasta `frontend/`:
+```bash
+docker build -t valemix-frontend .
+```
+
+### 2. Executar Container
+```bash
+docker run -p 80:80 --name valemix-frontend-app valemix-frontend
+```
+
+### 3. Configuração com Docker Compose
+Para integrar com o backend em uma rede comum, utilize um arquivo `docker-compose.yml` (geralmente na raiz do projeto).
+
+Exemplo de configuração para o frontend:
+
+```yaml
+services:
+  frontend:
+    build:
+      context: ./frontend
+    container_name: ativos-frontend
+    ports:
+      - "80:80"
+    environment:
+      # Variáveis de ambiente da empresa
+      - VITE_COMPANY_PHONE=+55 (31) 3847.2200
+      - VITE_COMPANY_EMAIL=contato@pedreiraumvalemix.com.br
+      - VITE_COMPANY_ADDRESS=Área Rural, KM 270 | Cel. Fabriciano, MG
+      - VITE_COMPANY_WEBSITE=https://pedreiraumvalemix.com.br/
+      - VITE_COMPANY_CONSULTOR_CONTACT=5531998850557
+      - VITE_ENV_MODE=production
+    depends_on:
+      - ativos-backend # Nome do serviço definido no compose do backend
+    networks:
+      - ativos-network
+
+networks:
+  ativos-network:
+    driver: bridge
+```
+
+> [!IMPORTANT]
+> Como o frontend é uma Single Page Application (SPA), as variáveis de ambiente prefixadas com `VITE_` são injetadas no código **durante o build**. Ao usar Docker Compose com `build:`, o Docker irá utilizar os valores definidos no momento da construção da imagem.
+
 ## ✨ Funcionalidades Principais
 
 1. **Catálogo Público:** Filtros avançados por categoria, ano e status.
