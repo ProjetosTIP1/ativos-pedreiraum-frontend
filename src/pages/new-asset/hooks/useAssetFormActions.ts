@@ -43,37 +43,44 @@ export const useAssetFormActions = (assetId?: string) => {
         console.log("Asset updated successfully");
       }
 
-      // 2. Upload new images
+      // 2. Upload new images — use allSettled so a failed image doesn't abort the flow
       const filesToUpload = positionedFiles.filter((pf) => pf.file);
       console.log(`Uploading ${filesToUpload.length} images...`);
 
-      const uploadPromises = filesToUpload.map(async (pf) => {
-        // Use the isMain flag from the positioned file
-        const isMainImage = pf.isMain || false;
-        console.log(
-          `Uploading image for position: ${pf.position}, isMain: ${isMainImage}`,
+      const uploadResults = await Promise.allSettled(
+        filesToUpload.map((pf) =>
+          imageService.uploadAnImage(
+            pf.file!,
+            createdAssetId!,
+            pf.position,
+            pf.isMain ?? false,
+          ),
+        ),
+      );
+
+      // Separate successes from failures
+      const failedUploads = uploadResults
+        .map((result, i) => ({ result, file: filesToUpload[i] }))
+        .filter(({ result }) => result.status === "rejected");
+
+      if (failedUploads.length > 0) {
+        const failedNames = failedUploads
+          .map(({ file }) => file.file?.name ?? "desconhecido")
+          .join(", ");
+        console.warn(`⚠️ ${failedUploads.length} imagem(ns) não foram salvas: ${failedNames}`);
+        // Warn but do NOT block — the asset was persisted successfully
+        alert(
+          `Ativo salvo com sucesso!\n\n⚠️ Atenção: ${failedUploads.length} imagem(ns) não puderam ser carregadas (${failedNames}).\n\nVocê pode adicioná-las novamente editando o ativo.`,
         );
+      } else {
+        console.log("All images uploaded successfully");
+        alert("Ativo salvo com sucesso!");
+      }
 
-        return await imageService.uploadAnImage(
-          pf.file!,
-          createdAssetId!,
-          pf.position,
-          isMainImage,
-        );
-      });
-
-      // Wait for all uploads to complete
-      await Promise.all(uploadPromises);
-      console.log("All images uploaded successfully");
-
-      // 3. Finalize
-      alert("Ativo salvo com sucesso!");
-
+      // 3. Finalize — navigate regardless of image failures
       if (onSuccess) {
         onSuccess();
       }
-
-      // Navigate back to admin dashboard
       navigate("/admin");
     } catch (error: unknown) {
       console.error("Error saving asset:", error);

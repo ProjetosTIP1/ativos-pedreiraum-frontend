@@ -81,9 +81,6 @@ export const Footer: React.FC = () => {
             © {new Date().getFullYear()} GRUPO PEDREIRA UM VALEMIX. TODOS OS
             DIREITOS RESERVADOS.
           </p>
-          <p className={style.bottomBarText}>
-            Desenvolvido com Foco em Performance
-          </p>
         </div>
       </div>
     </footer>
