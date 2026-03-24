@@ -5,6 +5,7 @@ import {
   type CreateAssetRequest,
   type UpdateAssetRequest,
 } from "../schemas/entities";
+import { AssetStatus } from "../schemas/entities";
 
 interface AssetFilter {
   [key: string]: string | number | boolean | undefined;
@@ -12,7 +13,8 @@ interface AssetFilter {
   brand?: string;
   min_year?: number;
   max_year?: number;
-  q?: string;
+  status?: AssetStatus;
+  user_id?: string;
 }
 
 interface AssetStore {
@@ -34,13 +36,17 @@ interface AssetStore {
   deleteAsset: (id: string) => Promise<void>;
 }
 
+const DEFAULT_FILTERS: AssetFilter = {
+  status: "DISPONÍVEL",
+};
+
 export const useAssetStore = create<AssetStore>((set, get) => ({
   assets: [],
   featuredAssets: [],
   currentAsset: null,
   isLoading: false,
   error: null,
-  filters: {},
+  filters: DEFAULT_FILTERS,
 
   setFilters: (newFilters) => {
     set((state) => ({
@@ -49,7 +55,7 @@ export const useAssetStore = create<AssetStore>((set, get) => ({
   },
 
   clearFilters: () => {
-    set({ filters: {} });
+    set({ filters: DEFAULT_FILTERS });
   },
 
   fetchAssets: async (params) => {

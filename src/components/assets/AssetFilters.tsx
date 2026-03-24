@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAssetStore } from "../../stores/useAssetStore";
 import { useCategoryStore } from "../../stores/useCategoryStore";
-import { Search, Filter, X } from "lucide-react";
+import { Filter, X } from "lucide-react";
 import style from "./AssetFilters.module.css";
 
 export const AssetFilters: React.FC = () => {
@@ -11,10 +11,6 @@ export const AssetFilters: React.FC = () => {
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilters({ q: e.target.value });
-  };
 
   const handleCategoryChange = (val: string) => {
     setFilters({ category: val === filters.category ? undefined : val });
@@ -32,21 +28,6 @@ export const AssetFilters: React.FC = () => {
             <X size={12} className={style.clearIcon} /> Limpar
           </button>
         )}
-      </div>
-
-      {/* Search */}
-      <div className={style.filterGroup}>
-        <label className={style.label}>Busca Livre</label>
-        <div className={style.inputWrapper}>
-          <Search className={style.searchIcon} size={16} />
-          <input
-            type="text"
-            placeholder="Nome, modelo, série..."
-            value={filters.q || ""}
-            onChange={handleSearchChange}
-            className={style.searchInput}
-          />
-        </div>
       </div>
 
       {/* Categories */}
