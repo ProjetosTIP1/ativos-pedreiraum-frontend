@@ -1,21 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { Asset } from "../../../schemas/entities";
 import { useImageStore } from "../../../stores/useImageStore";
 
 /**
- * Custom hook to manage image gallery navigation and state
- * Handles active image index and prev/next navigation using the central ImageStore
+ * Custom hook to manage image gallery navigation and state.
+ *
+ * IMPORTANT: This hook is a CONSUMER of the ImageStore.
+ * It does NOT trigger network requests. Fecthing is handled by the page-level
+ * data orchestrator (useAssetDetails).
  */
 export const useImageGallery = (asset?: Asset) => {
   const [activeImage, setActiveImage] = useState(0);
-  const { assetImages, isLoading, fetchAssetImages } = useImageStore();
 
-  // Fetch images for the asset via the store
-  useEffect(() => {
-    if (asset?.id) {
-      fetchAssetImages(asset.id);
-    }
-  }, [asset?.id, fetchAssetImages]);
+  // Use selective selectors for stability and performance
+  const assetImages = useImageStore((state) => state.assetImages);
+  const isLoading = useImageStore((state) => state.isLoading);
 
   // Derived state from store
   const images = asset?.id ? assetImages[asset.id] || [] : [];

@@ -225,46 +225,10 @@
   letter-spacing: 0.1em;
 }
 
-.tableOverflow {
-  overflow-x: auto;
-}
-
-.table {
-  width: 100%;
-  text-align: left;
-  border-collapse: collapse;
-}
-
-.tableHeadRow {
-  background-color: var(--color-surface-container-high);
-  font-family: var(--font-body);
-  font-size: 0.625rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-secondary);
-}
-
-.tableTh {
-  padding: 1.25rem 2.5rem;
-}
-
-.tableRow {
-  transition: var(--transition-fast);
-}
-
-/* Zebra Striping */
-.tableRow:nth-child(even) {
-  background-color: var(--color-surface-container-low);
-}
-
-.tableRow:hover {
-  background-color: var(--color-surface-bright);
-}
-
-.tableTd {
-  padding: 1.5rem 2.5rem;
-  vertical-align: middle;
+.assetList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .assetInfo {
@@ -373,8 +337,10 @@
 }
 
 .emptyState {
-  padding: 8rem 2.5rem;
+  padding: 10rem 2.5rem;
   text-align: center;
+  background-color: var(--color-surface-container-lowest);
+  border-radius: var(--radius-sm);
 }
 
 .emptyStateText {

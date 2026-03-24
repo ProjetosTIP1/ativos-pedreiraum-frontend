@@ -1,19 +1,16 @@
 import React, { useEffect } from "react";
 import { useAssetStore } from "../../stores/useAssetStore";
-import { Badge } from "../../components/ui/Badge";
 import { Button } from "../../components/ui/Button";
-import { AssetImage } from "../../components/ui/AssetImage";
 import {
   LayoutDashboard,
   Plus,
-  Edit,
-  Trash2,
   CheckCircle,
   TrendingUp,
   Eye,
   MessageSquare,
-  ExternalLink,
+  LayoutGrid,
 } from "lucide-react";
+import { AdminAssetCard } from "../../components/admin/AdminAssetCard";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { AdminAssetFilters } from "../../components/admin/AdminAssetFilters";
@@ -130,133 +127,40 @@ export const AdminDashboard: React.FC = () => {
         </aside>
 
         <div className={style.tableSection}>
-          {/* Asset Table */}
-          <div className={style.tableWrapper}>
-            <div className={style.tableHeader}>
+          <div className={style.listHeader}>
+            <div className={style.listTitleGroup}>
+              <LayoutGrid size={20} className={style.listIcon} />
               <h2 className={style.tableTitle}>Gestão de Inventário</h2>
-              <div className={style.tableCount}>
-                Exibindo {assets.length} registros
-              </div>
             </div>
+            <div className={style.tableCount}>
+              Exibindo {assets.length} registros
+            </div>
+          </div>
 
-            <div className={style.tableOverflow}>
-              <table className={style.table}>
-                <thead>
-                  <tr className={style.tableHeadRow}>
-                    <th className={style.tableTh}>Ativo</th>
-                    <th className={style.tableTh}>Categoria</th>
-                    <th className={style.tableTh}>Status</th>
-                    <th className={style.tableTh}>Ano</th>
-                    <th className={style.tableTh}>Views</th>
-                    <th
-                      className={style.tableTh}
-                      style={{ textAlign: "right" }}
-                    >
-                      Ações
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className={style.tableBody}>
-                  {assets.length > 0 ? (
-                    assets.map((asset) => (
-                      <tr key={asset.id} className={style.tableRow}>
-                        <td className={style.tableTd}>
-                          <div className={style.assetInfo}>
-                            <div className={style.assetImageWrapper}>
-                              <AssetImage
-                                src={asset.images_metadata?.[0]?.url}
-                                alt={asset.name}
-                                className={style.assetImage}
-                              />
-                            </div>
-                            <div className={style.assetText}>
-                              <span className={style.assetName}>
-                                {asset.name}
-                              </span>
-                              <span className={style.assetRef}>
-                                Ref: {asset.serial_number}
-                              </span>
-                            </div>
-                          </div>
-                        </td>
-                        <td className={style.tableTd}>
-                          <span className={style.assetCategory}>
-                            {asset.category}
-                          </span>
-                        </td>
-                        <td className={style.tableTd}>
-                          <Badge
-                            variant={
-                              asset.status === "DISPONÍVEL"
-                                ? "success"
-                                : asset.status === "VENDIDO"
-                                  ? "error"
-                                  : "warning"
-                            }
-                          >
-                            {asset.status}
-                          </Badge>
-                        </td>
-                        <td className={`${style.tableTd} ${style.assetYear}`}>
-                          {asset.year}
-                        </td>
-                        <td className={style.tableTd}>
-                          <div className={style.assetViews}>
-                            <Eye size={12} className="mr-1" />{" "}
-                            {asset.view_count}
-                          </div>
-                        </td>
-                        <td className={style.tableTd}>
-                          <div className={style.rowActions}>
-                            <button
-                              onClick={() => navigate(`/ativos/${asset.id}`)}
-                              className={style.actionButton}
-                              title="Ver Público"
-                            >
-                              <ExternalLink size={16} />
-                            </button>
-                            <button
-                              onClick={() =>
-                                navigate(`/admin/edit/${asset.id}`)
-                              }
-                              className={style.editButton}
-                              title="Editar"
-                            >
-                              <Edit size={16} />
-                            </button>
-                            <button
-                              onClick={() => {
-                                if (
-                                  window.confirm(
-                                    "Excluir este ativo definitivamente?",
-                                  )
-                                ) {
-                                  useAssetStore
-                                    .getState()
-                                    .deleteAsset(asset.id);
-                                }
-                              }}
-                              className={style.deleteButton}
-                              title="Excluir"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={6} className={style.emptyState}>
-                        <p className={style.emptyStateText}>
-                          Nenhum ativo encontrado com estes filtros.
-                        </p>
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+          <div className={style.assetList}>
+            {assets.length > 0 ? (
+              assets.map((asset) => (
+                <AdminAssetCard
+                  key={asset.id}
+                  asset={asset}
+                  onEdit={(id) => navigate(`/admin/edit/${id}`)}
+                  onDelete={(id) => {
+                    if (
+                      window.confirm("Excluir este ativo definitivamente?")
+                    ) {
+                      useAssetStore.getState().deleteAsset(id);
+                    }
+                  }}
+                  onView={(id) => navigate(`/ativos/${id}`)}
+                />
+              ))
+            ) : (
+              <div className={style.emptyState}>
+                <p className={style.emptyStateText}>
+                  Nenhum ativo encontrado com estes filtros.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

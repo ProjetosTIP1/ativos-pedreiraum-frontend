@@ -1,0 +1,255 @@
+.card {
+  background-color: var(--color-surface-container-lowest);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+  border-left: 4px solid transparent;
+  position: relative;
+}
+
+.card:hover {
+  background-color: var(--color-surface-bright);
+  border-left-color: var(--color-primary);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+@media (min-width: 768px) {
+  .card {
+    flex-direction: row;
+    height: 9rem;
+  }
+}
+
+/* Image Section */
+.imageSection {
+  position: relative;
+  width: 100%;
+  height: 12rem;
+  flex-shrink: 0;
+  background-color: var(--color-surface-container-low);
+}
+
+@media (min-width: 768px) {
+  .imageSection {
+    width: 12rem;
+    height: 100%;
+  }
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .image {
+  opacity: 1;
+}
+
+.statusOverlay {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 5;
+}
+
+/* Info Section */
+.infoSection {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.categoryLabel {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-primary);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.separator {
+  color: var(--color-outline);
+  opacity: 0.5;
+}
+
+.assetName {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color-on-background);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.idBadge {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  color: var(--color-outline);
+  background-color: var(--color-surface-container-high);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.detailsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-secondary);
+}
+
+.detailIcon {
+  opacity: 0.6;
+}
+
+.detailValue {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.priceArea {
+  margin-left: auto;
+  text-align: right;
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .priceArea {
+    display: block;
+  }
+}
+
+.priceLabel {
+  display: block;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  color: var(--color-outline);
+  font-weight: 700;
+  margin-bottom: 0.125rem;
+}
+
+.priceValue {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-on-background);
+}
+
+/* Actions Section */
+.actionsSection {
+  display: flex;
+  background-color: var(--color-surface-container-low);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (min-width: 768px) {
+  .actionsSection {
+    flex-direction: column;
+    width: 5rem;
+    border-top: none;
+    border-left: 1px solid rgba(0,0,0,0.05);
+    background-color: transparent;
+  }
+}
+
+@media (min-width: 1280px) {
+  .actionsSection {
+    width: 10rem;
+    flex-direction: row;
+    height: 100%;
+    align-items: stretch;
+  }
+}
+
+.actionBtn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-outline);
+  transition: var(--transition-fast);
+}
+
+@media (min-width: 1280px) {
+  .actionBtn {
+    padding: 0;
+  }
+}
+
+.btnText {
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .btnText {
+    display: block;
+  }
+}
+
+.actionBtn:hover {
+  background-color: var(--color-surface-container-high);
+  color: var(--color-primary);
+}
+
+.editBtn:hover {
+  color: var(--color-primary);
+}
+
+.deleteBtn:hover {
+  background-color: var(--color-error-container);
+  color: var(--color-error);
+}
+
+.divider {
+  width: 1px;
+  background-color: rgba(0,0,0,0.05);
+  margin: 1rem 0;
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .divider {
+    display: block;
+  }
+}
