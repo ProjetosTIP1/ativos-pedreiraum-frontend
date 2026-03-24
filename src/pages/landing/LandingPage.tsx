@@ -155,10 +155,9 @@ export const LandingPage: React.FC = () => {
       <section className={style.section}>
         <div className={style.ctaSection}>
           <div className={style.ctaContent}>
-            <h2 className={style.ctaTitle}>Soluções Customizadas?</h2>
             <p className={style.ctaSubtitle}>
-              Nossa equipe de consultoria técnica está pronta para apoiar seu
-              projeto.
+              Nossa equipe de consultoria técnica está pronta para te ajudar
+              a encontrar o equipamento ideal para o seu projeto.
             </p>
           </div>
           <Button

@@ -5,7 +5,7 @@ import type { Asset } from "../../../schemas/entities";
  * Generates formatted message and opens WhatsApp with asset details
  */
 export const useWhatsAppContact = () => {
-  const whatsappNumber = "55319XXXXXXXX"; // TODO: Move to config/env
+  const whatsappNumber = import.meta.env.VITE_COMPANY_CONSULTOR_CONTACT;
 
   const generateMessage = (asset: Asset): string => {
     const currentUrl = window.location.href;

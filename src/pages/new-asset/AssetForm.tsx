@@ -69,6 +69,13 @@ export const AssetForm: React.FC = () => {
 
   const onSubmit = async () => {
     const schema = id ? UpdateAssetRequestSchema : CreateAssetRequestSchema;
+    if (!formData.serial_number) {
+      formData.serial_number = "00.00.0000";
+    }
+
+    if (!formData.subcategory) {
+      formData.subcategory = "Outros";
+    }
     const validation = schema.safeParse(formData);
 
     if (!validation.success) {
