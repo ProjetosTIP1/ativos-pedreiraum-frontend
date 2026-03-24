@@ -43,25 +43,38 @@ export const useAssetFormActions = (assetId?: string) => {
         console.log("Asset updated successfully");
       }
 
-      // 2. Upload new images — use allSettled so a failed image doesn't abort the flow
+      // 2. Upload new images sequentially — avoids overwhelming the backend
+      // with concurrent multipart requests (race conditions / connection pool exhaustion).
       const filesToUpload = positionedFiles.filter((pf) => pf.file);
-      console.log(`Uploading ${filesToUpload.length} images...`);
+      console.log(`Uploading ${filesToUpload.length} images sequentially...`);
 
-      const uploadResults = await Promise.allSettled(
-        filesToUpload.map((pf) =>
-          imageService.uploadAnImage(
+      type UploadResult =
+        | { status: "fulfilled"; file: PositionedFile }
+        | { status: "rejected"; file: PositionedFile; reason: unknown };
+
+      const uploadResults: UploadResult[] = [];
+
+      for (const pf of filesToUpload) {
+        try {
+          await imageService.uploadAnImage(
             pf.file!,
             createdAssetId!,
             pf.position,
             pf.isMain ?? false,
-          ),
-        ),
-      );
+          );
+          uploadResults.push({ status: "fulfilled", file: pf });
+          console.log(`✅ Uploaded: ${pf.file?.name}`);
+        } catch (err) {
+          uploadResults.push({ status: "rejected", file: pf, reason: err });
+          console.warn(`⚠️ Failed to upload: ${pf.file?.name}`, err);
+        }
+      }
 
       // Separate successes from failures
-      const failedUploads = uploadResults
-        .map((result, i) => ({ result, file: filesToUpload[i] }))
-        .filter(({ result }) => result.status === "rejected");
+      const failedUploads = uploadResults.filter(
+        (r): r is Extract<UploadResult, { status: "rejected" }> =>
+          r.status === "rejected",
+      );
 
       if (failedUploads.length > 0) {
         const failedNames = failedUploads
