@@ -1,3 +1,4 @@
+import { z } from "zod";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useAssetFormData } from "./hooks/useAssetFormData";
@@ -76,17 +77,17 @@ export const AssetForm: React.FC = () => {
     if (!formData.subcategory) {
       formData.subcategory = "Outros";
     }
-    const validation = schema.safeParse(formData);
-
-    if (!validation.success) {
-      console.error("Validation error:", validation.error);
-      alert("Por favor, preencha todos os campos obrigatórios corretamente.");
-      return;
-    }
     try {
-      await handleSubmit(validation.data, positionedFiles, resetForm);
+      schema.parse(formData);
+      await handleSubmit(formData, positionedFiles, resetForm);
     } catch (error) {
-      console.error("Error submitting asset:", error);
+      if (error instanceof z.ZodError) {
+        alert(error.issues.map((issue) => issue.message).join(", "));
+      } else {
+        const errorMessage =
+          error instanceof Error ? error.message : "Erro desconhecido";
+        alert(`Erro ao atualizar RCI: ${errorMessage}`);
+      }
     }
   };
 

@@ -71,13 +71,17 @@ export const UserUpdatePasswordRequestSchema = z.object({
   old_password: z.string(),
   new_password: z.string().min(8),
 });
-export type UserUpdatePasswordRequest = z.infer<typeof UserUpdatePasswordRequestSchema>;
+export type UserUpdatePasswordRequest = z.infer<
+  typeof UserUpdatePasswordRequestSchema
+>;
 
 export const AdminUserUpdateRequestSchema = UserUpdateRequestSchema.extend({
   role: UserRole.optional(),
   email: z.string().email().optional(),
 });
-export type AdminUserUpdateRequest = z.infer<typeof AdminUserUpdateRequestSchema>;
+export type AdminUserUpdateRequest = z.infer<
+  typeof AdminUserUpdateRequestSchema
+>;
 
 export const CategorySchema = z.object({
   id: z.number(),
@@ -118,22 +122,46 @@ export type ExcavatorSpecs = z.infer<typeof ExcavatorSpecsSchema>;
 
 export const AssetSchema = z.object({
   id: z.string().uuid(),
-  name: z.string().min(2).max(100),
+  name: z
+    .string()
+    .min(2, "O nome deve ter pelo menos 2 caracteres")
+    .max(100, "O nome deve ter no máximo 100 caracteres"),
   category: AssetCategory,
-  subcategory: z.string(),
-  brand: z.string(),
-  model: z.string(),
+  subcategory: z
+    .string()
+    .min(2, "A subcategoria deve ter pelo menos 2 caracteres")
+    .max(100, "A subcategoria deve ter no máximo 100 caracteres"),
+  brand: z
+    .string()
+    .min(2, "A marca deve ter pelo menos 2 caracteres")
+    .max(100, "A marca deve ter no máximo 100 caracteres"),
+  model: z
+    .string()
+    .min(2, "O modelo deve ter pelo menos 2 caracteres")
+    .max(100, "O modelo deve ter no máximo 100 caracteres"),
   year: z
     .number()
     .int()
-    .min(1900)
-    .max(new Date().getFullYear() + 1),
-  serial_number: z.string(),
-  location: z.string(),
+    .min(1900, "O ano deve ser maior que 1900")
+    .max(
+      new Date().getFullYear() + 1,
+      "O ano deve ser menor que o ano atual + 1",
+    ),
+  serial_number: z
+    .string()
+    .min(2, "O número de série deve ter pelo menos 2 caracteres")
+    .max(100, "O número de série deve ter no máximo 100 caracteres"),
+  location: z
+    .string()
+    .min(2, "A localização deve ter pelo menos 2 caracteres")
+    .max(100, "A localização deve ter no máximo 100 caracteres"),
   condition: AssetCondition,
   status: AssetStatus,
   price: z.number().min(0).nullish(),
-  description: z.string().min(10).max(1000),
+  description: z
+    .string()
+    .min(10, "A descrição deve ter pelo menos 10 caracteres")
+    .max(1000, "A descrição deve ter no máximo 1000 caracteres"),
   specifications: z.record(z.string(), z.unknown()).nullish(),
   rep_contact: z.string().nullish(),
   highlighted: z.boolean().default(false),
