@@ -39,13 +39,14 @@
 
 .title {
   font-family: var(--font-display);
-  font-size: 3rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.02em;
   display: flex;
   align-items: center;
   color: var(--color-on-background);
+  text-wrap: balance;
 }
 
 .titleIcon {
@@ -56,6 +57,7 @@
 
 .highlight {
   color: var(--color-primary);
+  display: inline;
 }
 
 .headerActions {
