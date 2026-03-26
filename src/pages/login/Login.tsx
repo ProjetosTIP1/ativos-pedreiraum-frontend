@@ -4,6 +4,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useAuthStore } from "../../stores/useAuthStore";
 import { Button } from "../../components/ui/Button";
 import { Lock, User, Eye, EyeOff, AlertTriangle } from "lucide-react";
+import logo from "../../assets/logos/logo.png";
 import style from "./Login.module.css";
 
 export const Login: React.FC = () => {
@@ -37,7 +38,9 @@ export const Login: React.FC = () => {
         <div className={style.topBar}></div>
 
         <div className={style.header}>
-          <div className={style.logo}>V</div>
+          <div className={style.logo}>
+            <img src={logo} alt="Logo" className={style.brandIconImage} />
+          </div>
           <h2 className={style.title}>
             Acesso <span className={style.highlight}>Restrito</span>
           </h2>

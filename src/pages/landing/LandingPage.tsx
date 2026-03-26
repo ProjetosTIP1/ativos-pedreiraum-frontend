@@ -41,12 +41,15 @@ export const LandingPage: React.FC = () => {
           <div className={style.heroTextWrapper}>
             <span className={style.heroBadge}>Grupo Pedreira Um Valemix</span>
             <h1 className={style.heroTitle}>
-              Potência que <span className={style.heroHighlight}>Constrói</span>{" "}
-              o Futuro
+              Encontre{" "}
+              <span className={style.heroHighlight}>
+                equipamentos, máquinas e peças
+              </span>{" "}
+              para setores de mineração e construção pesada.
             </h1>
             <p className={style.heroDescription}>
-              O maior catálogo de equipamentos, máquinas e peças usadas de alta
-              performance para mineração e infraestrutura pesada.
+              Equipamentos utilizados em nossas operações, agora disponíveis
+              para o mercado com transparência e qualidade técnica.
             </p>
             <div className={style.heroActions}>
               <Button
@@ -56,15 +59,6 @@ export const LandingPage: React.FC = () => {
               >
                 Explorar Catálogo{" "}
                 <ArrowRight className={style.actionButtonIcon} size={20} />
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={() =>
-                  window.scrollTo({ top: 800, behavior: "smooth" })
-                }
-              >
-                Nossa Expertise
               </Button>
             </div>
           </div>
@@ -90,8 +84,8 @@ export const LandingPage: React.FC = () => {
             },
             {
               icon: <HardHat size={40} />,
-              title: "DNA Valemix",
-              text: "A solidez e autoridade de quem lidera o mercado de mineração nacional.",
+              title: "DNA Pedreira Um",
+              text: "A solidez e autoridade de quem é referência no mercado de mineração nacional.",
             },
           ].map((feature, i) => (
             <div key={i} className={style.featureCard}>
@@ -156,8 +150,8 @@ export const LandingPage: React.FC = () => {
         <div className={style.ctaSection}>
           <div className={style.ctaContent}>
             <p className={style.ctaSubtitle}>
-              Nossa equipe de consultoria técnica está pronta para te ajudar
-              a encontrar o equipamento ideal para o seu projeto.
+              Nossa equipe de consultoria técnica está pronta para te ajudar a
+              encontrar o equipamento ideal para o seu projeto.
             </p>
           </div>
           <Button

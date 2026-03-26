@@ -26,7 +26,6 @@
   font-family: var(--font-display);
   font-weight: 800;
   color: var(--color-on-primary-container);
-  background-color: var(--color-primary-container);
   width: 3.5rem;
   height: 3.5rem;
   display: flex;
@@ -168,4 +167,11 @@
   color: var(--color-outline);
   letter-spacing: 0.05em;
   line-height: 1.8;
+}
+
+.brandIconImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0.25rem;
 }
