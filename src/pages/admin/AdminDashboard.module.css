@@ -360,3 +360,8 @@
   background: repeating-linear-gradient(45deg, var(--color-primary-container), var(--color-primary-container) 20px, transparent 20px, transparent 40px);
   opacity: 0.05;
 }
+
+.headerActionsButtons {
+  display: flex;
+  gap: 1rem;
+}

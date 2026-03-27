@@ -9,6 +9,7 @@ import {
   Eye,
   MessageSquare,
   LayoutGrid,
+  Users,
 } from "lucide-react";
 import { AdminAssetCard } from "../../components/admin/AdminAssetCard";
 import { useNavigate, Navigate } from "react-router-dom";
@@ -67,12 +68,23 @@ export const AdminDashboard: React.FC = () => {
             <p className={style.userInfoLabel}>Logado como</p>
             <p className={style.userName}>{user?.full_name}</p>
           </div>
-          <Button
-            onClick={() => navigate("/admin/create")}
-            className="flex items-center gap-2 italic"
-          >
-            <Plus size={18} /> Novo Ativo
-          </Button>
+          <div className={style.headerActionsButtons}>
+            {isAdmin && (
+              <Button
+                variant="outline"
+                onClick={() => navigate("/admin/users")}
+                className="flex items-center gap-2"
+              >
+                <Users size={18} /> Usuários
+              </Button>
+            )}
+            <Button
+              onClick={() => navigate("/admin/create")}
+              className="flex items-center gap-2 italic"
+            >
+              <Plus size={18} /> Novo Ativo
+            </Button>
+          </div>
         </div>
       </div>
 

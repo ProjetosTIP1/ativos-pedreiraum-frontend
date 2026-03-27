@@ -9,6 +9,7 @@ import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { AssetForm } from "./pages/new-asset/AssetForm";
 import { useAuthStore } from "./stores/useAuthStore";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
+import { UserManagement } from "./pages/admin-users/UserManagement";
 
 function App() {
   const checkAuth = useAuthStore((state) => state.checkAuth);
@@ -30,6 +31,10 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/create" element={<AssetForm />} />
           <Route path="/admin/edit/:id" element={<AssetForm />} />
+        </Route>
+
+        <Route element={<ProtectedRoute allowedRoles={["ADMIN"]} />}>
+          <Route path="/admin/users" element={<UserManagement />} />
         </Route>
 
         <Route
