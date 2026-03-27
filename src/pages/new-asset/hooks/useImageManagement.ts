@@ -28,7 +28,7 @@ export interface PositionedFile {
  */
 export const useImageManagement = (assetId?: string) => {
   const [positionedFiles, setPositionedFiles] = useState<PositionedFile[]>(
-    REQUIRED_POVS.map((pos) => ({ position: pos })),
+    REQUIRED_POVS.map((pos) => ({ position: pos, isMain: false })),
   );
   const [isLoadingImages, setIsLoadingImages] = useState(false);
 
@@ -37,7 +37,9 @@ export const useImageManagement = (assetId?: string) => {
     const loadExistingImages = async () => {
       if (!assetId) {
         // Reset to empty state for new assets
-        setPositionedFiles(REQUIRED_POVS.map((pos) => ({ position: pos })));
+        setPositionedFiles(
+          REQUIRED_POVS.map((pos) => ({ position: pos, isMain: false })),
+        );
         return;
       }
 
@@ -63,7 +65,9 @@ export const useImageManagement = (assetId?: string) => {
       } catch (error) {
         console.error("Error loading asset images:", error);
         // Keep empty state on error
-        setPositionedFiles(REQUIRED_POVS.map((pos) => ({ position: pos })));
+        setPositionedFiles(
+          REQUIRED_POVS.map((pos) => ({ position: pos, isMain: false })),
+        );
       } finally {
         setIsLoadingImages(false);
       }
@@ -76,12 +80,16 @@ export const useImageManagement = (assetId?: string) => {
     const previewUrl = URL.createObjectURL(file);
     setPositionedFiles((prev) => {
       // If no image is set as main yet, set this one as main
-      const hasMain = prev.some((p) => p.isMain);
-      return prev.map((p) =>
-        p.position === position
-          ? { ...p, file, previewUrl, isMain: !hasMain || p.isMain }
-          : p,
-      );
+      const hasMain = prev.some((p) => p.isMain && p.previewUrl);
+      return prev.map((p) => {
+        if (p.position === position) {
+          // If this slot was already 'main', it stays 'main' after replacement.
+          // Otherwise, it becomes 'main' only if no other 'main' exists.
+          const shouldBeMain = p.isMain || !hasMain;
+          return { ...p, file, previewUrl, isMain: shouldBeMain };
+        }
+        return p;
+      });
     });
   };
 

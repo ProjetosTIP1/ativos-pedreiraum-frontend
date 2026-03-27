@@ -141,7 +141,9 @@ const imageService = {
 
       const maxSize = 10 * 1024 * 1024; // 10MB
       if (normalizedFile.size > maxSize) {
-        throw new Error("File too large after normalization. Maximum size: 10MB");
+        throw new Error(
+          "File too large after normalization. Maximum size: 10MB",
+        );
       }
 
       const formData = new FormData();
@@ -176,6 +178,32 @@ const imageService = {
 
   async delete(url: string): Promise<void> {
     await apiClient.delete("/media", { data: { url } });
+  },
+
+  /**
+   * Sets a specific image as the main image for an asset.
+   * This is used when switching 'main' status among existing images.
+   *
+   * @param assetId - The ID of the asset
+   * @param imageMetadataId - The ID of the image metadata
+   */
+  async setMainImage(assetId: string, imageMetadataId: string): Promise<void> {
+    try {
+      if (!assetId || !imageMetadataId) {
+        throw new Error("Asset ID and Image Metadata ID are required");
+      }
+
+      await apiClient.patch(`/images/set_main/${imageMetadataId}`, null, {
+        params: {
+          asset_id: assetId,
+        },
+      });
+    } catch (error) {
+      console.error(`Error setting main image for asset "${assetId}":`, error);
+      throw new Error(
+        `Failed to set main image: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
+    }
   },
 };
 

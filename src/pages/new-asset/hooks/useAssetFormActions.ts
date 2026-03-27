@@ -90,7 +90,30 @@ export const useAssetFormActions = (assetId?: string) => {
         alert("Ativo salvo com sucesso!");
       }
 
-      // 3. Finalize — navigate regardless of image failures
+      // 3. Update main flag for existing images if changed
+      // If a position has no NEW file but is marked as isMain,
+      // and it HAS existingMetadata, we should call the new set_main endpoint.
+      const existingMain = positionedFiles.find(
+        (pf) => pf.isMain && pf.existingMetadata && !pf.file,
+      );
+
+      if (existingMain && existingMain.existingMetadata) {
+        try {
+          console.log(
+            `Updating main flag for existing image: ${existingMain.existingMetadata.id}`,
+          );
+          await imageService.setMainImage(
+            createdAssetId!,
+            existingMain.existingMetadata.id,
+          );
+          console.log("✅ Main flag updated for existing image");
+        } catch (err) {
+          console.warn("⚠️ Failed to update main flag for existing image", err);
+          // Don't block the whole process if this fails, but warn the user
+        }
+      }
+
+      // 4. Finalize — navigate regardless of image failures
       if (onSuccess) {
         onSuccess();
       }
