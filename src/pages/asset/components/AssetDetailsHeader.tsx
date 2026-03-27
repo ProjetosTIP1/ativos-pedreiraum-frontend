@@ -15,7 +15,7 @@ export const AssetDetailsHeader: React.FC<AssetDetailsHeaderProps> = ({
 }) => {
   return (
     <button onClick={onBack} className={style.backButton}>
-      <ArrowLeft size={14} className="mr-2" /> Voltar ao Catálogo
+      <ArrowLeft size={24} />
     </button>
   );
 };

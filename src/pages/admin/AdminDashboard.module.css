@@ -365,3 +365,13 @@
   display: flex;
   gap: 1rem;
 }
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.italicButton {
+  font-style: italic;
+}

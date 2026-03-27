@@ -73,14 +73,14 @@ export const AdminDashboard: React.FC = () => {
               <Button
                 variant="outline"
                 onClick={() => navigate("/admin/users")}
-                className="flex items-center gap-2"
+                className={style.iconButton}
               >
                 <Users size={18} /> Usuários
               </Button>
             )}
             <Button
               onClick={() => navigate("/admin/create")}
-              className="flex items-center gap-2 italic"
+              className={`${style.iconButton} ${style.italicButton}`}
             >
               <Plus size={18} /> Novo Ativo
             </Button>

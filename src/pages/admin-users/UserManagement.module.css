@@ -13,6 +13,20 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--color-text-dim);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: color 0.2s;
+}
+
 .headerBadge {
   display: inline-block;
   font-family: 'Inter', sans-serif;
@@ -20,7 +34,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--color-industrial-orange);
+  color: var(--color-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -36,13 +50,11 @@
 }
 
 .titleIcon {
-  color: var(--color-industrial-orange);
+  color: var(--color-primary);
 }
 
 .highlight {
-  color: var(--color-industrial-orange);
-  -webkit-text-stroke: 1px var(--color-industrial-orange);
-  -webkit-text-fill-color: transparent;
+  color: var(--color-primary);
 }
 
 .tableSection {
@@ -116,6 +128,38 @@
   font-size: 0.85rem;
 }
 
+.userCell {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-weight: 700;
+}
+
+.userContact {
+  color: var(--color-text-dim);
+}
+
+.loadingRow {
+  text-align: center;
+  padding: 2.5rem 0;
+}
+
+.loadingSpinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--color-primary);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .roleBadge {
   display: inline-block;
   padding: 0.25rem 0.6rem;
@@ -167,12 +211,38 @@
 
 /* Modal styles overrides or additions if needed */
 .modalContent {
-  width: 100%;
+  width: auto;
   max-width: 500px;
+  padding: 2rem;
+}
+
+.modalTitle {
+  font-size: 1.25rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
 }
 
 .formField {
   margin-bottom: 1.5rem;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-dim);
+  pointer-events: none;
+}
+
+.inputWithIcon {
+  padding-left: 2.5rem !important;
 }
 
 .label {
@@ -196,7 +266,7 @@
 
 .input:focus, .select:focus {
   outline: none;
-  border-color: var(--color-industrial-orange);
+  border-color: var(--color-primary);
   background: rgba(255, 255, 255, 0.08);
 }
 

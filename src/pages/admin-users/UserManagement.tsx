@@ -94,8 +94,8 @@ export const UserManagement: React.FC = () => {
       {/* Header */}
       <div className={style.header}>
         <div>
-          <button onClick={() => navigate("/admin")} className="flex items-center gap-2 text-[var(--color-text-dim)] hover:text-white mb-4 transition-colors">
-            <ArrowLeft size={16} /> Voltar ao Dashboard
+          <button onClick={() => navigate("/admin")} className={style.backButton}>
+            <ArrowLeft size={24} />
           </button>
           <span className={style.headerBadge}>Administração de Sistema</span>
           <h1 className={style.title}>
@@ -103,7 +103,7 @@ export const UserManagement: React.FC = () => {
             Gestão de <span className={style.highlight}>Usuários</span>
           </h1>
         </div>
-        <Button onClick={handleOpenCreate} className="flex items-center gap-2">
+        <Button onClick={handleOpenCreate} className={style.newUserButton}>
           <Plus size={18} /> Novo Usuário
         </Button>
       </div>
@@ -133,21 +133,21 @@ export const UserManagement: React.FC = () => {
             <tbody>
               {isLoading && users.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="text-center py-10">
-                    <div className="w-8 h-8 border-2 border-[var(--color-industrial-orange)] border-t-transparent rounded-full animate-spin mx-auto"></div>
+                  <td colSpan={4} className={style.loadingRow}>
+                    <div className={style.loadingSpinner}></div>
                   </td>
                 </tr>
               ) : users.length > 0 ? (
                 users.map((user) => (
                   <tr key={user.id} className={style.userRow}>
                     <td>
-                      <div className="flex flex-col">
-                        <span className="font-bold">{user.full_name}</span>
+                      <div className={style.userCell}>
+                        <span className={style.userName}>{user.full_name}</span>
                         <span className={style.userEmail}>{user.email}</span>
                       </div>
                     </td>
                     <td>
-                      <span className="text-[var(--color-text-dim)]">{user.contact}</span>
+                      <span className={style.userContact}>{user.contact}</span>
                     </td>
                     <td>
                       <span className={`${style.roleBadge} ${user.role === 'ADMIN' ? style.roleAdmin : style.roleRegular}`}>
@@ -192,17 +192,17 @@ export const UserManagement: React.FC = () => {
         onClose={() => setIsModalOpen(false)}
       >
         <form onSubmit={handleSubmit} className={style.modalContent}>
-          <h2 className="text-xl font-black uppercase mb-6 tracking-tight">
+          <h2 className={style.modalTitle}>
             {editingUser ? "Editar Usuário" : "Criar Novo Usuário"}
           </h2>
           <div className={style.formField}>
             <label className={style.label}>Nome Completo</label>
-            <div className="relative">
-              <UserIcon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-dim)]" />
+            <div className={style.inputWrapper}>
+              <UserIcon size={16} className={style.inputIcon} />
               <input
                 type="text"
                 required
-                className={`${style.input} pl-10`}
+                className={`${style.input} ${style.inputWithIcon}`}
                 placeholder="Ex: João Silva"
                 value={formData.full_name}
                 onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
@@ -212,12 +212,12 @@ export const UserManagement: React.FC = () => {
 
           <div className={style.formField}>
             <label className={style.label}>E-mail Corporate</label>
-            <div className="relative">
-              <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-dim)]" />
+            <div className={style.inputWrapper}>
+              <Mail size={16} className={style.inputIcon} />
               <input
                 type="email"
                 required
-                className={`${style.input} pl-10`}
+                className={`${style.input} ${style.inputWithIcon}`}
                 placeholder="email@empresa.com"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -227,12 +227,12 @@ export const UserManagement: React.FC = () => {
 
           <div className={style.formField}>
             <label className={style.label}>Contato / WhatsApp</label>
-            <div className="relative">
-              <Phone size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-dim)]" />
+            <div className={style.inputWrapper}>
+              <Phone size={16} className={style.inputIcon} />
               <input
                 type="text"
                 required
-                className={`${style.input} pl-10`}
+                className={`${style.input} ${style.inputWithIcon}`}
                 placeholder="(31) 99999-9999"
                 value={formData.contact}
                 onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
