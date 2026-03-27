@@ -13,7 +13,7 @@ const userService = {
    * List all registered users (Admin only)
    */
   async getAll(): Promise<User[]> {
-    const response = await apiClient.get<User[]>("/users");
+    const response = await apiClient.get<User[]>("/users/");
     // Ensure each user in the array is valid
     return response.data.map((user) => UserSchema.parse(user));
   },
@@ -22,7 +22,7 @@ const userService = {
    * Create a new user manually (Admin only)
    */
   async create(data: UserCreateRequest): Promise<User> {
-    const response = await apiClient.post("/users", data);
+    const response = await apiClient.post("/users/", data);
     return UserSchema.parse(response.data);
   },
 
