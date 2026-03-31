@@ -91,7 +91,7 @@ export const useImageStore = create<ImageStore>((set, get) => ({
   deleteImage: async (url: string) => {
     set({ isLoading: true, error: null });
     try {
-      await imageService.delete(url);
+      await imageService.deleteImage(url);
       set({ isLoading: false });
       // Note: In a real scenario, we might want to filtered out the deleted image from state
     } catch (error: unknown) {
