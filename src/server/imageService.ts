@@ -176,8 +176,18 @@ const imageService = {
     }
   },
 
-  async delete(url: string): Promise<void> {
-    await apiClient.delete("/media", { data: { url } });
+  async deleteImage(imageId: string): Promise<void> {
+    try {
+      if (!imageId) {
+        throw new Error("Image ID is required");
+      }
+      await apiClient.delete(`/images/${imageId}`);
+    } catch (error) {
+      console.error(`Error deleting image "${imageId}":`, error);
+      throw new Error(
+        `Failed to delete image: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
+    }
   },
 
   /**

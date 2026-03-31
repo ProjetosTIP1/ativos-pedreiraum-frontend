@@ -137,9 +137,10 @@ List all assets with optional filtering and pagination.
   - `brand`: `str`
   - `min_year`: `int`
   - `max_year`: `int`
-  - `q`: `str` (search query)
   - `limit`: `int` (default: 20)
   - `offset`: `int` (default: 0)
+  - `user_id`: `UUID` (optional)
+  - `status`: `AssetStatus` (default: 'DISPONÍVEL')
 - **Response (200 OK):** List of `Asset` objects.
 - **Requirements:** Public.
 
@@ -220,3 +221,15 @@ Retrieve the raw image file.
 
 - **Response (200 OK):** File stream.
 - **Requirements:** Public.
+
+### DELETE `/images/{image_id}`
+Delete an image by ID.
+
+- **Response (200 OK):**
+  ```json
+  {
+    "message": "Image deleted successfully"
+  }
+  ```
+- **Requirements:** Admin account only.
+

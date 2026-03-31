@@ -109,8 +109,10 @@ export const useImageManagement = (assetId?: string) => {
           ? {
               ...p,
               file: undefined,
-              previewUrl: p.existingMetadata?.url,
-              isMain: p.existingMetadata?.is_main || false,
+              previewUrl: undefined,
+              isMain: false,
+              // We keep the existingMetadata here so we know what to delete
+              // on the backend when the user submits the form.
             }
           : p,
       ),

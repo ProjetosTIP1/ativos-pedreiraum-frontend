@@ -113,7 +113,27 @@ export const useAssetFormActions = (assetId?: string) => {
         }
       }
 
-      // 4. Finalize — navigate regardless of image failures
+      // 4. Handle image deletions
+      const deletedImages = positionedFiles.filter(
+        (pf) => pf.existingMetadata && !pf.previewUrl && !pf.file,
+      );
+
+      if (deletedImages.length > 0) {
+        console.log(`Deleting ${deletedImages.length} images from backend...`);
+        for (const pf of deletedImages) {
+          try {
+            await imageService.deleteImage(pf.existingMetadata!.id);
+            console.log(`✅ Deleted image: ${pf.existingMetadata!.id}`);
+          } catch (err) {
+            console.warn(
+              `⚠️ Failed to delete image: ${pf.existingMetadata!.id}`,
+              err,
+            );
+          }
+        }
+      }
+
+      // 5. Finalize — navigate regardless of image upload/delete failures
       if (onSuccess) {
         onSuccess();
       }
