@@ -1,8 +1,8 @@
 import React from "react";
 import { Settings } from "lucide-react";
-import { AssetCategory } from "../../../schemas/entities";
 import type { Asset } from "../../../schemas/entities";
 import { TextField } from "../../../components/ui/TextField";
+import { useCategoryStore } from "../../../stores/useCategoryStore";
 import style from "../AssetForm.module.css";
 
 interface AssetGeneralInfoProps {
@@ -22,6 +22,7 @@ export const AssetGeneralInfo: React.FC<AssetGeneralInfoProps> = ({
   formData,
   onChange,
 }) => {
+  const { categories } = useCategoryStore();
   return (
     <div className={style.card}>
       <h3 className={style.cardTitle}>
@@ -48,9 +49,9 @@ export const AssetGeneralInfo: React.FC<AssetGeneralInfoProps> = ({
             onChange={onChange}
             className={style.selectInput}
           >
-            {AssetCategory.options.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.name}>
+                {cat.name}
               </option>
             ))}
           </select>
