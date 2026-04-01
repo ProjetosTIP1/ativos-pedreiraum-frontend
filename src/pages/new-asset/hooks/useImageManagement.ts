@@ -57,7 +57,7 @@ export const useImageManagement = (assetId?: string) => {
           return {
             position: pos,
             existingMetadata: existing,
-            previewUrl: existing?.url,
+            previewUrl: imageService.getImageUrl(existing?.url),
             isMain: existing?.is_main || false,
           };
         });

@@ -96,9 +96,32 @@ const imageService = {
   },
 
   /**
-   * Fetch image file by filename
+   * Returns the correct URL for a static image filename.
+   * @param filename - The filename of the image
+   * @returns Static image URL
+   */
+  getImageUrl(filename: string | undefined): string | undefined {
+    if (!filename) return undefined;
+    
+    // If it's already a full URL or blob URI, return as-is
+    if (
+      filename.startsWith("http") ||
+      filename.startsWith("blob:") ||
+      filename.startsWith("data:") ||
+      filename.startsWith("/")
+    ) {
+      return filename;
+    }
+
+    const sanitizedFilename = filename.replace(/[^a-zA-Z0-9._-]/g, "");
+    return `/images/${sanitizedFilename}`;
+  },
+
+  /**
+   * Fetch image file by filename (deprecated in favor of direct browser loading)
    * @param filename - The filename of the image
    * @returns Image blob
+   * @deprecated Use getImageUrl instead and let the browser load the image.
    */
   async fetchAnImage(filename: string): Promise<Blob | undefined> {
     try {

@@ -17,7 +17,7 @@ interface AssetImageManagerProps {
 /**
  * Image management component with grid view and modal.
  * Uses AssetImage for all rendering so that backend image paths
- * are resolved via the authenticated fetchImageBlob flow,
+ * are resolved via the static file serving flow (/images/),
  * while local blob: preview URLs are passed through unchanged.
  */
 export const AssetImageManager: React.FC<AssetImageManagerProps> = ({

@@ -4,13 +4,14 @@ import { type ImageMetadata } from "../schemas/entities";
 
 interface ImageStore {
   assetImages: Record<string, ImageMetadata[]>;
-  imageBlobs: Record<string, Blob>;
   isLoading: boolean;
   error: string | null;
 
   // Actions
   fetchAssetImages: (assetId: string) => Promise<void>;
+  /** @deprecated Use imageService.getImageUrl directly */
   fetchImageBlob: (filename: string) => Promise<Blob>;
+  getImageUrl: (filename: string | undefined) => string | undefined;
   uploadImage: (
     file: File,
     assetId?: string,
@@ -22,7 +23,6 @@ interface ImageStore {
 
 export const useImageStore = create<ImageStore>((set, get) => ({
   assetImages: {},
-  imageBlobs: {},
   isLoading: false,
   error: null,
 
@@ -42,20 +42,17 @@ export const useImageStore = create<ImageStore>((set, get) => ({
     }
   },
 
-  fetchImageBlob: async (filename: string) => {
-    // Check cache first
-    const cached = get().imageBlobs[filename];
-    if (cached) return cached;
+  getImageUrl: (filename: string | undefined) => {
+    return imageService.getImageUrl(filename);
+  },
 
+  fetchImageBlob: async (filename: string) => {
+    // Note: Local cache removed to simplify state. Direct browser fetching is preferred.
     set({ isLoading: true, error: null });
     try {
       const blob = await imageService.fetchAnImage(filename);
       if (!blob) throw new Error("Image not found");
-
-      set((state) => ({
-        imageBlobs: { ...state.imageBlobs, [filename]: blob },
-        isLoading: false,
-      }));
+      set({ isLoading: false });
       return blob;
     } catch (error: unknown) {
       set({
